@@ -1,7 +1,7 @@
 # Migrations
 **/migrations/
 
-users/*
+**/users/
 !users/README.md
 
 # Byte-compiled / optimized / DLL files
