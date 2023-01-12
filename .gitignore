@@ -1,5 +1,6 @@
 # Migrations
 **/migrations/
+!migrations/0001_initial.py
 
 **/users/
 !users/README.md
