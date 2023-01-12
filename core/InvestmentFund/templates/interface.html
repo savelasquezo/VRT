@@ -1,0 +1,65 @@
+{% extends 'admin.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+<!-- TimeTrial section start-->
+<script src="{% static 'js/simplyCountdown.min.js' %}"></script>
+<script> var date_string = '{{ date_expire }}';</script>
+<div class="time-ammount">
+  <div class="time_trial">
+    <div class="date"><h1><span id="days"></span></h1><h1 class="cm">DIAS</h1></div>
+    <div class="date"><h1><span id="hours"></span></h1><h1 class="cm">HORAS</h1></div>
+    <div class="date"><h1><span id="minutes"></span></h1><h1 class="cm">MINUTOS</h1></div>
+    <div class="date"><h1><span id="seconds"></span></h1><h1 class="cm">SEGUNDOS</h1></div>
+  </div>
+  <div class="ammount">
+    <h1 class="ammount_value">{{ammount|intcomma}}</h1>
+    <h6 class="help_text_a">Actualmente genera intereses al {{interest|intcomma}}% Mensual</h6>
+    <h6 class="help_text_b">Maximo beneficio al finalizar la inscripcion ${{max_profit|intcomma}}</h6>
+  </div>
+</div>
+<!-- TimeTrial section end-->
+
+<!-- Knobbar section end -->
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/jquery.knob.js' %}"></script>
+<script src="{% static 'js/jquery_bar.js' %}"></script>
+<div class="trial_bar">
+  <input type="text" value="{{ percent }}" class="dial">
+</div>
+<!-- Knobbar section end-->
+
+<div class="contect">
+  <div class="name">ABONADO
+    <h6 class="help_text">$Pagado o en proceso</h6>
+    <h1 class="valor">{{total_paid|intcomma}}</h1>
+  </div>
+  <div class="name">INTERESES
+    <h6 class="help_text">$Intereses a capital</h6>
+    <h1 class="valor">{{available|intcomma}}</h1>
+  </div>
+  <div class="name">COMISIONES
+    <h6 class="help_text">$Ingresos extras por referido</h6>
+    <h1 class="valor">{{ref_available|intcomma}}</h1>
+  </div>
+  <div class="name">TOTAL
+    <h6 class="help_text">$Totales incluye referidos</h6>
+    <h1 class="valor">{{cash_total|intcomma}}</h1>
+  </div>
+</div>
+<div class="adm">
+  <a href="{% url 'Home' %}">
+      <button type="submit" class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
+  </a>
+  <form action="ticket">
+      <button type="submit" class="adm-boton"><i class="fa-solid fa-money-bill-transfer"></i></button>
+  </form>
+  <a href="{% url 'History' %}">
+    <button type="submit" class="adm-boton"><i class="fa-solid fa-receipt"></i></button>
+  </a>
+</div>
+{% endblock %}
+
+
+

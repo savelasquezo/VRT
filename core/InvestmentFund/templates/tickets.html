@@ -1,0 +1,53 @@
+{% extends 'admin.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+<div class="container">
+      <script> var available = '{{ available }}';</script>
+      <script> var ref_available = '{{ ref_available }}';</script>
+      <script> var cash_total = '{{ cash_total }}';</script>
+      <script> var fee = '{{ fee }}';</script>
+      <script> var min_ammount = '{{ min_ammount }}';</script>
+      <form action="{% url 'History' %}" target="_self" method="POST" name="ticket" id="ticket">
+        {% csrf_token %}
+        <div class="label">
+          <h4>{{full_name}}</h4>
+          <img src="{% static '/images/vrt-logo2.png' %}" name="logo" width="52">
+        </div>
+        <div class="label">
+          <span id="title">$Disponible Total:</span>
+          <span id="aviable_value">${{ cash_total|intcomma }}</span>
+        </div>
+        <div class="choices">
+          <input class="radio-choices" name="ammount_from" type="radio" id="choice1" value="f1" required>
+          <label for="choice1">Intereses</label>
+          <input class="radio-choices" name="ammount_from" type="radio" id="choice2" value="f2" required>
+          <label for="choice2">Comisiones</label>
+          <input class="radio-choices" name="ammount_from" type="radio" id="choice3" value="f3" required>
+          <label for="choice3">Total</label>
+        </div>
+        <div class="label">
+          <label for="name">Valor:</label>
+          <input type="number" class="label_input" name="ammount" id="ammount" min="0" required/>
+        </div>
+        <div class="label">
+          <label for="name">Banco:</label>
+          <input type="text" class="label_input" name="bank" id="bank" value="{{bank}}" required/>
+        </div>
+        <div class="label">
+          <label for="name">#Cuenta:</label>
+          <input type="text" class="label_input" name="bank_account" id="bank_account" value="{{bank_account}}" required/>
+        </div>
+        <div class="label">
+          <span class="splitext">Fecha:</span>
+          <span>{{date_now_str}}</span>
+        </div>
+        <textarea class="textarea" name="message" for="message" maxlength="256"></textarea><p></p>
+        <button type="submit" class="boton_ticket" name="succces"><i class="fa-solid fa-money-check-dollar"></i></button>
+        <script src="{% static 'js/forms.js' %}"></script>
+    </form>
+    <button onclick=window.location.href="{% url 'Interface' %}" class="boton_ticket succces" name="comeback"><i class="fa-solid fa-delete-left"></i></button>
+</div>
+{% endblock %}
+

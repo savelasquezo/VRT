@@ -1,0 +1,93 @@
+{% extends 'admin.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+{% if messages %}
+<div class="{{ message.tags }}">
+    <ul class="ul-messages">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="container-messages">
+    <ul class="messages-hiden"></ul>
+</div>
+{% endif %}
+<div class="history_list-base">
+    <div class="history_list-table">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">ID</div>
+                <div class="col col-2">Cantidad</div>
+                <div class="col col-3">Origen</div>
+                <div class="col col-4">Banco</div>
+                <div class="col col-5">Cuenta</div>
+                <div class="col col-6">FEE</div>
+                <div class="col col-7">Fecha</div>
+                <div class="col col-8">Voucher</div>
+                <div class="col col-9">Estado</div>
+            </li>
+            <div class="table-row-container">
+                {% for i in ListTicketsPages %}
+                <li class="table-row" style="background-color:
+                {% if i.rState == 'Aprobado' %}darkseagreen{% elif i.rState == 'Denegado' %}lightcoral{% else %}gainsboro                {% endif %}">
+                    <div class="col col-1 col-1-data">{{ i.id }}</div>
+                    <div class="col col-2 col-2-data">$ {{ i.tAmmount|intcomma }}</div>
+                    <div class="col col-3 col-3-data">{{ i.tAmmountFrom }}</div>
+                    <div class="col col-4 col-4-data">{{ i.tBank }}</div>
+                    <div class="col col-5 col-5-data">{{ i.tBankAccount }}</div>
+                    <div class="col col-6 col-6-data">$ {{ fee|intcomma }}</div>
+                    <div class="col col-7 col-7-data">{{ i.date|date:"Y-m-d" }}</div>
+                    <div class="col col-8 col-8-data">{{ i.tBankTicket }}</div>
+                    <div class="col col-9 col-9-data">{{ i.rState }}</div>
+                </li>
+                {% endfor %}
+                {% if not ListTicketsPages.has_next %}
+                    {% for i in FixTicketsPage %}
+                        <li class="table-row-hiden" style="background-color: gainsboro"><div>-</div></li>
+                    {% endfor %}
+                {% elif not ListTicketsPages.has_other_pages %}
+                    {% for i in FixTicketsPage %}
+                        <li class="table-row-hiden" style="background-color: gainsboro"><div>-</div></li>
+                    {% endfor %}           
+                {% endif %}
+            </div>
+            {% if ListTicketsPages.has_other_pages %}
+            <ul class="pagination">
+                {% if ListTicketsPages.has_previous %}
+                    <li><a href="?page={{ ListTicketsPages.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li><a href="">&laquo;</a></li>
+                {% endif %}
+                {% for page in ListTicketsPages.paginator.page_range %}
+                    {% if page == ListTicketsPages.number %}
+                        <li class="active"><span></span></li>
+                    {% else %}
+                        <li class="inactive"><a href="?page={{ page }}"></a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if ListTicketsPages.has_next %}
+                    <li><a href="?page={{ ListTicketsPages.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                <li><a href="">&raquo;</a></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<div class="history-adm">
+    <a href="{% url 'Interface' %}">
+        <button class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
+    </a>
+    <a href="{% url 'Tickets' %}">
+        <button class="adm-boton"><i class="fa-solid fa-money-bill-transfer"></i></button>
+    </a>
+    <a href="{% url 'History' %}">
+        <button class="adm-boton"><i class="fa-solid fa-arrows-rotate"></i></button>
+    </a>
+  </div>
+{% endblock %}

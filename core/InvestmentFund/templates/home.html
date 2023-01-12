@@ -1,0 +1,103 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT-Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body>
+    <div class="space">
+        <!-- header section start -->    
+        <div class="wrapper">
+            <div class="left">
+                <button class="link link-left" onclick=window.location.href="{% url 'Home' %}">
+                    <img src="{% static '/images/vrt-logo0.png' %}">
+                </button>
+            </div>
+            <div class="right">
+                {% if user.is_authenticated %}
+                    <button class="link link-right" onclick=window.location.href="">
+                        <h5 class="h5-links"><i class="fa-solid fa-calculator"></i> SIMULADOR</h5>
+                    </button>
+                    <button class="link link-right" onclick=window.location.href="">
+                        <h5 class="h5-links"><i class="fa-solid fa-file-circle-plus"></i> BENEFICIOS</h5>
+                    </button>
+                    <button class="link link-right" onclick=window.location.href="">
+                        <h5 class="h5-links"><i class="fa-solid fa-sack-dollar"></i> SERVICIOS</h5>
+                    </button>
+                    <button class="link link-right" onclick=window.location.href="{% url 'Interface' %}">
+                        <h5 class="h5-links"><i class="fa-solid fa-screwdriver-wrench"></i> ADMINISTRAR</h5>
+                    </button>
+                    <button class="link link-right" onclick=window.location.href="{% url 'logout' %}">
+                        <h5 class="h5-links">LOGOUT <i class="fa-solid fa-right-from-bracket"></i></h5>
+                    </button>
+                {% else %}
+                    <button class="link link-right" onclick=window.location.href="{% url 'login' %}">
+                        <h5 class="h5-links">LOGIN <i class="fa-solid fa-right-from-bracket"></i></h5>
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        <!-- header section end --> 
+        {% block block %}
+        {% if user.is_authenticated %}
+        {% else %}
+        <div class="container-home">
+            <div class="main-home">
+                <div class="title-home">
+                    <h1>FONDO</h1>
+                    <h1>COLECTIVO
+                        <button class="link-title" onclick=window.location.href="{% url 'login' %}">
+                            <h5>SINGUP <i class="fa-solid fa-user-plus"></i></h5>
+                        </button>
+                    </h1>
+                </div>
+                <div class="info-home">
+                    <h4>¿Sabías qué los Fondos de Inversión Colectiva, son una alternativa de inversión que te permite diversificar tus recursos para alcanzar tus sueños a corto mediano o largo plazo?</h4>
+                </div>
+            </div>
+            
+            <dialog id="dlog" class="dlog">
+                <div id="video-player">
+                    <div class="button-video-container">
+                        <button id="back" class="adm-video adm-video-close"><i class="fa-solid fa-x"></i></button>
+                    </div>
+                    <div class="main-play">
+                        <video id="vrt-video" class="video-player" controls width="70%" height="70%" src="{% static '/video/vrt.mp4' %}"></video>
+                    </div>
+               </div>
+            </dialog>
+            <button id="play" class="play-button">
+                <i><img src="{% static '/images/play-icon.png' %}"></i>
+            </button>
+            <script src="{% static 'js/video.js' %}"></script>
+        {% endif %}
+        {% endblock %}
+        </div>
+    </div>
+    <!-- footer section start -->
+    <footer class="footer-distributed">
+        <div class="footer-right">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-whatsapp"></i></a>
+        </div>
+        <div class="footer-left">
+            <p class="footer-links">
+            <a href="#">TERMINOS & CONDICIONES</a>
+            </p>
+            <p>VRTFUND &copy; 2022</p>
+        </div>
+    </footer>
+    <!-- footer section end -->
+</body>
+</html>
