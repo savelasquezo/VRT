@@ -1,1 +1,0 @@
-/root/vrt/core/InvestmentFund/static/assets/fontawesome/js/v4-shims.js

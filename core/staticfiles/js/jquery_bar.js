@@ -1,1 +1,0 @@
-/root/vrt/core/InvestmentFund/static/js/jquery_bar.js
