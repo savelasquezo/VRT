@@ -2,6 +2,9 @@
 **/migrations/*
 !migrations/__init__.py
 
+# StaticfilesLinks
+**/staticfiles/*
+
 # Logs
 err.log
 out.log
