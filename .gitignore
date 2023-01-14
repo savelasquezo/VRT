@@ -1,6 +1,10 @@
 # Migrations
-**/migrations/
+**/migrations/*
 !migrations/__init__.py
+
+# Logs
+err.log
+out.log
 
 **/users/
 !users/README.md

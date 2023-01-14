@@ -1,0 +1,1 @@
+/root/vrt/core/InvestmentFund/static/js/video.js
