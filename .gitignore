@@ -3,6 +3,7 @@
 !migrations/__init__.py
 
 # StaticfilesLinks
+**/staticfiles/*
 staticfiles/
 
 # Logs
