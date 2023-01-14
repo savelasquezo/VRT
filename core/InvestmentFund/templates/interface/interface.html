@@ -1,4 +1,4 @@
-{% extends 'admin.html' %}
+{% extends 'interface/base.html' %}
 {% load static %}
 {% load humanize %}
 
@@ -16,7 +16,7 @@
   <div class="ammount">
     <h1 class="ammount_value">{{ammount|intcomma}}</h1>
     <h6 class="help_text_a">Actualmente genera intereses al {{interest|intcomma}}% Mensual</h6>
-    <h6 class="help_text_b">Maximo beneficio al finalizar la inscripcion ${{max_profit|intcomma}}</h6>
+    <h6 class="help_text_b">Maximo beneficio al finalizar la suscripcion ${{max_profit|intcomma}}</h6>
   </div>
 </div>
 <!-- TimeTrial section end-->

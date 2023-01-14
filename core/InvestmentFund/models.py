@@ -11,22 +11,6 @@ FEE = 10000
 ATICKETS = 3
 MINAMMOUNT = 100000
 
-class UserRank(models.Model):
-        
-        rName = models.CharField(_("Categoria"), choices=lst_ranks, max_length=16, unique=True, default="r1",
-                                 help_text=_("Categoria del Inversionista en VaorTrading"),)
-        
-        rTravelGift = models.BooleanField(_("Viajes"),)
-        rVacations = models.BooleanField(_("Vacaciones"),)
-        rGiftCard = models.BooleanField(_("Tarjetas"),)
-        rSimCard = models.BooleanField(_("Simcard"),)
-        rAdvisory = models.BooleanField(_("Asesorias"),)
-        
-        class Meta:
-                verbose_name = _("Categoria")
-                verbose_name_plural = _("Categorias")
-     
-
 class Usuario(AbstractUser):
     """
     Custom user model inherited from abstractly user.
@@ -38,12 +22,13 @@ class Usuario(AbstractUser):
     username_validator = UnicodeUsernameValidator()
     
     id = models.AutoField(primary_key=True, verbose_name="id")
+
+    codigo = models.BigIntegerField(_("Codigo"),max_length=64, blank=False, null=False, default="231161921", unique=True,
+                help_text=_("Codigo Impreso en las Credenciales"))
+    
     username = models.CharField(_("Usuario"),max_length=64,unique=True, validators=[username_validator],
                 help_text=_("Caracters Max-64, Únicamente letras, dígitos y @/./+/-/_"),
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
-
-    codigo = models.CharField(_("Codigo"),max_length=64, blank=False, null=False, default="231161921", unique="True",
-                help_text=_("Codigo Impreso en las Credenciales 231161921+CODE"))
 
     is_active = models.BooleanField(_(" "),default=True)
 
@@ -100,7 +85,7 @@ class Usuario(AbstractUser):
     total = models.PositiveBigIntegerField(_("Total"),blank=True,default=0,
                 help_text=_("$Total Generado ($COP)"),)
 
-    ref_id = models.CharField(_("ID Referido"), max_length=32, blank=True)
+    ref_id = models.CharField(_("Credencial del Referido"), max_length=32, blank=True)
     ref_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
     ref_interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
         help_text=_("Comisiones Mensuales x Referido (%)"),)
@@ -138,3 +123,19 @@ class Tickets(models.Model):
     class Meta:
         verbose_name = _("Ticket")
         verbose_name_plural = _("Tickets")
+
+
+class UserRank(models.Model):
+        
+        rName = models.CharField(_("Categoria"), choices=lst_ranks, max_length=16, unique=True, default="r1",
+                                 help_text=_("Categoria del Inversionista en VaorTrading"),)
+        
+        rTravelGift = models.BooleanField(_("Viajes"),)
+        rVacations = models.BooleanField(_("Vacaciones"),)
+        rGiftCard = models.BooleanField(_("Tarjetas"),)
+        rSimCard = models.BooleanField(_("Simcard"),)
+        rAdvisory = models.BooleanField(_("Asesorias"),)
+        
+        class Meta:
+                verbose_name = _("Categoria")
+                verbose_name_plural = _("Categorias")

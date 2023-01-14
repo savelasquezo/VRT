@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import HomeView, InterfaceView, TicketFormView, HistoryListView
 
+
 urlpatterns = [
 
     path("accounts/", include("django.contrib.auth.urls")),
@@ -9,3 +10,5 @@ urlpatterns = [
     path('accounts/profile/ticket/', TicketFormView.as_view(), name='Tickets'),
     path('accounts/profile/history', HistoryListView.as_view(), name='History'),
 ]
+
+

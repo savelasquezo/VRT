@@ -104,6 +104,15 @@ class UserBaseAdmin(UserAdmin):
         ("Informacion del Referido", fRefInformation)
         )
 
+    add_fieldsets = (
+        (None,
+            {
+                "classes": ("wide",),
+                "fields": (("username","codigo"), "password1", "password2"),
+            },
+        ),
+    )
+
     list_filter = ["date_joined","date_expire","is_operating"]
     search_fields = ['rName']
 

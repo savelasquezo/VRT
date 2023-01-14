@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
@@ -11,18 +11,18 @@ from .models import Usuario, Tickets, FEE
 
 
 class HomeView(TemplateView):
-    template_name='home.html'
+    template_name='home/home.html'
 
 class InterfaceView(TemplateView):
-    template_name='interface.html'
+    template_name='interface/interface.html'
     
 class TicketFormView(TemplateView):
-    template_name='tickets.html'
+    template_name='interface/tickets.html'
 
 
 class HistoryListView(TemplateView):
       
-    template_name='history.html'
+    template_name='interface/history.html'
 
     def days_until_next_month(self):
         Today = datetime.now()
@@ -132,5 +132,4 @@ class HistoryListView(TemplateView):
         messages.success(request, 'Solicitud Registrada', extra_tags="title")
         messages.success(request, f'EL tiempo de espera aproximado sera de {TimeDelta} dias habiles', extra_tags="info")
         return redirect(reverse('History'))
-
 

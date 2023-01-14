@@ -1,4 +1,4 @@
-{% extends 'admin.html' %}
+{% extends 'interface/base.html' %}
 {% load static %}
 {% load humanize %}
 
@@ -16,8 +16,7 @@
           <img src="{% static '/images/vrt-logo2.png' %}" name="logo" width="52">
         </div>
         <div class="label">
-          <span id="title">$Disponible Total:</span>
-          <span id="aviable_value">${{ cash_total|intcomma }}</span>
+          <span id="title">$Disponible Total:</span><span id="aviable_value">${{ cash_total|intcomma }}</span>
         </div>
         <div class="choices">
           <input class="radio-choices" name="ammount_from" type="radio" id="choice1" value="f1" required>

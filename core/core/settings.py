@@ -24,10 +24,9 @@ SECRET_KEY = 'django-insecure-lwm3eli#qk+!0^f48ijf6-(*hyh&o)i=n&q+9g1l*+v&o*v6!g
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+VRTVERSION = "V1"
 
-ALLOWED_HOSTS = []
-
-USE_THOUSAND_SEPARATOR = True
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -83,8 +82,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbvaortrading',
         'USER': 'postgres',
-        'PASSWORD': 'COi5TaZMpJ',
-        'HOST': '127.0.0.1',
+        'PASSWORD': '4oPn2655Lmn',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

@@ -48,7 +48,7 @@ class AddFundsToUser(CronJobBase):
                     ref_total=F('ref_total') + cValueRef
                     )
 
-                UserRef = Usuario.objects.filter(ref_id= nUser.id)
+                UserRef = Usuario.objects.filter(ref_id= nUser.codigo)
                 mAviableUserRef = 0
                 
                 for mUser in UserRef:
