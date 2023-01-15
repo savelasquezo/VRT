@@ -7,7 +7,7 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 lst_ranks = (('r1','Silver'),('r2','Gold'),('r3','Platinum'))
 lst_sts = (('Pendiente','Pendiente'),('Aprobado','Aprobado'),('Denegado','Denegado'),('Error','Error'))
 
-FEE = 10000
+FEE = 6000
 ATICKETS = 3
 MINAMMOUNT = 100000
 
@@ -23,7 +23,7 @@ class Usuario(AbstractUser):
     
     id = models.AutoField(primary_key=True, verbose_name="id")
 
-    codigo = models.BigIntegerField(_("Codigo"), blank=False, null=False, default="231161921", unique=True,
+    codigo = models.CharField(_("Codigo"),max_length=64 ,unique=True,
                 help_text=_("Codigo Impreso en las Credenciales"))
     
     username = models.CharField(_("Usuario"),max_length=64,unique=True, validators=[username_validator],
