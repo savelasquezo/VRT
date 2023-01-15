@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,600,700,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+* {-webkit-font-smoothing: antialiased;text-rendering: optimizeLegibility;}
 *{font-family: 'Josefin Sans', sans-serif;}
 
 
@@ -22,7 +23,7 @@
   }.wrapper .left a{color: #ffffff;}.wrapper button{cursor: pointer;}
 
 /* Transforms */
-.wrapper .left:hover{filter: brightness(120%)}
+.wrapper .left:hover{filter: brightness(130%)}
 
 *:focus {
   outline: 0 !important;
@@ -182,6 +183,64 @@ body{margin: 0;
 }
 /* Transforms */
 .adm-video:hover{color: rgb(130, 260, 140);transform:scale(1.1); -webkit-transform:scale(1.1); }
+
+
+.container-inv{
+  display: flex;
+  margin: 0;
+  margin-top: 30px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.inv-ammount{
+  margin-top: 25px;
+  margin-bottom: 10px;
+  width: 70%;
+  height: 30px;
+  text-align:center;
+  padding-left: 15px;
+  font-size: large;
+}
+
+.button-choices{
+  padding: 5px;
+  cursor: pointer;
+  border: none;
+  background-color: #fff;
+  border-radius: 20px;
+  margin-top: 5px;
+  transition: all 0.5s;
+  margin-bottom: 20px;
+}.button-choices:hover {background:#6e8088bb}
+ 
+
+.inv-output{
+  background-color: #e9ecffb4;
+  border-radius: 20px;
+  width: 25%;
+  height: 300px;
+}.inv-hr{border-color: #61CE70; width: 95%;}
+
+.inv-results{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0157ff;
+  font-size: 18px;
+  font-weight: 600;
+}.inv-results-h1{text-align: center;}
+
+
+.inv-details{
+  display: flex;
+  margin: 5px;
+  color: #1b1b2e;
+  padding: 0 10px;
+  justify-content: space-between;
+}
 
 
 /* body section end */

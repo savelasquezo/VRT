@@ -19,10 +19,11 @@
 	height: 50px;
 	padding-left: 25px;
 	text-align: right;
+  transition: all 1s;
   }.wrapper .left a{color: #ffffff;}
 
 /* Transforms */
-.wrapper .left:hover{transform:scale(1.01); -webkit-transform:scale(1.01); }
+.wrapper .left:hover{filter: brightness(80%)}
 
 *:focus {
   outline: 0 !important;

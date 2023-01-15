@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
@@ -10,15 +10,18 @@ from django.contrib import messages
 from .models import Usuario, Tickets, FEE
 
 
+
 class HomeView(TemplateView):
     template_name='home/home.html'
+    
+class InvestmentView(TemplateView):
+    template_name='home/investment.html'
 
 class InterfaceView(TemplateView):
     template_name='interface/interface.html'
     
 class TicketFormView(TemplateView):
     template_name='interface/tickets.html'
-
 
 class HistoryListView(TemplateView):
       
@@ -46,7 +49,6 @@ class HistoryListView(TemplateView):
         context = self.get_context_data(**kwargs)
         context={
             'ListTicketsPages':ListTicketsPages,
-            'Test':len(OTickets)%ITEMS,
             'FixTicketsPage':range(0,TicketsFix)
         }
 

@@ -23,7 +23,7 @@ class Usuario(AbstractUser):
     
     id = models.AutoField(primary_key=True, verbose_name="id")
 
-    codigo = models.BigIntegerField(_("Codigo"),max_length=64, blank=False, null=False, default="231161921", unique=True,
+    codigo = models.BigIntegerField(_("Codigo"), blank=False, null=False, default="231161921", unique=True,
                 help_text=_("Codigo Impreso en las Credenciales"))
     
     username = models.CharField(_("Usuario"),max_length=64,unique=True, validators=[username_validator],

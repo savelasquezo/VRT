@@ -1,33 +1,36 @@
 {% load static %}
+{% load humanize %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}VT-Inversiónes{% endblock %}</title>
-  <link rel="shortcut icon" href="{% static '/icon/vaor.ico' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
-  <script src="https://kit.fontawesome.com/b497f48ff5.js"></script>
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/accounts.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
-{% block content1 %}
-<form method="post">
-  {% csrf_token %}
-    <div id="container" name="login">
-      <img src="{% static '/images/vaor-logo.png' %}" name="logo" width="52">
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="username">Usuario</label>
-          {{ form.username }}
-        </div>
-        <div class="form-group">
-          <label for="password">Contraseña</label>
-          {{ form.password }}
-        </div>
-        <input type="submit" name= "lg" value="INGRESAR">
-      </form>
-    </div>
-</form>
+<body>
+  {% block content1 %}
+  <div class="container">
+    <form target="_self" method="POST" class='login-form'>
+      {% csrf_token %}
+      <div class="flex-row">
+        <div class="login__field"><i class="login__icon fa-solid fa-circle-user"></i></div>
+        <label class="lf--label" for="username"></label>
+        <input type="text" class='lf--input' placeholder='Username' name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="64" required="" id="id_username">
+      </div>
+      <div class="flex-row">
+        <div class="login__field"><i class="login__icon fas fa-lock"></i></div>
+          <label class="lf--label" for="password"></label>
+          <input type="password" class='lf--input' placeholder='Password' name="password" autocomplete="current-password" required="" id="id_password">
+      </div>
+      <input class='lf--submit' type='submit' value='INGRESAR'>
+    </form>
+  </div>
 {% endblock %}
-
+</body>
+</html>
