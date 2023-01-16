@@ -15,40 +15,26 @@
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
 <body>
-    <div class="space">
-        {% if user.is_authenticated %}
-        <!-- header section start -->    
-        <div class="wrapper">
-            <div class="left">
-                <a href="{% url 'Home' %}">
-                <img src="{% static '/images/vrt-logo1.png' %}">
-                </a>
-            </div>
-            <div class="right">
-                <p>{{full_name}}<br><span>{{email}}<br>{{ user.username }}</span></p>
-                <object data="{% static '/images/profile.png' %}">
-                    <img src="{% static '/images/profile.png' %}">
-                </object> 
-            </div>
+    <!-- header section start -->    
+    <div class="wrapper">
+        <div class="left">
+            <a href="{% url 'Home' %}">
+            <img src="{% static '/images/vrt-logo1.png' %}">
+            </a>
         </div>
-        <!-- header section end --> 
-        {% block block %}
-        {% endblock %}
-        {% else %}
-        <div id="container" name=interface>
-            <img src="{% static '/images/vaor-logo.png' %}" name="logo" width="52">
-            <h3 name="login">¿Quieres Ingresar?</h3>
-            <form action="{% url 'login' %}" name="bk">
-                <button>INGRESAR</button>
-            </form>
+        <div class="right">
+            <p>{{full_name}}<br><span>{{email}}<br>{{ user.username }}</span></p>
+            <object data="{% static '/images/profile.png' %}">
+                <img src="{% static '/images/profile.png' %}">
+            </object> 
         </div>
-        {% endif %}
     </div>
+    <!-- header section end -->
+    {% block block %}
+    {% endblock %}
     <!-- footer section start -->
     <footer class="footer-distributed">
         <div class="footer-right">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
             <a href="#"><i class="fa fa-whatsapp"></i></a>
         </div>
         <div class="footer-left">

@@ -30,7 +30,7 @@ class Usuario(AbstractUser):
                 help_text=_("Caracters Max-64, Únicamente letras, dígitos y @/./+/-/_"),
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
 
-    is_active = models.BooleanField(_(" "),default=True)
+    is_active = models.BooleanField(_(" "),default=False)
 
     is_operating = models.BooleanField(_("Activo"),default=False,
                 help_text=_("El Usuario actualmente genera Intereses ¡Posterior a la Fecha de Expiracion sera desactivado!"),)

@@ -1,0 +1,39 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+	<link rel="stylesheet" href="{% static 'css/glider.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/glider.css' %}">
+	<div class="contenedor-carousel">
+		<div class="contenedor">
+			<div class="carousel">
+				<div class="carousel__contenedor">
+					<button aria-label="Anterior" class="carousel__anterior">
+						<i class="fas fa-chevron-left"></i>
+					</button>
+					<div class="carousel__lista">
+						<div class="carousel__elemento">
+							<img src="{% static '/images/img/1.png' %}" alt="Rock and Roll Hall of Fame">
+						</div>
+						<div class="carousel__elemento">
+							<img src="{% static '/images/img/2.png' %}" alt="Constitution Square - Tower I">
+						</div>
+						<div class="carousel__elemento">
+							<img src="{% static '/images/img/3.png' %}" alt="Empire State Building">
+						</div>
+						<div class="carousel__elemento">
+							<img src="{% static '/images/img/4.png' %}" alt="Harmony Tower">
+						</div>
+					</div>
+					<button aria-label="Siguiente" class="carousel__siguiente">
+						<i class="fas fa-chevron-right"></i>
+					</button>
+				</div>
+				<div role="tablist" class="carousel__indicadores"></div>
+			</div>
+		</div>
+		<script src="{% static 'js/glider.min.js' %}"></script>
+		<script src="{% static 'js/glider_bar.js' %}"></script>
+	</div>
+{% endblock %}

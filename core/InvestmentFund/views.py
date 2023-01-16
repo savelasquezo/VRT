@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Usuario, Tickets, FEE
 
@@ -14,16 +15,23 @@ from .models import Usuario, Tickets, FEE
 class HomeView(TemplateView):
     template_name='home/home.html'
     
-class InvestmentView(TemplateView):
+class InvestmentView(LoginRequiredMixin, TemplateView):
     template_name='home/investment.html'
+    
+class ContentView(LoginRequiredMixin, TemplateView):
+    template_name='home/content.html'
 
-class InterfaceView(TemplateView):
+class BenefitView(LoginRequiredMixin, TemplateView):
+    template_name='home/benefit.html'
+
+class InterfaceView(LoginRequiredMixin, TemplateView):
     template_name='interface/interface.html'
     
-class TicketFormView(TemplateView):
+class TicketFormView(LoginRequiredMixin, TemplateView):
     template_name='interface/tickets.html'
 
-class HistoryListView(TemplateView):
+
+class HistoryListView(LoginRequiredMixin, TemplateView):
       
     template_name='interface/history.html'
 

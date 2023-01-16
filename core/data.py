@@ -48,11 +48,13 @@ def main():
                     ref_total=F('ref_total') + cValueRef
                     )
 
-                UserRef = Usuario.objects.filter(ref_id= nUser.id)
+                UserRef = Usuario.objects.filter(ref_id= nUser.codigo)
                 mAviableUserRef = 0
                 
                 for mUser in UserRef:
+                    print("Entro al Ciclo")
                     mAviableUserRef += int(mUser.ref_total)
+                    print(mAviableUserRef)
 
                 mAviableUserTotal = mAviableUserRef - cPaidRef
                 

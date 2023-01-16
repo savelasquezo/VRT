@@ -27,10 +27,10 @@
                 <button class="link link-right" onclick=window.location.href="{% url 'Investment' %}">
                     <h5 class="h5-links"><i class="fa-solid fa-calculator"></i> SIMULADOR</h5>
                 </button>
-                <button class="link link-right" onclick=window.location.href="">
+                <button class="link link-right" onclick=window.location.href="{% url 'Content' %}">
                     <h5 class="h5-links"><i class="fa-solid fa-sack-dollar"></i> SERVICIOS</h5>
                 </button>
-                <button class="link link-right" onclick=window.location.href="">
+                <button class="link link-right" onclick=window.location.href="{% url 'Benefit' %}">
                     <h5 class="h5-links"><i class="fa-solid fa-file-circle-plus"></i> BENEFICIOS</h5>
                 </button>
                 <button class="link link-right" onclick=window.location.href="{% url 'Interface' %}">
@@ -47,15 +47,18 @@
             {% endif %}
         </div>
     </div>
-     <!-- header section end --> 
+     <!-- header section end -->
+
+
+     <!-- HomePages section end --> 
     {% block block %}
     {% endblock %}
-    </div>
+    <!-- HomePages section end --> 
+
     <!-- footer section start -->
+    {% block footer %}
     <footer class="footer-distributed">
         <div class="footer-right">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
             <a href="#"><i class="fa fa-whatsapp"></i></a>
         </div>
         <div class="footer-left">
@@ -65,6 +68,7 @@
             <p>VRTFUND &copy; 2022</p>
         </div>
     </footer>
+    {% endblock %}
     <!-- footer section end -->
 </body>
 </html>
