@@ -209,16 +209,16 @@ body{margin: 0;
   padding: 5px;
   cursor: pointer;
   border: none;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 20px;
   margin-top: 5px;
   transition: all 0.5s;
   margin-bottom: 20px;
-}.button-choices:hover {background:#6e8088bb}
+}.button-choices:hover {background:#6e808877}
  
 
 .inv-output{
-  background-color: #e9ecffb4;
+  background-color: #1e1e1eab;
   border-radius: 20px;
   width: 25%;
   height: 300px;
@@ -228,7 +228,7 @@ body{margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #0157ff;
+  color: #01ff38;
   font-size: 18px;
   font-weight: 600;
 }.inv-results-h1{text-align: center;}
@@ -237,7 +237,7 @@ body{margin: 0;
 .inv-details{
   display: flex;
   margin: 5px;
-  color: #1b1b2e;
+  color: #ccc;
   padding: 0 10px;
   justify-content: space-between;
 }
