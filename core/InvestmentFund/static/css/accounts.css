@@ -11,13 +11,17 @@ body{
 
 .container{
     display: flex;
-    margin-top: 160px;
+    align-items: center;
     justify-content: center;
+    padding: 50px;
+    margin-top: 5%;
 }
 
 .login-form {
     padding: 2em;
+    padding-bottom: 1em;
     width:25%;
+    border-radius: 5px;
     background: rgba(0, 0, 0, 0.20);
 }
 
@@ -73,6 +77,18 @@ body{
     text-align: center;
     justify-content: center;
 }
+
+.lf--allready {
+    display: flex;
+    margin: 1em 0 0 0;
+    padding: 0;
+    color: rgb(211, 207, 199);
+    font-size: 0.75em;
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.2s all;
+}.lf--allready:hover{color: rgb(130, 260, 140)}
 
 .login__field {
 	padding: 20px 0px;	

@@ -1,0 +1,33 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+    <div class="container">
+        <form action="{% url 'Home' %}" target="_self" method="POST" class='login-form'>
+        {% csrf_token %}
+        <div class="flex-row">
+            <div class="login__field"><i class="login__icon fa-solid fa-circle-user"></i></div>
+            <label class="lf--label" for="username"></label>
+            <input type="text" class='lf--input' placeholder='Usuario' name="username" autofocus="" autocapitalize="none"  maxlength="64" required id="username">
+        </div>
+        <div class="flex-row">
+            <div class="login__field"><i class="login__icon fa-solid fa-address-card"></i></i></div>
+            <label class="lf--label" for="name"></label>
+            <input type="text" class='lf--input' placeholder='Nombre' name="name" autofocus="" autocapitalize="none"  maxlength="64" required id="name">
+        </div>
+        <div class="flex-row">
+            <div class="login__field"><i class="login__icon fa-solid fa-envelope-open-text"></i></div>
+            <label class="lf--label" for="email"></label>
+            <input type="email" class='lf--input' placeholder='Email' name="email"  required id="email">
+        </div>
+        <div class="flex-row">
+            <div class="login__field"><i class="login__icon fas fa-lock"></i></div>
+            <label class="lf--label" for="password"></label>
+            <input type="passwordsss" class='lf--input' placeholder='Contraseña' name="password"  required id="password">
+        </div>
+        <input class='lf--submit' type='submit' value='REGISTRAR'>
+        <a href="{% url 'login' %}" class='lf--allready'>¿Eres Miembro? Iniciar Sesion</a>
+        </form>
+    </div>
+{% endblock %}

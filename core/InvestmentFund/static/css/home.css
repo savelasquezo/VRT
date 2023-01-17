@@ -123,9 +123,40 @@ body{margin: 0;
     background: linear-gradient(270deg, #142949, #144150 );
 }
 
+
+.success {
+  font-family: 'Work Sans';
+  font-size:medium;
+  text-transform: uppercase;
+  background-color:palegreen;
+  height: 35px;
+  margin: 0px;
+  margin-top: -16px;
+  font-weight: bolder;
+  align-items: center; 
+  text-align: center;
+}
+
+.error {
+  font-family: 'Work Sans';
+  font-size:medium;
+  text-transform: uppercase;
+  background-color:rgb(251, 152, 152);
+  height: 35px;
+  margin: 0px;
+  margin-top: -16px;
+  font-weight: bolder;
+  align-items: center; 
+  text-align: center;
+}
+
+.ul-messages{margin-bottom:20px;padding:0;}.info {font-size:xx-small;height:10px;}
+.messages-hiden{margin-bottom:23px;background:none;}
+
 .container-home {
   display: flex;
   width: 100%;
+  margin-top: -50px;
 }
 .main-home {
   flex: 1.5;

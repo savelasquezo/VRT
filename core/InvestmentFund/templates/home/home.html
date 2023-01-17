@@ -5,12 +5,23 @@
 {% block block %}
 {% if user.is_authenticated %}
 {% else %}
+{% if messages %}
+<div class="{{ message.tags }}">
+    <ul class="ul-messages">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div style="height: 49px;"></div>
+{% endif %}
 <div class="container-home">
     <div class="main-home">
         <div class="title-home">
             <h1>FONDO</h1>
             <h1>COLECTIVO
-                <button class="link-title" onclick=window.location.href="{% url 'login' %}">
+                <button class="link-title" onclick=window.location.href="{% url 'Singup' %}">
                     <h5>SINGUP <i class="fa-solid fa-user-plus"></i></h5>
                 </button>
             </h1>

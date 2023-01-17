@@ -2,21 +2,22 @@
 {% load static %}
 {% load humanize %}
 
-{% block login %}
+{% block block %}
   <div class="container">
     <form target="_self" method="POST" class='login-form'>
       {% csrf_token %}
       <div class="flex-row">
         <div class="login__field"><i class="login__icon fa-solid fa-circle-user"></i></div>
         <label class="lf--label" for="username"></label>
-        <input type="text" class='lf--input' placeholder='Username' name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="64" required="" id="id_username">
+        <input type="text" class='lf--input' placeholder='Usuario' name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="64" required="" id="id_username">
       </div>
       <div class="flex-row">
         <div class="login__field"><i class="login__icon fas fa-lock"></i></div>
           <label class="lf--label" for="password"></label>
-          <input type="password" class='lf--input' placeholder='Password' name="password" autocomplete="current-password" required="" id="id_password">
+          <input type="password" class='lf--input' placeholder='Contraseña' name="password" autocomplete="current-password" required="" id="id_password">
       </div>
       <input class='lf--submit' type='submit' value='INGRESAR'>
+      <a href="{% url 'Singup' %}" class='lf--allready'>¿No Eres Miembro? Registrate</a>
     </form>
   </div>
 {% endblock %}

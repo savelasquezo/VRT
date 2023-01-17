@@ -1,9 +1,10 @@
 from django.urls import path, include
-from .views import HomeView, InterfaceView, TicketFormView, HistoryListView, InvestmentView, ContentView, BenefitView
+from .views import HomeView, InterfaceView, TicketFormView, HistoryListView, InvestmentView, ContentView, BenefitView, SingupView
 
 urlpatterns = [
 
     path("accounts/", include("django.contrib.auth.urls")),
+    path('singup/', SingupView.as_view(), name='Singup'),
 
     path('', HomeView.as_view(), name='Home'),
 

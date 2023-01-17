@@ -7,13 +7,48 @@ from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login
+
+from django.db import IntegrityError
 
 from .models import Usuario, Tickets, FEE
 
-
-
 class HomeView(TemplateView):
     template_name='home/home.html'
+
+    def post(self, request, *args, **kwargs):
+        iUsername = request.POST['username']
+        iPass = request.POST['password']
+        iFullName = request.POST['name']
+        iEmail = request.POST['email']
+
+        LastID = Usuario.objects.latest('id').id
+        
+        try:
+            nUser = Usuario.objects.create(
+                username = iUsername,
+                full_name = iFullName,
+                email = iEmail,
+                codigo = LastID
+            )
+            
+            nUser.set_password(iPass)
+            nUser.save()
+            
+            #login(request, nUser) ---> Usuario Inactivo Default
+
+            messages.success(request, '¡Registro Exitoso!', extra_tags="title")
+            messages.success(request, f'Comuniquese con un Administrador para activar su Cuenta', extra_tags="info")
+            
+        except IntegrityError:
+            messages.error(request, '¡Registro Incompleto!', extra_tags="title")
+            messages.error(request, f'El Usuario ingresado actualmente esta en registrado', extra_tags="info")         
+        
+        return redirect(reverse('Home'))
+
+
+class SingupView(TemplateView):
+    template_name='registration/singup.html'
     
 class InvestmentView(LoginRequiredMixin, TemplateView):
     template_name='home/investment.html'

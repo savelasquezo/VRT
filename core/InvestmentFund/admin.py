@@ -44,8 +44,9 @@ admin_site.site_header = "VRTFUND"
 class UserBaseAdmin(UserAdmin):
 
     list_display = (
-        "codigo",
+        "username",
         "full_name",
+        "codigo",
         "ammount",
         "interest",
         "date_joined",
