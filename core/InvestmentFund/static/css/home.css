@@ -229,37 +229,46 @@ body{margin: 0;
 .inv-ammount{
   margin-top: 25px;
   margin-bottom: 10px;
-  width: 70%;
+  width: 90%;
   height: 30px;
   text-align:center;
+  border-radius: 5px;
   padding-left: 15px;
   font-size: large;
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .button-choices{
   padding: 5px;
   cursor: pointer;
   border: none;
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
   margin-top: 5px;
+  padding: 5px 10px 5px 10px;
+  font-size: 100;
   transition: all 0.5s;
   margin-bottom: 20px;
-}.button-choices:hover {background:#6e808877}
+}.button-choices:hover {background:#96a5ac77}
  
 
 .inv-output{
-  background-color: #1e1e1eab;
-  border-radius: 20px;
+  border-radius: 10px;
   width: 25%;
   height: 300px;
-}.inv-hr{border-color: #61CE70; width: 95%;}
+  background: rgba(0, 0, 0, 0.30);
+}.inv-hr{border-color: #96a5ac31; width: 90%;}
 
 .inv-results{
   display: flex;
   justify-content: center;
   align-items: center;
   color: #01ff38;
+  height: 70px;
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+  margin: 10px 20px 10px 20px;
+  background-color: rgba(0, 0, 0, 0.50);
   font-size: 18px;
   font-weight: 600;
 }.inv-results-h1{text-align: center;}
@@ -269,7 +278,7 @@ body{margin: 0;
   display: flex;
   margin: 5px;
   color: #ccc;
-  padding: 0 10px;
+  padding: 0 15px 0 15px;
   justify-content: space-between;
 }
 

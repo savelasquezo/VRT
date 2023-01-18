@@ -5,7 +5,7 @@
 {% block block %}
 <div class="container-inv">
     <div class="inv-output">
-        <input class="inv-ammount" type="number" placeholder="INVERSION" id="cash" step="100000">
+        <input class="inv-ammount" type="number" placeholder="INVERSION" id="cash" min="0" max="9999999999" step="100000">
         <div class="inv-results">
             <h1 class="inv-results-h1" id="ctotal">-</h1>
         </div>
@@ -15,7 +15,7 @@
             <input class="button-choices" name="ammount_for" type="button" id="m3" value="12 Meses-3%" required>
         </div>
         <div class="inv-details">
-            <span id="title">Inicial:</span><span id="rammount">-</span>
+            <span id="title">Capital Inicial:</span><span id="rammount">-</span>
         </div>
         <div class="inv-details">
             <span id="title">Interes:</span><span id="rinterest">-</span>

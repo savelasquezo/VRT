@@ -75,7 +75,7 @@ class UserBaseAdmin(UserAdmin):
     
     fInvestment = {"fields": (
         ("user_rank","interest"),
-        ("ammount","total"),
+        ("ammount"),
         ("bank",
         "bank_account"),
         ("date_joined","date_expire")

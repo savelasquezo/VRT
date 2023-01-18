@@ -56,7 +56,7 @@ class Usuario(AbstractUser):
     bank_account = models.CharField(_("Cuenta-Ahorros"), max_length=32,blank=True,)
 
     user_rank = models.CharField(_("Categoria"), choices=lst_ranks, default="r1", max_length=16,
-                help_text=_("Categoria del Inversionista en VaorTrading"),)
+                help_text=_("Categoria del Inversionista en VRT"),)
     
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)

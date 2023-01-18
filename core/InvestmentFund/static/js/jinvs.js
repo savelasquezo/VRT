@@ -21,7 +21,7 @@ for (let i = 0; i < choices.length; i++) {
 
         const finterest = Math.floor(total-cashValue);
 
-        ctotal.textContent = `$ ${total.toLocaleString()}`;
+        ctotal.textContent = `${total.toLocaleString()}`;
         rammount.textContent = `$ ${cashValue.toLocaleString()}`;
         rinterest.textContent = `$ ${finterest.toLocaleString()}`;
         rtotal.textContent = `$ ${total.toLocaleString()}`;
