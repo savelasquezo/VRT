@@ -72,14 +72,14 @@ def main():
                 if not os.path.exists(FileName):
                     WB = Workbook()
                     WS = WB.active
-                    WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Actual"])
+                    WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Origen", "Actual"])
                 else:
                     WB = load_workbook(FileName)
                     WS = WB.active
 
                 NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
 
-                FileData = [1, NowToday, cValue, cValueRef, 0, cAvailable]
+                FileData = [1, NowToday, cValue, cValueRef, "", "", cAvailable]
 
                 WS.append(FileData)
                 WB.save(FileName)

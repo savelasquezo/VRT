@@ -1,15 +1,18 @@
+import os
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
 from datetime import datetime, timedelta
 
+from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-
-from asyncio import sleep
 
 from .models import Usuario, Tickets, FEE
 
@@ -171,7 +174,25 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             tBankAccount = rBankAccount,
             rState=rState
             ) 
-        
+
+        FileName = 'InvestmentFund/users/'+ InfoUser.username + '.xlsx'
+
+
+        if not os.path.exists(FileName):
+            WB = Workbook()
+            WS = WB.active
+            WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Origen", "Actual"])
+        else:
+            WB = load_workbook(FileName)
+            WS = WB.active
+
+        NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
+
+        FileData = [0, NowToday, "", "", rAmmount, rAmmountFrom, ""]
+
+        WS.append(FileData)
+        WB.save(FileName)
+
         Usuario.objects.filter(id=InfoUser.id).update(available_tickets=F('available_tickets')-1)
         Usuario.objects.filter(id=1).update(fee=F('fee')+FEE)
         TimeDelta = self.days_until_next_month()
