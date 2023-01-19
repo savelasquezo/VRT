@@ -72,7 +72,7 @@ button.link:hover{color: #61CE70;}
 .info-home{
   max-width: 700px;
   min-width: 300px;
-  margin-top: 30px;
+  margin: 30px 0 15px 0;
   padding-left: 50px;
   font-weight:lighter;
   line-height:17px;
@@ -111,7 +111,7 @@ button.link-title{
   font-size: 34px;
   padding: 0;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: 1s all;
   margin-left: -17px;
 }.h5-links{font-size:14px;margin:0;}
 button.link-title:hover{color: #61CE70;}
@@ -160,12 +160,10 @@ body{margin: 0;
   margin-top: -50px;
 }
 .main-home {
-  flex: 1.5;
   padding: 0;
 }
 
 .main-play {
-  flex: 1;
   border-radius: 20px;
   padding: 0;
   display: flex;
@@ -185,7 +183,22 @@ body{margin: 0;
 .dlog {border: none;text-align: center; background: none;}
 .dlog::backdrop {background: rgba(0, 0, 0, 0.800);}
 
+.img-play-container{
+  position: relative;
+}
+
+.img-forex span{
+  position: fixed;
+  z-index: 1;
+  width: 540px;
+  height: 350px;
+  margin-left:120px;
+  opacity: 0.3;
+}
+
 .play-button {
+  position: relative;
+  z-index: 2;
   background:no-repeat;
   flex: 1;
   padding: 0;
@@ -194,8 +207,7 @@ body{margin: 0;
   background: none;
   align-items: center;
   justify-content: center;
-  margin-top: 100px;
-  margin-right: 80px;
+  margin: 130px 0 0 300px;
   cursor: pointer;
   transition: all 1.3s;
 }.play-button:hover{transform:scale(1.05); -webkit-transform:scale(1.05);}
@@ -218,9 +230,7 @@ body{margin: 0;
 
 
 /* Home *LOGIN* section start */
-.main-home-left{
-  width: 96%;
-}
+
 .title-home-login {
   margin-top: 30px;
   padding-left: 50px;
@@ -234,6 +244,7 @@ body{margin: 0;
 .title-home-login h2{
   font-size: 50px;
   margin: 0;
+  text-align: center;
   color:#ffffff;
   font-weight:bold;
   padding: 0 0 8px 0;
@@ -242,6 +253,7 @@ body{margin: 0;
 .title-home-login h1 {
   font-size: 100px;
   margin: 0;
+  text-align: center;
   letter-spacing: 2px;
   color:#b39568;
   font-weight:bold;
@@ -250,19 +262,20 @@ body{margin: 0;
 }
 
 .main-home-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
 }
 
 .home-simulator {
   display: flex;
-}
+  margin-top: 40px;
+}.text-home-simulator{padding: 0;margin: 0;}
+
 .info-home-simulator {
-  width: 65%;
+  width: 480px;
   margin-left: 50px;
 }
-.button-home-simulator {
-  margin: 7px 0px 0px 40px;
+.button-home-simulator, .button-home-interface{
   height: 50px;
   background-color: rgba(0, 0, 0, 0.4);
   background-size: calc(100% + 20px) calc(100% + 20px);
@@ -272,7 +285,6 @@ body{margin: 0;
   color: rgb(248, 245, 245);
   cursor: pointer;
   font-family: CircularStd,sans-serif;
-  font-size: 1rem;
   justify-content: center;
   line-height: 1.5;
   text-align: center;
@@ -281,8 +293,15 @@ body{margin: 0;
   vertical-align: top;
   white-space: nowrap;
   padding: 5px;
-}.button-home-h5{margin: 0;padding: 10px 5px 10px 5px}
-.button-home-simulator:hover{color: rgb(130, 260, 140);transform:scale(1.01); -webkit-transform:scale(1.01); }
+}
+.home-simulator-icon{font-size: 2rem;align-items: center;}
+.button-home-simulator{transition: 1s all;margin: 7px 0px 0px 5px; background: none;}
+.button-home-interface{transition: 1s all;margin: 7px 5px 0px 0px; font-size: 1rem;}
+
+.button-home-h5{margin: 0;padding: 10px 5px 10px 5px}
+.button-home-simulator:hover, .button-home-interface:hover{color: rgb(130, 260, 140)}
+
+
 
 .info-home-simulator h4{
   font-size:medium;
@@ -295,7 +314,7 @@ body{margin: 0;
 .benefits-home{
   height: 150px;
   width: 430px;
-  margin:38px 0 20px 100px;
+  margin:38px 0 20px 0;
   padding: 10px;
   background: rgba(0, 0, 0, 0.30);
 	font-size: 1.6rem;
@@ -315,6 +334,14 @@ body{margin: 0;
   font-weight: bold;
 }.benefits-home:hover{border-image: linear-gradient(270deg, #7f9727, #924949 ) 1}
 
+.main-home-right{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5%;
+}
+
 .text-benefits-h5{
   color: #ccc;
   margin: 5px 0 10px 0;
@@ -325,8 +352,8 @@ body{margin: 0;
 }
 .plan-container{
   display: flex;
-  justify-content: center;
-  margin: -10px 0px 0px -50px;
+  align-items: center;
+  text-align: center;
 }
 .plan-title{
   background: rgba(0, 0, 0, 0.30);
@@ -344,13 +371,12 @@ body{margin: 0;
 
 .plan-final-container{
   max-width: 500px;
-  margin-left: 60px;
-  justify-content: center;
 }
 .plan-final-info{
   color: #caced4;
   text-align: center;
   font-size:x-small;
+  margin-left: 20px;
   text-transform: uppercase;
 }
 
@@ -465,10 +491,33 @@ body{margin: 0;
 .contenedor-carousel{
   display: flex;
 }
-
 /* body section end */
 
 
+
+
+
+/* Terms&Conditions section start */
+.legal_title{
+  padding: 20px 80px 0px 60px;
+  margin-bottom: 0px;
+  color: #caced4;
+  font-weight: bold;
+}
+
+.legal_text{
+  padding: 10px 80px 30px 60px;
+  justify-content: center;
+  text-align: justify;
+
+}.legal_text h4 p{
+  color: #caced4;
+  font-size: medium;
+  font-weight:lighter;
+}
+
+
+/* Terms&Conditions section end */
 
 /* footer section start */
 .footer-distributed {

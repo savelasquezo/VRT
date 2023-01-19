@@ -62,9 +62,11 @@ class BenefitView(LoginRequiredMixin, TemplateView):
 class InterfaceView(LoginRequiredMixin, TemplateView):
     template_name='interface/interface.html'
 
+class LegalView(LoginRequiredMixin, TemplateView):
+    template_name='home/legal.html'
+
 class TicketFormView(LoginRequiredMixin, TemplateView):
     template_name='interface/tickets.html'
-
 
 class HistoryListView(LoginRequiredMixin, TemplateView):
       
