@@ -1,10 +1,17 @@
+import os
+
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
 from datetime import date
+
 
 from django_cron import CronJobBase, Schedule
 from django.db.models import F
 from django.utils import timezone
 
 from .models import Usuario
+
 
 class AddFundsToUser(CronJobBase):
     RUN_EVERY_MINS = 1
@@ -63,6 +70,23 @@ class AddFundsToUser(CronJobBase):
 
                 CUser.update(total=F('total_ref') + F('total_interest'))
 
+                FileName = 'InvestmentFund/users/'+ nUser.username + '.xlsx'
+
+
+                if not os.path.exists(FileName):
+                    WB = Workbook()
+                    WS = WB.active
+                    WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Actual"])
+                else:
+                    WB = load_workbook(FileName)
+                    WS = WB.active
+
+                NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
+
+                FileData = [1, NowToday, cValue, cValueRef, 0, cAvailable]
+
+                WS.append(FileData)
+                WB.save(FileName)
 
 cronjobs = [
     AddFundsToUser,

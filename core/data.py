@@ -13,6 +13,9 @@ from django.utils import timezone
 from django.db.models import F
 from django.utils import timezone
 
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
 from InvestmentFund.models import Usuario
 
 def main():
@@ -52,9 +55,7 @@ def main():
                 mAviableUserRef = 0
                 
                 for mUser in UserRef:
-                    print("Entro al Ciclo")
                     mAviableUserRef += int(mUser.ref_total)
-                    print(mAviableUserRef)
 
                 mAviableUserTotal = mAviableUserRef - cPaidRef
                 
@@ -64,6 +65,24 @@ def main():
                     )
 
                 CUser.update(total=F('total_ref') + F('total_interest'))
+
+                FileName = 'InvestmentFund/users/'+ nUser.username + '.xlsx'
+
+
+                if not os.path.exists(FileName):
+                    WB = Workbook()
+                    WS = WB.active
+                    WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Actual"])
+                else:
+                    WB = load_workbook(FileName)
+                    WS = WB.active
+
+                NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
+
+                FileData = [1, NowToday, cValue, cValueRef, 0, cAvailable]
+
+                WS.append(FileData)
+                WB.save(FileName)
                 
 if __name__ == '__main__':
     main()
