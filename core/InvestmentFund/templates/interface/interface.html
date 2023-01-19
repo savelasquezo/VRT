@@ -6,6 +6,11 @@
 <!-- TimeTrial section start-->
 <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
 <script> var date_string = '{{ date_expire }}';</script>
+
+<div id="loader"></div>
+<script type="text/javascript">     
+  window.onload = function(){$("#loader").fadeOut(1200);}     
+</script>  
 <div class="time-ammount">
   <div class="time_trial">
     <div class="date"><h1><span id="days"></span></h1><h1 class="cm">DIAS</h1></div>

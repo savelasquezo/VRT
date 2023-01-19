@@ -2,14 +2,14 @@ from datetime import datetime, timedelta
 
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login
-
 from django.db import IntegrityError
+
+from asyncio import sleep
 
 from .models import Usuario, Tickets, FEE
 
@@ -61,7 +61,7 @@ class BenefitView(LoginRequiredMixin, TemplateView):
 
 class InterfaceView(LoginRequiredMixin, TemplateView):
     template_name='interface/interface.html'
-    
+
 class TicketFormView(LoginRequiredMixin, TemplateView):
     template_name='interface/tickets.html'
 

@@ -153,6 +153,7 @@ body{margin: 0;
 .ul-messages{margin-bottom:20px;padding:0;}.info {font-size:xx-small;height:10px;}
 .messages-hiden{margin-bottom:23px;background:none;}
 
+
 .container-home {
   display: flex;
   width: 100%;
@@ -214,6 +215,146 @@ body{margin: 0;
 }
 /* Transforms */
 .adm-video:hover{color: rgb(130, 260, 140);transform:scale(1.1); -webkit-transform:scale(1.1); }
+
+
+/* Home *LOGIN* section start */
+.main-home-left{
+  width: 96%;
+}
+.title-home-login {
+  margin-top: 30px;
+  padding-left: 50px;
+  line-height: 100px;
+  letter-spacing: 1px;
+  line-height:70px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.title-home-login h2{
+  font-size: 50px;
+  margin: 0;
+  color:#ffffff;
+  font-weight:bold;
+  padding: 0 0 8px 0;
+  font-family:'Josefin Sans', sans-serif;
+}
+.title-home-login h1 {
+  font-size: 100px;
+  margin: 0;
+  letter-spacing: 2px;
+  color:#b39568;
+  font-weight:bold;
+  padding: 0 0 8px 0;
+  font-family:'Josefin Sans', sans-serif;
+}
+
+.main-home-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.home-simulator {
+  display: flex;
+}
+.info-home-simulator {
+  width: 65%;
+  margin-left: 50px;
+}
+.button-home-simulator {
+  margin: 7px 0px 0px 40px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  appearance: none;
+  border-radius: 20px;
+  border-width: 0;
+  color: rgb(248, 245, 245);
+  cursor: pointer;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  line-height: 1.5;
+  text-align: center;
+  transition: background-color .2s,background-position .2s;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  padding: 5px;
+}.button-home-h5{margin: 0;padding: 10px 5px 10px 5px}
+.button-home-simulator:hover{color: rgb(130, 260, 140);transform:scale(1.01); -webkit-transform:scale(1.01); }
+
+.info-home-simulator h4{
+  font-size:medium;
+  margin: 10px 0 0 0;
+  color: #ccc;
+  font-weight: lighter;
+  font-family:'Josefin Sans', sans-serif;
+}
+
+.benefits-home{
+  height: 150px;
+  width: 430px;
+  margin:38px 0 20px 100px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.30);
+	font-size: 1.6rem;
+	place-items: center;
+  text-align: center;
+	border: 6px solid;
+  transition: 0.5s all;
+	border-image: linear-gradient(270deg, #277b97, #599249 ) 1;
+}
+
+.benefits-button{background: none;border: none;}
+.benefits-home-h1{
+  color: #fff;
+  margin: 0;
+  padding: 15px 0 0 0;
+  font-size: x-large;
+  font-weight: bold;
+}.benefits-home:hover{border-image: linear-gradient(270deg, #7f9727, #924949 ) 1}
+
+.text-benefits-h5{
+  color: #ccc;
+  margin: 5px 0 10px 0;
+  padding: 0;
+  font-size: small;
+  justify-content: center;
+  font-family:'Josefin Sans', sans-serif;
+}
+.plan-container{
+  display: flex;
+  justify-content: center;
+  margin: -10px 0px 0px -50px;
+}
+.plan-title{
+  background: rgba(0, 0, 0, 0.30);
+  margin: 10px;
+  width: 80px;
+  height: 120px;
+  font-weight: 200;
+  border-radius: 5px;
+  text-align: center;
+}
+.plan-info-h1{color: #01ff38c5;margin: 15px 0 -5px 0;padding: 0;font-size:xx-large}
+.plan-info-h4{color: #ccc;margin:-5px 0 0 0;padding: 0;font-size:small}
+.plan-info-h5{color: #ccc;margin:-5px 0 0 0;padding: 0;font-size:x-small}
+.plan-info-h6{color: #ccc;margin:0;padding: 0;font-size:x-small}
+
+.plan-final-container{
+  max-width: 500px;
+  margin-left: 60px;
+  justify-content: center;
+}
+.plan-final-info{
+  color: #caced4;
+  text-align: center;
+  font-size:x-small;
+  text-transform: uppercase;
+}
+
+/* Home *LOGIN* section end */
 
 
 .container-inv{
