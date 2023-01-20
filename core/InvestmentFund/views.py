@@ -181,14 +181,14 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         if not os.path.exists(FileName):
             WB = Workbook()
             WS = WB.active
-            WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Origen", "Actual"])
+            WS.append(["Tipo","Fecha", "$Interes", "$Comiciones", "AcInteres", "AcComisiones", "$Ticket", "Origen", "Total"])
         else:
             WB = load_workbook(FileName)
             WS = WB.active
 
         NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
 
-        FileData = [0, NowToday, "", "", rAmmount, rAmmountFrom, ""]
+        FileData = [0, NowToday, "", "", "", "", rAmmount, rAmmountFrom,""]
 
         WS.append(FileData)
         WB.save(FileName)

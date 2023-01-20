@@ -58,6 +58,7 @@ def main():
                     mAviableUserRef += int(mUser.ref_total)
 
                 mAviableUserTotal = mAviableUserRef - cPaidRef
+                cTodayRef =  mAviableUserTotal - nUser.ref_available
                 
                 CUser.update(
                     ref_available=mAviableUserTotal,
@@ -72,14 +73,16 @@ def main():
                 if not os.path.exists(FileName):
                     WB = Workbook()
                     WS = WB.active
-                    WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Origen", "Actual"])
+                    WS.append(["Tipo","Fecha", "$Interes", "$Comiciones", "AcInteres", "AcComisiones", "$Ticket", "Origen", "Total"])
                 else:
                     WB = load_workbook(FileName)
                     WS = WB.active
-
+                
+                cTotal = nUser.total
+                cAviableRef = nUser.ref_available
                 NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
 
-                FileData = [1, NowToday, cValue, cValueRef, "", "", cAvailable]
+                FileData = [9, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal]
 
                 WS.append(FileData)
                 WB.save(FileName)

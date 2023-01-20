@@ -19,7 +19,6 @@ class AddFundsToUser(CronJobBase):
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
     code = 'InvestmentFund.AddFundsToUser'
     
-    #sudo service cron start
     #crontab -e
     #*/1 * * * * /home/savelasquezo/savelasquezo/VaorTrading/venv/bin/python /home/savelasquezo/savelasquezo/VaorTrading/core/manage.py runcrons
     def do(self):
@@ -62,6 +61,7 @@ class AddFundsToUser(CronJobBase):
                     mAviableUserRef += int(mUser.ref_total)
 
                 mAviableUserTotal = mAviableUserRef - cPaidRef
+                cTodayRef =  mAviableUserTotal - nUser.ref_available
                 
                 CUser.update(
                     ref_available=mAviableUserTotal,
@@ -76,14 +76,16 @@ class AddFundsToUser(CronJobBase):
                 if not os.path.exists(FileName):
                     WB = Workbook()
                     WS = WB.active
-                    WS.append(["Tipo","Fecha", "Interes", "Referido", "Ticket", "Origen", "Actual"])
+                    WS.append(["Tipo","Fecha", "$Interes", "$Comiciones", "AcInteres", "AcComisiones", "$Ticket", "Origen", "Total"])
                 else:
                     WB = load_workbook(FileName)
                     WS = WB.active
-
+                
+                cTotal = nUser.total
+                cAviableRef = nUser.ref_available
                 NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
 
-                FileData = [1, NowToday, cValue, cValueRef, "", "", cAvailable]
+                FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal]
 
                 WS.append(FileData)
                 WB.save(FileName)
