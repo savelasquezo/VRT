@@ -50,10 +50,12 @@ class AddFundsToUser(CronJobBase):
 
                 CUser.update(
                     available=cAvailable,
-                    total_interest=F('total_interest') + cValue,
-                    ref_total=F('ref_total') + cValueRef
-                    )
+                    total_interest=F('total_interest') + cValue)
 
+                if nUser.ref_id:
+                    cValueRef = int(cAmmount*(cInterestRef))
+                    CUser.update(ref_total=F('ref_total') + cValueRef)
+                
                 UserRef = Usuario.objects.filter(ref_id= nUser.codigo)
                 mAviableUserRef = 0
                 

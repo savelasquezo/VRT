@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.contrib.auth import password_validation
 
 lst_ranks = (('r1','Silver'),('r2','Gold'),('r3','Platinum'))
 lst_sts = (('Pendiente','Pendiente'),('Aprobado','Aprobado'),('Denegado','Denegado'),('Error','Error'))
@@ -98,6 +99,7 @@ class Usuario(AbstractUser):
         verbose_name = _("Usuario")
         verbose_name_plural = _("Usuarios")
 
+
 class Tickets(models.Model):
         
     id = models.AutoField(primary_key=True, verbose_name="Ticket")
@@ -124,18 +126,23 @@ class Tickets(models.Model):
         verbose_name = _("Ticket")
         verbose_name_plural = _("Tickets")
 
+    def __str__(self):
+        return "Ticket: %s" % (self.pk)
 
 class UserRank(models.Model):
         
-        rName = models.CharField(_("Categoria"), choices=lst_ranks, max_length=16, unique=True, default="r1",
-                                 help_text=_("Categoria del Inversionista en VaorTrading"),)
-        
-        rTravelGift = models.BooleanField(_("Viajes"),)
-        rVacations = models.BooleanField(_("Vacaciones"),)
-        rGiftCard = models.BooleanField(_("Tarjetas"),)
-        rSimCard = models.BooleanField(_("Simcard"),)
-        rAdvisory = models.BooleanField(_("Asesorias"),)
-        
-        class Meta:
-                verbose_name = _("Categoria")
-                verbose_name_plural = _("Categorias")
+    rName = models.CharField(_("Categoria"), choices=lst_ranks, max_length=16, unique=True, default="r1",
+                                help_text=_("Categoria del Inversionista en VaorTrading"),)
+    
+    rTravelGift = models.BooleanField(_("Viajes"),)
+    rVacations = models.BooleanField(_("Vacaciones"),)
+    rGiftCard = models.BooleanField(_("Tarjetas"),)
+    rSimCard = models.BooleanField(_("Simcard"),)
+    rAdvisory = models.BooleanField(_("Asesorias"),)
+    
+    class Meta:
+            verbose_name = _("Categoria")
+            verbose_name_plural = _("Categorias")
+
+    def __str__(self):
+        return "Categoria: %s" % (self.rName())

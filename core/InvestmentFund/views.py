@@ -25,7 +25,7 @@ class HomeView(TemplateView):
         iFullName = request.POST['name']
         iEmail = request.POST['email']
 
-        LastID = Usuario.objects.latest('id').id
+        LastID = Usuario.objects.latest('id').id + 1
         
         try:
             nUser = Usuario.objects.create(
@@ -45,7 +45,7 @@ class HomeView(TemplateView):
             
         except IntegrityError:
             messages.error(request, '¡Registro Incompleto!', extra_tags="title")
-            messages.error(request, f'El Usuario ingresado actualmente esta en registrado', extra_tags="info")         
+            messages.error(request, f'El Usuario ingresado actualmente esta registrado', extra_tags="info")         
         
         return redirect(reverse('Home'))
 
