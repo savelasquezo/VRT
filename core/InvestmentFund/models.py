@@ -3,10 +3,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.contrib.auth import password_validation
 
-lst_ranks = (('r1','Silver'),('r2','Gold'),('r3','Platinum'))
+lst_ranks = (('Silver','Silver'),('Gold','Gold'),('Platinum','Platinum'))
 lst_sts = (('Pendiente','Pendiente'),('Aprobado','Aprobado'),('Denegado','Denegado'),('Error','Error'))
+lst_banks = (('Binance','Binance'),('Skrill','Skrill'),('PayPal','PayPal'))
 
 FEE = 6000
 ATICKETS = 3
@@ -51,7 +51,7 @@ class Usuario(AbstractUser):
     ammount = models.PositiveBigIntegerField(_("Inversion"),blank=True,default=0,
                 help_text=_("Volumen de Capital Invertido ($COP)"),)
     
-    bank = models.CharField(_("Banco"), max_length=32,blank=True,
+    bank = models.CharField(_("Banco"), max_length=32, choices=lst_banks,blank=True,
                 help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
     
     bank_account = models.CharField(_("Cuenta-Ahorros"), max_length=32,blank=True,)

@@ -1,5 +1,5 @@
 
-const inputs = document.querySelectorAll('input[type="radio"]');
+const inputs = document.querySelectorAll('input[name="ammount_from"]');
 
 let AVIABLE_VALUE = Number(available).valueOf();
 let BENEFIT_VALUE = Number(ref_available).valueOf();

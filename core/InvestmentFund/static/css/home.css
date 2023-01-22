@@ -503,14 +503,15 @@ body{margin: 0;
   margin-bottom: 0px;
   color: #caced4;
   font-weight: bold;
-}
+}.legal_title h1{padding-bottom: 0; margin-bottom: 0;}
 
 .legal_text{
-  padding: 10px 80px 30px 60px;
+  padding: 10px 80px 10px 60px;
   justify-content: center;
   text-align: justify;
+}
 
-}.legal_text h4 p{
+.legal_text h4 p{
   color: #caced4;
   font-size: medium;
   font-weight:lighter;

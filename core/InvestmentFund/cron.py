@@ -72,7 +72,7 @@ class AddFundsToUser(CronJobBase):
 
                 CUser.update(total=F('total_ref') + F('total_interest'))
 
-                FileName = 'InvestmentFund/users/'+ nUser.username + '.xlsx'
+                FileName = '/home/savelasquezo/apps/vrt/core/logs/'+ nUser.username + '.xlsx'
 
 
                 if not os.path.exists(FileName):
