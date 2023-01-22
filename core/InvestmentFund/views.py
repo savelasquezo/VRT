@@ -175,7 +175,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             rState=rState
             ) 
 
-        FileName = '/home/savelasquezo/apps/vrt/core/logs/'+ InfoUser.username + '.xlsx'
+        FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
 
 
         if not os.path.exists(FileName):
