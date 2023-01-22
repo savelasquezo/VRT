@@ -51,6 +51,7 @@ class UserBaseAdmin(UserAdmin):
         "interest",
         "date_joined",
         "date_expire",
+        "ref_id",
         "is_operating",
         )
 

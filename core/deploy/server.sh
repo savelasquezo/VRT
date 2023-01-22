@@ -4,5 +4,5 @@ DJANGO_SETTINGS_MODULE=core.settings
 cd $DJANGODIR
 source venv/bin/activate
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
-exec python3 manage.py runserver 167.71.28.44:8000
+exec python3 manage.py runserver 167.71.28.44
 
