@@ -33,7 +33,7 @@
             <div class="table-row-container">
                 {% for i in ListTicketsPages %}
                 <li class="table-row" style="background-color:
-                {% if i.rState == 'Aprobado' %}darkseagreen{% elif i.rState == 'Denegado' %}lightcoral{% else %}gainsboro                {% endif %}">
+                {% if i.rState == 'Aprobado' %}darkseagreen{% elif i.rState == 'Denegado' %}lightcoral{% else %}gainsboro{% endif %}">
                     <div class="col col-1 col-1-data">{{ i.id }}</div>
                     <div class="col col-2 col-2-data">$ {{ i.tAmmount|intcomma }}</div>
                     <div class="col col-3 col-3-data">{{ i.tAmmountFrom }}</div>
@@ -62,6 +62,7 @@
                 {% else %}
                     <li><a href="">&laquo;</a></li>
                 {% endif %}
+                <li class="page-static"><span>{{ ListTicketsPages.number }}</span></li>
                 {% for page in ListTicketsPages.paginator.page_range %}
                     {% if page == ListTicketsPages.number %}
                         <li class="active"><span></span></li>

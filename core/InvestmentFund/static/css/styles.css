@@ -20,9 +20,9 @@
 	padding-left: 25px;
 	text-align: right;
   transition: all 1s;
-  }.wrapper .left a{color: #ffffff;}
+}
 
-/* Transforms */
+.wrapper .left a{color: #ffffff;}
 .wrapper .left:hover{filter: brightness(80%)}
 
 *:focus {
@@ -42,23 +42,59 @@
 }.wrapper .right object{margin: 0 10px;width:55px;height:55px;}
 .wrapper .right span{font-size: 13px;}p{width:300px;}
 *{box-sizing:border-box;}
-
-@media (max-width: 600px) {
-  .wrapper .right{
-    display: none;
-  }
-  .wrapper .left{
-    text-align: center;
-    margin: 5px auto 20px;
-  }
-}
-
 /* Header section end */
+
+
+
 
 /* body section start */
 body{margin: 0;background: #ccc;}
 
+#loader{
+  position: fixed;
+  z-index: 25000;
+  background: rgb(226, 232, 227);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:all .3s ease;
+}
+/*#loader::before{
+  content: "";
+  position: absolute;
+  border: 3px solid rgb(50, 150, 176);
+  width: 100px;
+  height: 100px;    
+  border-radius: 50%;
+  margin: 0 0 200px 0;
+  box-sizing: border-box;
+  border-left: 3px solid rgba(50, 150, 176,0);
+  border-top: 3px solid rgba(50, 150, 176,0);
+  animation: rotarload 1.5s linear infinite;
+  transform: rotate(0deg);      
+}@keyframes rotarload {0%   {transform: rotate(0deg)}100% {transform: rotate(360deg)}}
 
+#loader::after {
+  content: "";
+  position: absolute;
+  border: 3px solid rgba(50, 150, 176,.5);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 0 200px 0;
+  box-sizing: border-box;
+  border-left: 3px solid rgba(50, 150, 176, 0);
+  border-top: 3px solid rgba(50, 150, 176, 0);
+  animation: rotarload 1.5s ease-out infinite;
+  transform: rotate(0deg);
+}*/
+
+/* body section end */
+
+
+/* Interface section start */
 .time_trial{
 	display: flex;
 	justify-content: center;
@@ -212,10 +248,13 @@ a:-webkit-any-link {
 
 
 button:first-child {margin-left: 10px;}button:last-child {margin-right: 10px;}
-/* body section end */
+/* Interface section end */
+
+
+
+
 
 /* Tickets section start */
-
 img[name="logo"] {
   width: 125px;
   height: 60px;
@@ -298,49 +337,6 @@ button:first-child {margin-left: 10px;}button:last-child {margin-right: 10px;}
 
 
 /* History section start */
-
-#loader{
-  position: fixed;
-  z-index: 25000;
-  background: rgb(226, 232, 227);
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:all .3s ease;
-}
-/*#loader::before{
-  content: "";
-  position: absolute;
-  border: 3px solid rgb(50, 150, 176);
-  width: 100px;
-  height: 100px;    
-  border-radius: 50%;
-  margin: 0 0 200px 0;
-  box-sizing: border-box;
-  border-left: 3px solid rgba(50, 150, 176,0);
-  border-top: 3px solid rgba(50, 150, 176,0);
-  animation: rotarload 1.5s linear infinite;
-  transform: rotate(0deg);      
-}@keyframes rotarload {0%   {transform: rotate(0deg)}100% {transform: rotate(360deg)}}
-
-#loader::after {
-  content: "";
-  position: absolute;
-  border: 3px solid rgba(50, 150, 176,.5);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin: 0 0 200px 0;
-  box-sizing: border-box;
-  border-left: 3px solid rgba(50, 150, 176, 0);
-  border-top: 3px solid rgba(50, 150, 176, 0);
-  animation: rotarload 1.5s ease-out infinite;
-  transform: rotate(0deg);
-}*/
-
-
 .success {
   font-family: 'Work Sans';
   font-size:medium;
@@ -440,12 +436,6 @@ h2 small {
 .responsive-table .col-8 {flex-basis: 140px;}
 .responsive-table .col-9 {flex-basis: 100px;}
 
-@media all and (max-width: 767px) {
-  .responsive-table .col-3 {display: none;}
-  .responsive-table .col-4 {display: none;}
-  .responsive-table .col-8 {display: none;}
-  .responsive-table .col-6 {display: none;}
-}
 
 .pagination {
   display:flex;
@@ -474,6 +464,7 @@ h2 small {
   touch-action: manipulation;
   white-space: nowrap;
 }.pagination li.active span:hover {background-position: -20px -20px;}
+.pagination li.page-static {display: none;}
 
 .pagination li.inactive a {
   background-image: linear-gradient(1deg, #6b646462, #273327 100%);
@@ -489,17 +480,19 @@ h2 small {
   text-decoration: none;
   margin-bottom: 10px;
 }
-
 /* History section end */
+
+
 
 /* footer section start */
 .footer-distributed {
-  position: absolute;
-  z-index: 30000;
+  position: fixed;
+  left: 0;
   bottom: 0;
+  width: 100%;
+  z-index: 30000;
   background: linear-gradient(to right, #0f0c29, #1c1a3b, #1b1b2e);
   box-sizing: border-box;
-  width: 100%;
   text-align: left;
   font: normal 2px sans-serif;
   padding: 13px 40px;
@@ -510,7 +503,6 @@ h2 small {
   font-size: 14px;
   margin: 0;
 }
-/* Footer links */
 
 .footer-distributed p.footer-links {
   font-size: 18px;
@@ -558,25 +550,100 @@ h2 small {
   line-height: 35px;
   margin-left: 3px;
   transition:all .25s;
-}
-
-/* Transforms */
-.footer-distributed .footer-right a:hover{transform:scale(1.1); -webkit-transform:scale(1.1);}
-
-@media (max-width: 600px) {
-  .footer-distributed{
-    padding: 5px 40px;
-  }
-  .footer-distributed .footer-right{
-    display: none;
-  }
-  .footer-distributed .footer-left .footer-links, .footer-links {
-    text-align: center;
-    margin: 5px auto 20px;
-  }
-  .footer-distributed .footer-left p{
-    text-align:center;
-    margin: -10px auto 20px;
-  }
-}
+}.footer-distributed .footer-right a:hover{transform:scale(1.1); -webkit-transform:scale(1.1);}
 /* footer section end */
+
+
+
+
+
+/*Moviles XS*/
+@media only screen and (max-width: 375px) {
+
+/* Header section start */
+.wrapper{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}.wrapper .right{display: none;}
+/* Header section end */
+
+
+/* Interface section start */
+.date {
+  height: 70px;
+  line-height: 20px;
+	font-size: 10px;
+	font-weight: 200;
+}.date h1{width: 80px;}
+.cm {font-size: 12px;font-weight: 600;}
+
+.contect {
+  display: flex;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  text-align: center;
+}.contect h6 {display: none;}
+.name {width: 150px;font-size:10px;}
+
+.ammount_value {width: 346px;}
+.valor {width: 80px;font-size: small;}
+.adm-boton {margin-top: 30px;width: 90px;}
+/* Interface section end */
+
+/* Tickets section start */
+.container{padding-top: 2px;}
+/* Tickets section end */
+
+
+/* History section start */
+.responsive-table .table-header {font-size: xx-small;}
+.responsive-table .col-3 {display: none;}
+.responsive-table .col-4 {display: none;}
+.responsive-table .col-5 {display: none;}
+.responsive-table .col-8 {display: none;}
+.responsive-table .col-6 {display: none;}
+
+.responsive-table .table-row{
+  font-size: 12px;
+}.pagination li.active span, .pagination li.inactive a {display: none;}
+.pagination li.page-static{display: inline;}
+
+.pagination {margin-top: -30px;padding: 0px;}
+/* History section end */
+
+  /* footer section start */
+  .footer-distributed {
+    text-align: center;
+    justify-content: space-between;
+    padding: 8px 40px;
+    margin: 0px;
+    height: 30px;
+  }.footer-right{display: none;}
+  .footer-links{display: none;}
+  /* footer section end */
+}
+
+
+/*Moviles XL*/
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+
+/* History section start */
+  .responsive-table .col-3 {display: none;}
+  .responsive-table .col-4 {display: none;}
+  .responsive-table .col-8 {display: none;}
+  .responsive-table .col-6 {display: none;}
+/* History section end */
+}
+
+/*Tablets*/
+@media only screen and (min-width: 768px) and (max-width: 1080px) {
+/* History section start */
+  .responsive-table .col-6 {display: none;}
+/* History section end */
+}
+
+/*Normals*/
+@media only screen and (min-width: 1080px) {
+    /* Estilos para escritorio */
+}
