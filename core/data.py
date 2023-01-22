@@ -22,7 +22,7 @@ def main():
     
         InfoUser = Usuario.objects.all()
         Usuario.objects.filter(date_expire__lte=timezone.now()).update(is_operating=False)
-
+        
         for nUser in InfoUser:
 
             if nUser.is_operating:
@@ -71,7 +71,6 @@ def main():
 
                 FileName = 'InvestmentFund/users/'+ nUser.username + '.xlsx'
 
-
                 if not os.path.exists(FileName):
                     WB = Workbook()
                     WS = WB.active
@@ -88,6 +87,7 @@ def main():
 
                 WS.append(FileData)
                 WB.save(FileName)
+
 
                 
 if __name__ == '__main__':
