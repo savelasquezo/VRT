@@ -29,12 +29,14 @@
                     divisas y metales, también acciones y commodities.
                 </h4>
             </div>
-            <button class="button-home-interface" onclick=window.location.href="{% url 'Interface' %}">
-                <h5 class="button-home-h5">ADMINISTRAR</h5>
-            </button>
-            <button class="button-home-simulator" onclick=window.location.href="{% url 'Investment' %}">
-                <h5 class="h5-links"><i class="home-simulator-icon fa-solid fa-calculator"></i></h5>
-            </button>
+            <div class="button-home-container">
+                <button class="button-home-interface" onclick=window.location.href="{% url 'Interface' %}">
+                    <h5 class="button-home-h5">ADMINISTRAR</h5>
+                </button>
+                <button class="button-home-interface" onclick=window.location.href="{% url 'Investment' %}">
+                    <h5 class="button-home-h5">SIMULAR</h5>
+                </button>
+            </div>
         </div>
     </div>
     <div class="main-home-right">
@@ -69,7 +71,7 @@
         <div class="plan-final-container">
             <h4 class="plan-final-info"> interés simple, puedes solicitar tu
                 rentabilidad cada mes si lo deseas, para mayor informacion lee nuestros terminos y condiciones.
-            </h4>
+            </h4><br><br>
         </div>
     </div>
 </div>
@@ -109,7 +111,7 @@
             </div>
         </div>
     </dialog>
-    <div class= "img-play-container">
+    <div class= "img-play-container" >
         <span class="img-forex">
             <span style="background-image: url( {% static 'images/forex.png' %} )"></span>
         </span>

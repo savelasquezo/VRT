@@ -166,7 +166,6 @@ button.link-title:hover{color: #61CE70;}
 
 .img-forex span{
   position: fixed;
-  z-index: 1;
   width: 540px;
   height: 350px;
   margin-left:90px;
@@ -175,9 +174,7 @@ button.link-title:hover{color: #61CE70;}
 
 .play-button {
   position: relative;
-  z-index: 2;
   background:no-repeat;
-  flex: 1;
   padding: 0;
   border: none;
   display: flex;
@@ -207,6 +204,11 @@ button.link-title:hover{color: #61CE70;}
 
 
 /* HomeLogin section start */
+.main-home-columns {
+  display: flex;
+  flex-direction: row;
+}
+
 .title-home-login {
   margin-top: 30px;
   padding-left: 50px;
@@ -236,10 +238,12 @@ button.link-title:hover{color: #61CE70;}
   padding: 0 0 8px 0;
   font-family:'Josefin Sans', sans-serif;
 }
-
-.main-home-columns {
-  display: flex;
-  flex-direction: row;
+.info-home-simulator h4{
+  font-size:medium;
+  margin: 10px 0 0 0;
+  color: #ccc;
+  font-weight: lighter;
+  font-family:'Josefin Sans', sans-serif;
 }
 
 .home-simulator {
@@ -248,10 +252,10 @@ button.link-title:hover{color: #61CE70;}
 }.text-home-simulator{padding: 0;margin: 0;}
 
 .info-home-simulator {
-  width: 480px;
+  width: 440px;
   margin-left: 50px;
 }
-.button-home-simulator, .button-home-interface{
+.button-home-interface{
   height: 50px;
   background-color: rgba(0, 0, 0, 0.4);
   background-size: calc(100% + 20px) calc(100% + 20px);
@@ -271,21 +275,13 @@ button.link-title:hover{color: #61CE70;}
   padding: 5px;
 }
 .home-simulator-icon{font-size: 2rem;align-items: center;}
-.button-home-simulator{transition: 1s all;margin: 7px 0px 0px 5px; background: none;}
 .button-home-interface{transition: 1s all;margin: 7px 5px 0px 0px; font-size: 1rem;}
 
 .button-home-h5{margin: 0;padding: 10px 5px 10px 5px}
 .button-home-simulator:hover, .button-home-interface:hover{color: rgb(130, 260, 140)}
 
+.button-home-h5-movil{display: none;}
 
-
-.info-home-simulator h4{
-  font-size:medium;
-  margin: 10px 0 0 0;
-  color: #ccc;
-  font-weight: lighter;
-  font-family:'Josefin Sans', sans-serif;
-}
 
 .benefits-home{
   height: 150px;
@@ -357,7 +353,7 @@ button.link-title:hover{color: #61CE70;}
 }
 /* HomeLogin section end */
 
-
+/* Simulador section start */
 .container-inv{
   display: flex;
   margin: 0;
@@ -423,8 +419,10 @@ button.link-title:hover{color: #61CE70;}
   padding: 0 15px 0 15px;
   justify-content: space-between;
 }
+/* Simulador section end */
 
 
+/* Beneficios section start */
 .widget-menu{
   display: block;
   padding: 10px 30px 30px 30px;
@@ -432,7 +430,6 @@ button.link-title:hover{color: #61CE70;}
   justify-content: center;
   margin-bottom: 100px;
 }
-
 .widget-container {
   background-color: #1e1e1e;
   border-style: solid;
@@ -461,12 +458,16 @@ button.link-title:hover{color: #61CE70;}
   vertical-align: baseline;
 }.toggle-down, .toggle-right{transition: 0.75s all;background: none;border: none;font-size: x-large;color: #caced4;}
 .toggle-down:hover, .toggle-right:hover{color: rgb(130, 260, 140);transform:scale(1.01); -webkit-transform:scale(1.01); }
+/* Beneficios section end */
 
 
+
+
+/* Imagenes section start */
 .contenedor-carousel{
   display: flex;
 }
-
+/* Imagenes section end */
 
 
 /* Terms&Conditions section start */
@@ -648,9 +649,17 @@ button.link-title:hover{color: #61CE70;}
 
 
 
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
 
 /*Moviles XS*/
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 1280px) {
 
   body{margin:0px;padding: 0px;
     background: #144150;
@@ -669,10 +678,7 @@ button.link{margin-left:10px;padding:0px;}
 /* Header section end */
   
 
-
-
 /* Home section start */
-
 .container-home {display: flex;flex-direction: column;margin-top: -50px;}
 
 .title-home {
@@ -697,10 +703,10 @@ button.link-title{
 button.link-title:hover{color: #61CE70;}
 
 .info-home{
-  max-width: 280px;
+  max-width: 100%;
   line-height:17px;
-  margin: auto;
-  padding: 0;
+  margin: 10px;
+  padding: 15px;
   margin-top:20px;
 }
 .info-home h4{
@@ -708,17 +714,16 @@ button.link-title:hover{color: #61CE70;}
   justify-content: center;
 }.h5-links{font-size:10px;margin-bottom:20px;}
 
-.img-forex span{
-  margin-top: -130px;
-  width: 240px;
-  height: 380px;
-  margin-left:50px;
+.img-play-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
+.img-forex span{display: none;}
 .play-button {
-  margin: 40px 0 0 110px;
+  margin: 0;
+  margin-top: 20px;
 }
-
 .video-player{
   display: flex;
   justify-content: center;
@@ -727,99 +732,86 @@ button.link-title:hover{color: #61CE70;}
   margin-top: -90px;
   margin-right: -60px;
 }
-
 .dlog {border:none;text-align: center; background: none;height: 200px;}
 .dlog::backdrop {background: rgba(0, 0, 0, 0.800);}
+/* Home section end */
 
 
+/* HomeLogin section start */
+
+.main-home-columns {display: flex;flex-direction: column;}
+.title-home-login {
+  margin-top: 0px;
+  letter-spacing: 1px;
+  line-height:40px;
+  padding: 0px;
+  text-align: center;
+}
+.title-home-login h2{font-size: 25px;padding: 0px;}
+.title-home-login h1{font-size: 50px;padding: 0px;}
+
+.button-home-container{margin: 10px 0px 20px 0px;}
+.home-simulator {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0px 0px 10px 0px;
+  justify-content: center;
+  align-items: center;
+}.text-home-simulator{padding: 0px 10px;margin: 0;}
+
+.info-home{margin-bottom: 0;padding-bottom: 0;}
+.info-home-simulator {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  margin-left: 0px;
+  padding: 0px 10px;
+}
+
+.button-home-interface{
+  display: flex;
+  justify-content: center;
+  width: 300px;
+  align-items: center;
+}
+.button-home-h5-movil{display: inline;}
+
+.main-home-right{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+}
+.plan-final-info{
+  margin: 10px 0px 20px 0px;
+}
+/* HomeLogin section end */
 
 
+/* Simulador section start */
+.inv-output{
+  width: 380px;
+}
+/* Simulador section end */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Beneficios section start */
+.title-text{font-size: small;}
+/* Beneficios section end */
 
 /* footer section start */
 .footer-distributed {
     text-align: center;
     justify-content: space-between;
     padding: 12px 40px 8px 40px;
-    margin: 0px;
+    margin: 0;
     height: 40px;
 }.footer-right{display: none;}
 .footer-links{display: none}
 /* footer section end */
 }
   
-/*Moviles XL*/
-@media only screen and (min-width: 375px) and (max-width: 768px) {
-
-/* History section start */
-  .responsive-table .col-3 {display: none;}
-  .responsive-table .col-4 {display: none;}
-  .responsive-table .col-8 {display: none;}
-  .responsive-table .col-6 {display: none;}
-/* History section end */
+/*Normals*/
+@media only screen and (min-width: 1280px) {
+    /* Estilos para escritorio */
 }
-  
-  /*Tablets*/
-  @media only screen and (min-width: 768px) and (max-width: 1080px) {
-  /* History section start */
-    .responsive-table .col-6 {display: none;}
-  /* History section end */
-  }
-  
-  /*Normals*/
-  @media only screen and (min-width: 1080px) {
-      /* Estilos para escritorio */
-  }
   

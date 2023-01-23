@@ -541,7 +541,6 @@ h2 small {
   color: #ffffff;
   text-align: center;
   line-height: 35px;
-  margin-left: 3px;
   transition:all .25s;
 }.footer-distributed .footer-right a:hover{transform:scale(1.1); -webkit-transform:scale(1.1);}
 /* footer section end */
@@ -639,7 +638,6 @@ h2 small {
     justify-content: space-between;
     padding: 8px 35px;
     margin: 0px;
-    margin-left: 3px;
     height: 30px;
   }.footer-right{display: none;}
   .footer-links{display: none;}
