@@ -7,7 +7,7 @@
 <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
 <script> var date_string = '{{ date_expire }}';</script>
 
-<div id="loader"></div>
+<!--<div id="loader"></div>-->
 <script type="text/javascript">     
   window.onload = function(){$("#loader").fadeOut(1200);}     
 </script>  
@@ -34,23 +34,24 @@
   <input type="text" value="{{ percent }}" class="dial">
 </div>
 <!-- Knobbar section end-->
-
-<div class="contect">
-  <div class="name">ABONADO
-    <h6 class="help_text">$Pagado o en proceso</h6>
-    <h1 class="valor">{{total_paid|intcomma}}</h1>
-  </div>
-  <div class="name">INTERESES
-    <h6 class="help_text">$Intereses a capital</h6>
-    <h1 class="valor">{{available|intcomma}}</h1>
-  </div>
-  <div class="name">COMISIONES
-    <h6 class="help_text">$Ingresos extras por referidos</h6>
-    <h1 class="valor">{{ref_available|intcomma}}</h1>
-  </div>
-  <div class="name">TOTAL
-    <h6 class="help_text">$Totales incluye referidos</h6>
-    <h1 class="valor">{{cash_total|intcomma}}</h1>
+<div class="contect-container">
+  <div class="contect">
+    <div class="name n1">ABONADO
+      <h6 class="help_text">$Pagado o en proceso</h6>
+      <h1 class="valor">{{total_paid|intcomma}}</h1>
+    </div>
+    <div class="name n2">INTERESES
+      <h6 class="help_text">$Intereses a capital</h6>
+      <h1 class="valor">{{available|intcomma}}</h1>
+    </div>
+    <div class="name n3">COMISIONES
+      <h6 class="help_text">$Ingresos extras por referidos</h6>
+      <h1 class="valor">{{ref_available|intcomma}}</h1>
+    </div>
+    <div class="name n4">TOTAL
+      <h6 class="help_text">$Totales incluye referidos</h6>
+      <h1 class="valor">{{cash_total|intcomma}}</h1>
+    </div>
   </div>
 </div>
 <div class="adm">

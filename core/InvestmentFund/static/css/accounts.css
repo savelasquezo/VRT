@@ -20,7 +20,7 @@ body{
 .login-form {
     padding: 2em;
     padding-bottom: 1em;
-    width:25%;
+    width:365px;
     border-radius: 5px;
     background: rgba(0, 0, 0, 0.20);
 }

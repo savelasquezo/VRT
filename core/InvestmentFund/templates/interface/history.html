@@ -62,7 +62,6 @@
                 {% else %}
                     <li><a href="">&laquo;</a></li>
                 {% endif %}
-                <li class="page-static"><span>{{ ListTicketsPages.number }}</span></li>
                 {% for page in ListTicketsPages.paginator.page_range %}
                     {% if page == ListTicketsPages.number %}
                         <li class="active"><span></span></li>
