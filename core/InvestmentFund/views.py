@@ -68,6 +68,9 @@ class InterfaceView(LoginRequiredMixin, TemplateView):
 class LegalView(LoginRequiredMixin, TemplateView):
     template_name='home/legal.html'
 
+class InfoView(LoginRequiredMixin, TemplateView):
+    template_name='home/info.html'
+
 class TicketFormView(LoginRequiredMixin, TemplateView):
     template_name='interface/tickets.html'
 

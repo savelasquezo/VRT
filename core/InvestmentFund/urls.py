@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import HomeView, InterfaceView, TicketFormView, HistoryListView, InvestmentView, ContentView, BenefitView, SingupView, LegalView
+from .views import HomeView, InterfaceView, TicketFormView, HistoryListView, InvestmentView, ContentView, BenefitView, SingupView, LegalView, InfoView
 
 urlpatterns = [
 
@@ -12,6 +12,8 @@ urlpatterns = [
     path('index.php/contenido/', ContentView.as_view(), name='Content'),
     path('investment/', InvestmentView.as_view(), name='Investment'),
     path('terms&conditions/', LegalView.as_view(), name='Legal'),
+    
+    path('info/', InfoView.as_view(), name='Info'),
 
     path('accounts/profile/', InterfaceView.as_view(), name='Interface'),
     path('accounts/profile/ticket/', TicketFormView.as_view(), name='Tickets'),

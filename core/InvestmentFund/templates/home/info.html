@@ -1,0 +1,67 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+<div class="payment">
+    <div class="payment_title">
+        <h1>INSCRIPCIONES</h1>
+        <h3>VRTFUND provee los siguientes metods de pago tome en cuenta que al seleccionar su método de pago, es necesario que se ponga en contacto con un administrador para validar el mismo antes de completar la transacción.</h3>
+    </div>
+    <div class="payment_container">
+        <div class="payment_box">
+            <span style="background-image: url( {% static 'images/paypal.png' %} )"></span>
+            <div class="payment_info">
+                <h1>PAYPAL</h1><br>
+                <h4>mail@vrtfund.com</h4>
+                <h4>00.000.0000</h4>
+                <div class="pay_button_container">
+                    <a href="#">
+                        <button type="submit" class="tutorial_button"><i class="fa-solid fa-question"></i></button>
+                    </a>
+                    <a href="#">
+                        <button type="submit" class="pay_button">SOLICITAR</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="payment_box">
+            <span style="background-image: url( {% static 'images/binance.png' %} )"></span>
+            <div class="payment_info">
+                <h1>BINANCE</h1><br>
+                <h4>mail@vrtfund.com</h4>
+                <h4>00.000.0000</h4>
+                <div class="pay_button_container">
+                    <a href="#">
+                        <button type="submit" class="tutorial_button"><i class="fa-solid fa-question"></i></button>
+                    </a>
+                    <a href="#">
+                        <button type="submit" class="pay_button">SOLICITAR</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="payment_box">
+            <span style="background-image: url( {% static 'images/skrill.png' %} )"></span>
+            <div class="payment_info">
+                <h1>SKRILL</h1><br>
+                <h4>mail@vrtfund.com</h4>
+                <h4>00.000.0000</h4>
+                <div class="pay_button_container">
+                    <a href="#">
+                        <button type="submit" class="tutorial_button"><i class="fa-solid fa-question"></i></button>
+                    </a>
+                    <a href="#">
+                        <button type="submit" class="pay_button">SOLICITAR</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="payment_coments">
+        <h3>VRTFUND provee los siguientes metods de pago, la activacion del registro se realizara en las proximas 
+            24 horas posteriores a la confirmacion del pago, para mayor informacion contacte con un administrador.
+        </h3>
+    </div>
+</div>
+{% endblock %}
