@@ -19,7 +19,7 @@ body{margin: 0;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	padding: 30px 5px;
+	padding: 30px 5px 15px 5px;
   padding-right: 15px;
 }*{box-sizing:border-box;}
 
@@ -279,7 +279,6 @@ button.link-title:hover{color: #61CE70;}
 
 .button-home-h5{margin: 0;padding: 10px 5px 10px 5px}
 .button-home-simulator:hover, .button-home-interface:hover{color: rgb(130, 260, 140)}
-
 .button-home-h5-movil{display: none;}
 
 
@@ -356,9 +355,8 @@ button.link-title:hover{color: #61CE70;}
 /* Simulador section start */
 .container-inv{
   display: flex;
-  margin: 0;
-  margin-top: 30px;
-  padding: 20px;
+  margin-top: 0px;
+  padding: 3px;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -419,6 +417,54 @@ button.link-title:hover{color: #61CE70;}
   padding: 0 15px 0 15px;
   justify-content: space-between;
 }
+
+.info-investment{
+  display: flex;
+  flex-direction: column;
+  color: aliceblue;
+  justify-content: center;
+  margin: 0px 0px 5px 0px;
+  padding: 0px;
+  text-transform: uppercase;
+  line-height: 0px;
+  font-size: smaller;
+  align-items: center;
+  text-align: center;
+}.info-investment h1{margin-bottom:20px;}
+
+.info-investment h3{
+  font-size: xx-small;
+  line-height:12px;
+  max-width: 540px;
+  color: #ccc;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.button-investment-container{
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.button-investment{
+  width: 340px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-width: 0;
+  border-radius: 10px;
+  color: #ccc;
+  cursor: pointer;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  transition: 0.75s all;
+}
+.button-investment:hover{color: rgb(130, 260, 140);}
+
+.button-investment-h5{margin:0px;padding:0; padding-top: 3px;}
 /* Simulador section end */
 
 
@@ -494,23 +540,28 @@ button.link-title:hover{color: #61CE70;}
 
 /* Payments section start */
 .payment_title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0;
   margin-top: -10px;
   color: #caced4;
   font-weight: bold;
   font-size: large;
   text-align: center;
-  justify-content: center;
 }
 .payment_title h1{padding-bottom: 0; margin-bottom: 0;}
 .payment_title h3{
   padding-bottom: 0;
   margin-bottom: 0;
-  padding: 10px 120px;
+  max-width: 1100px;
+  padding: 10px 20px;
   text-align: center;
   justify-content: center;
   text-transform: uppercase;
   font-size: x-small;
+  font-weight: lighter;
 }
 
 .payment_container{
@@ -564,16 +615,20 @@ button.link-title:hover{color: #61CE70;}
   vertical-align: top;
 }
 .payment_coments{
-  margin: 0;
-  margin-top: -10px;
-  color: #caced4;
-  text-transform: uppercase;
-  font-size: x-small;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -10px 0px 20px 0px;
 }
 .payment_coments h3{
+  margin: 0px;
+  text-align: center;
+  font-size: x-small;
+  color: #caced4;
+  text-transform: uppercase;
   font-weight: lighter;
-  padding: 10px 120px;
+  padding: 10px 20px;
+  max-width: 1000px;
 }
 
 /* Payments section end */
@@ -789,14 +844,24 @@ button.link-title:hover{color: #61CE70;}
 
 
 /* Simulador section start */
-.inv-output{
-  width: 380px;
-}
+.inv-output{width: 380px;}
+.button-investment{width: 380px;}
 /* Simulador section end */
 
 /* Beneficios section start */
 .title-text{font-size: small;}
 /* Beneficios section end */
+
+
+/* Payment section start */
+.payment_container{
+  flex-direction: column;
+  align-items: center;
+}
+.payment_coments{
+  margin-bottom: 50px;
+}
+/* Payment section end */
 
 /* footer section start */
 .footer-distributed {
