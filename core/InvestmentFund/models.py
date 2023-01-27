@@ -86,7 +86,7 @@ class Usuario(AbstractUser):
     total = models.PositiveBigIntegerField(_("Total"),blank=True,default=0,
                 help_text=_("$Total Generado ($COP)"),)
 
-    ref_id = models.CharField(_("Credencial del Referido"), max_length=32, blank=True)
+    ref_id = models.CharField(_("Codigo Referido"), max_length=32, blank=True)
     ref_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
     ref_interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
         help_text=_("Comisiones Mensuales x Referido (%)"),)
@@ -119,6 +119,8 @@ class Tickets(models.Model):
     
     tBankTicket = models.CharField(_("Voucher"), max_length=32,blank=True,
         help_text=_("Referencia/Voucher Transaccion"))
+
+    CommentText = models.TextField(_("Comentarios"),max_length=256)
 
     rState = models.CharField(_("Estado"), choices=lst_sts, default="Pendiente", max_length=16)
     

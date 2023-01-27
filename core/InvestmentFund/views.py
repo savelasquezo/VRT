@@ -114,6 +114,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         rAmmountFrom = request.POST['ammount_from']
         rBank = request.POST['bank']
         rBankAccount = request.POST['bank_account']
+        rComment = request.POST["message"]
         rState = "Pendiente"
 
 
@@ -175,6 +176,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             tAmmountFrom = rAmmountFrom,
             tBank= rBank,
             tBankAccount = rBankAccount,
+            CommentText = rComment,
             rState=rState
             ) 
 

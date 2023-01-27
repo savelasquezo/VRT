@@ -22,10 +22,8 @@ class MyAdminSite(admin.AdminSite):
         ordering = {"Usuarios": 1,"Tickets": 2,}
         app_dict = self._build_app_dict(request, app_label)
 
-        # Sort the apps alphabetically.
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
 
-        # Sort the models alphabetically within each app.
         for app in app_list:
             app['models'].sort(key=lambda x: ordering[x['name']])
 
@@ -176,11 +174,23 @@ class TicketsAdmin(admin.ModelAdmin):
         )
 
 
+    fTickets = {"fields": (
+        "username",
+        ("tAmmount","tAmmountFrom"),
+        ("tBank","tBankAccount"),
+        ("date","rState"),
+        "CommentText"
+        )}
+
     list_filter = ["date","rState","tBank"]
     search_fields = ['username']
 
     radio_fields = {'rState': admin.HORIZONTAL}
-    
+
+    fieldsets = (
+        ("Caracteristicas", fTickets),
+        )
+
     def has_add_permission(self, request, obj=None):
             return False
 

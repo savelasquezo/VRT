@@ -47,10 +47,10 @@
           <input type="text" class="label_input" name="bank_account" id="bank_account" value="{{bank_account}}" required/>
         </div>
         <div class="label">
-          <span class="splitext">Fecha:</span>
-          <span>{{date_now_str}}</span>
+          <span class="splitext">$Costo:</span>
+          <span>{{fee|intcomma}}</span>
         </div>
-        <textarea class="textarea" name="message" for="message" maxlength="256"></textarea><p></p>
+        <textarea class="textarea" name="message" for="message" id="message" maxlength="256"></textarea><p></p>
         <button type="submit" class="boton_ticket" name="succces"><i class="fa-solid fa-money-check-dollar"></i></button>
         <script src="{% static 'js/forms.js' %}"></script>
     </form>
