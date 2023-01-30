@@ -179,7 +179,7 @@ class TicketsAdmin(admin.ModelAdmin):
 
 
     fTickets = {"fields": (
-        ("username","rStatet"),
+        ("username","rState"),
         ("tAmmount","tAmmountFrom"),
         ("tBank","tBankAccount"),
         ("date","tBankTicket"),
