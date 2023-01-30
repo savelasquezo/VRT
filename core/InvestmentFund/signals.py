@@ -20,6 +20,7 @@ def add_record(sender, instance, **kwargs):
             email = instance.email,
             phone = instance.phone,
             country = instance.country,
+            codigo = instance.codigo,
             bank = instance.bank,
             bank_account = instance.bank_account,
             ammount = instance.ammount,

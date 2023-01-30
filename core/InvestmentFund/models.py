@@ -67,7 +67,7 @@ class Usuario(AbstractUser):
                 help_text=_("Volumen de Retorno Mensual (%)"),)
 
     date_joined = models.DateTimeField(_("Ingreso"), default=timezone.now)
-    date_expire = models.DateTimeField(_("Finaliza"), default=(timezone.now() + timedelta(days=365)))
+    date_expire = models.DateTimeField(_("Finaliza"), default=timezone.now)
     
     available = models.PositiveBigIntegerField(_("Acumulado"),blank=True,default=0,
                 help_text=_("$Disponible Generado en Intereses"),)
@@ -157,7 +157,10 @@ class UserRank(models.Model):
 class InvestRequests(models.Model):
 
     username = models.OneToOneField(Usuario, on_delete=models.CASCADE, limit_choices_to={'is_active': False})
-        
+
+    codigo = models.CharField(_("Codigo"),max_length=64 ,unique=True,
+            help_text=_("Codigo Impreso en las Credenciales"))
+   
     full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
     email = models.EmailField(_("E-mail"), blank=True)
     country = models.CharField(_("Ubicacíon"),max_length=64,blank=True)
@@ -181,7 +184,7 @@ class InvestRequests(models.Model):
                 help_text=_("Codigo del Usuario Staff Afiliador"))
 
     date_joined = models.DateTimeField(_("Ingreso"), default=timezone.now)
-    date_expire = models.DateTimeField(_("Finaliza"), default=(timezone.now() + timedelta(days=365)))
+    date_expire = models.DateTimeField(_("Finaliza"), default=timezone.now)
 
     rState = models.CharField(_("Estado"), choices=lst_sts, default="Pendiente", max_length=16)
 

@@ -213,7 +213,7 @@ class InvestRequestsAdmin(admin.ModelAdmin):
 
 
     fInvestRequestsStaff = {"fields": (
-        "username",
+        ("username","codigo"),
         ("full_name","country"),
         ("ammount","interest"),
         ("email","phone"),

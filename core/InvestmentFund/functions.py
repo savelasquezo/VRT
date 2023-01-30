@@ -20,11 +20,11 @@ def GlobalContext(request):
         
         ammount = info_user.ammount
         interest = info_user.interest
-        dayli_interest = interest/(100*30)
+        dayli_interest = ammount*interest/(100*30)
         
         available = info_user.available
 
-        max_profit = int(ammount*dayli_interest*days_difference)        
+        max_profit = int(dayli_interest*days_difference)        
         
         ref_available = info_user.ref_available
         
@@ -46,6 +46,7 @@ def GlobalContext(request):
             'min_ammount': MINAMMOUNT,                  #//$Min-Retiro
             'ammount':ammount,                          #//Inversion Inicial
             'interest':interest,                        #//Interes Mensual
+            'dayli_interest':int(dayli_interest),       #//Interes Diario
             'total_paid':total_paid,                    #//Total Abonado
             'available':available,                      #//Disponible Intereses
             'ref_available': ref_available,             #//Disponible Comiciones

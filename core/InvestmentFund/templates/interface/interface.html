@@ -36,17 +36,24 @@
 <!-- Knobbar section end-->
 <div class="contect-container">
   <div class="contect">
-    <div class="name n1">ABONADO
-      <h6 class="help_text">$Pagado o en proceso</h6>
-      <h1 class="valor">{{total_paid|intcomma}}</h1>
+    {% if user.is_staff %}
+      <div class="name n3">COMISIONES
+        <h6 class="help_text">$Ingresos extras por referidos</h6>
+        <h1 class="valor">{{ref_available|intcomma}}</h1>
+      </div>
+    {% else %}
+    <div class="name n3">INTERESES
+      <h6 class="help_text">$Interes Diario</h6>
+      <h1 class="valor">{{dayli_interest|intcomma}}</h1>
     </div>
-    <div class="name n2">INTERESES
+    {% endif %}
+    <div class="name n2">ACUMULADO
       <h6 class="help_text">$Intereses a capital</h6>
       <h1 class="valor">{{available|intcomma}}</h1>
     </div>
-    <div class="name n3">COMISIONES
-      <h6 class="help_text">$Ingresos extras por referidos</h6>
-      <h1 class="valor">{{ref_available|intcomma}}</h1>
+    <div class="name n1">ABONADO
+      <h6 class="help_text">$Pagado o en proceso</h6>
+      <h1 class="valor">{{total_paid|intcomma}}</h1>
     </div>
     <div class="name n4">TOTAL
       <h6 class="help_text">$Totales incluye referidos</h6>
