@@ -136,8 +136,8 @@ CRON_CLASSES = [
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.vrtfund'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mail@vrtfund.com'
-EMAIL_HOST_PASSWORD = 'your_password'
+EMAIL_HOST = 'smtp.hostinger.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'noreply@vrtfund.com'
+EMAIL_HOST_PASSWORD = '95yUSR13diM#'
