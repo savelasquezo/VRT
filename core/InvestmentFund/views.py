@@ -7,12 +7,20 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
+from django.contrib.auth.forms import PasswordResetForm
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.db.models.query_utils import Q
+from django.http import HttpResponse
+from django.core.mail import send_mail, BadHeaderError
+from django.template.loader import render_to_string
 
 from .models import Usuario, Tickets, FEE
 
@@ -55,11 +63,13 @@ class SingupView(TemplateView):
     
 class InvestmentView(LoginRequiredMixin, TemplateView):
     template_name='home/investment.html'
-    
-class ContentView(LoginRequiredMixin, TemplateView):
+
+#LoginRequiredMixin
+class ContentView(TemplateView):
     template_name='home/content.html'
 
-class BenefitView(LoginRequiredMixin, TemplateView):
+#LoginRequiredMixin
+class BenefitView(TemplateView):
     template_name='home/benefit.html'
 
 class InterfaceView(LoginRequiredMixin, TemplateView):
@@ -128,7 +138,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             
             if rAmmount > InfoUser.available:
                 messages.error(request, 'ERROR', extra_tags="title")
-                messages.error(request, 'La solicitud no se ha podiso procesar', extra_tags="info")
+                messages.error(request, 'La solicitud no se ha podido procesar', extra_tags="info")
                 return redirect(reverse('History'))
             
             Usuario.objects.filter(id=InfoUser.id).update(
@@ -141,7 +151,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             
             if rAmmount > InfoUser.ref_available:
                 messages.error(request, 'ERROR', extra_tags="title")
-                messages.error(request, 'La solicitud no se ha podiso procesar', extra_tags="info")
+                messages.error(request, 'La solicitud no se ha podido procesar', extra_tags="info")
                 return redirect(reverse('History'))
             
             Usuario.objects.filter(id=InfoUser.id).update(
@@ -206,3 +216,33 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         messages.success(request, f'EL tiempo de espera aproximado sera de {TimeDelta} dias habiles', extra_tags="info")
         return redirect(reverse('History'))
 
+
+def PasswordResetRequestView(request):
+	if request.method == "POST":
+		password_reset_form = PasswordResetForm(request.POST)
+		if password_reset_form.is_valid():
+			data = password_reset_form.cleaned_data['email']
+			associated_users = Usuario.objects.filter(Q(email=data))
+			if associated_users.exists():
+				for user in associated_users:
+					subject = "Password Reset Requested"
+					email_template_name = "password/password_reset_email.txt"
+					c = {
+					"email":user.email,
+					'domain':'vrtfund.com',# 127.0.0.1:8000
+					'site_name': 'VRT-Fund',
+					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
+					"user": user,
+					'token': default_token_generator.make_token(user),
+					'protocol': 'https',# http
+                    'username': user.username,
+					}
+					email = render_to_string(email_template_name, c)
+					try:
+						send_mail(subject, email, 'mail@vrtfund.com' , [user.email], fail_silently=False)
+					except BadHeaderError:
+						return HttpResponse('Invalid header found.')
+					return redirect ("/accounts/password_reset/done/")
+ 
+	password_reset_form = PasswordResetForm()
+	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})

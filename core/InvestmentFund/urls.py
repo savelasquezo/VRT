@@ -1,23 +1,32 @@
 from django.urls import path, include
-from .views import HomeView, InterfaceView, TicketFormView, HistoryListView, InvestmentView, ContentView, BenefitView, SingupView, LegalView, InfoView
+import InvestmentFund.views as views
+
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
-    path("accounts/", include("django.contrib.auth.urls")),
-    path('accounts/singup/', SingupView.as_view(), name='Singup'),
-
-    path('', HomeView.as_view(), name='Home'),
-
-    path('index.php/servicios/', BenefitView.as_view(), name='Benefit'),
-    path('index.php/contenido/', ContentView.as_view(), name='Content'),
-    path('investment/', InvestmentView.as_view(), name='Investment'),
-    path('terms&conditions/', LegalView.as_view(), name='Legal'),
+    #path("accounts/", include("django.contrib.auth.urls")),
+    path('', views.HomeView.as_view(), name='Home'),
     
-    path('info/', InfoView.as_view(), name='Info'),
+    path('accounts/singup/', views.SingupView.as_view(), name='Singup'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
+    
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password/password_reset_confirm.html"), name='password_reset_confirm'),
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete'),      
+    path("accounts/password_reset/", views.PasswordResetRequestView, name="password_reset"),
 
-    path('accounts/profile/', InterfaceView.as_view(), name='Interface'),
-    path('accounts/profile/ticket/', TicketFormView.as_view(), name='Tickets'),
-    path('accounts/profile/history/', HistoryListView.as_view(), name='History'),
+    path('index.php/servicios/', views.BenefitView.as_view(), name='Benefit'),
+    path('index.php/contenido/', views.ContentView.as_view(), name='Content'),
+
+    path('investment/', views.InvestmentView.as_view(), name='Investment'),
+    path('terms&conditions/', views.LegalView.as_view(), name='Legal'),    
+    path('info/', views.InfoView.as_view(), name='Info'),
+
+    path('accounts/admin/', views.InterfaceView.as_view(), name='Interface'),
+    path('accounts/admin/ticket/', views.TicketFormView.as_view(), name='Tickets'),
+    path('accounts/admin/history/', views.HistoryListView.as_view(), name='History'),
 ]
 
 

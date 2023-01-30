@@ -5,9 +5,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Usuario, UserRank, Tickets
+from .models import Usuario, UserRank, Tickets, InvestRequests
 
-admin.site.unregister(Group)
 
 class MyAdminSite(admin.AdminSite):
     index_title = 'Panel Administrativo'
@@ -19,7 +18,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1,"Tickets": 2,}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Status": 4,"Grupos": 5}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
@@ -61,7 +60,7 @@ class UserBaseAdmin(UserAdmin):
     fAutenticationUser = {"fields": (
         ("codigo","is_active","available_tickets"),
         "password",
-        "is_operating"
+        ("is_operating","is_staff")
         )}
     
     fInformation = {"fields": (
@@ -93,6 +92,10 @@ class UserBaseAdmin(UserAdmin):
             ("ref_id","ref_name"),
             ("ref_total","ref_interest")
         )}
+
+    fGroups = {"fields": (
+            "groups",
+        )}
     
     fieldsets = (
         ("Autenticacion", fAutenticationUser),
@@ -100,7 +103,8 @@ class UserBaseAdmin(UserAdmin):
         ("Inversion", fInvestment),
         ("Intereses", fInterest),
         ("Comiciones", fReferees),
-        ("Informacion del Referido", fRefInformation)
+        ("Informacion del Referido", fRefInformation),
+        ("Autorizaciones", fGroups)
         )
 
     add_fieldsets = (
@@ -195,8 +199,91 @@ class TicketsAdmin(admin.ModelAdmin):
             return False
 
 
+class InvestRequestsAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "username",
+        "full_name",
+        "ammount",
+        "interest",
+        "staff",
+        "date_joined",
+        "rState"
+        )
+
+
+    fInvestRequestsStaff = {"fields": (
+        "username",
+        ("full_name","country"),
+        ("ammount","interest"),
+        ("email","phone"),
+        ("bank","bank_account"),
+        ("date_joined","date_expire"),
+        "CommentText"
+        )}
+
+    fInvestRequestsSuperUser = {"fields": (
+        ("staff","staff_cod"),
+        "rState",
+        )}
+    
+
+    list_filter = ["date_joined","rState"]
+    superlist_filter = ["staff","rState","date_joined"]
+    
+    search_fields = ['username']
+
+    radio_fields = {'rState': admin.HORIZONTAL}
+    es_formats.DATETIME_FORMAT = "d M Y"
+    
+    fieldsets = (
+        ("Informacion", fInvestRequestsStaff),
+        )
+
+    def get_fieldsets(self, request, obj=None):
+        if request.user.is_superuser:
+            return (
+                ("Informacion", self.fInvestRequestsStaff),
+                ("Autorizacion", self.fInvestRequestsSuperUser),
+            )
+        return super().get_fieldsets(request, obj)
+
+    def save_model(self, request, obj, form, change):
+        if not request.user.is_superuser:
+            obj.staff = request.user.username
+            obj.staff_cod = request.user.codigo
+            super().save_model(request, obj, form, change)
+            return
+        
+        super().save_model(request, obj, form, change)
+
+    def get_queryset(self, request):
+            
+        if not request.user.is_superuser:
+            return InvestRequests.objects.filter(staff_cod = request.user.codigo)
+
+        qs = self.model._default_manager.get_queryset()
+
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+                
+        return qs
+
+    def get_list_filter(self, request):
+
+        if not request.user.is_superuser:
+            return self.list_filter
+        
+        return self.superlist_filter
+
+
+admin.site.register(Group)
+
 admin.site.register(Usuario, UserBaseAdmin)
-#admin.site.register(UserRank, UserRankAdmin)
+admin.site.register(UserRank, UserRankAdmin)
 admin.site.register(Tickets, TicketsAdmin)
+admin.site.register(InvestRequests, InvestRequestsAdmin)
+
 
 

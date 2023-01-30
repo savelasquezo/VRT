@@ -133,3 +133,11 @@ LOGOUT_REDIRECT_URL = "/"
 CRON_CLASSES = [
     "InvestmentFund.cron.AddFundsToUser",
 ]
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.vrtfund'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mail@vrtfund.com'
+EMAIL_HOST_PASSWORD = 'your_password'

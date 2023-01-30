@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -32,7 +34,9 @@ class Usuario(AbstractUser):
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
 
     is_active = models.BooleanField(_(" "),default=False)
-
+    is_staff = models.BooleanField(_("Staff"),default=False,
+                help_text=_("Usuario con facultades Administrativas"),                  )
+    
     is_operating = models.BooleanField(_("Activo"),default=False,
                 help_text=_("El Usuario actualmente genera Intereses ¡Posterior a la Fecha de Expiracion sera desactivado!"),)
     
@@ -54,16 +58,16 @@ class Usuario(AbstractUser):
     bank = models.CharField(_("Banco"), max_length=32, choices=lst_banks,blank=True,
                 help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
     
-    bank_account = models.CharField(_("Cuenta-Ahorros"), max_length=32,blank=True,)
+    bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
 
-    user_rank = models.CharField(_("Categoria"), choices=lst_ranks, default="r1", max_length=16,
+    user_rank = models.CharField(_("Categoria"), choices=lst_ranks, default="Silver", max_length=16,
                 help_text=_("Categoria del Inversionista en VRT"),)
     
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)
 
     date_joined = models.DateTimeField(_("Ingreso"), default=timezone.now)
-    date_expire = models.DateTimeField(_("Finaliza"), default=timezone.now)
+    date_expire = models.DateTimeField(_("Finaliza"), default=(timezone.now() + timedelta(days=365)))
     
     available = models.PositiveBigIntegerField(_("Acumulado"),blank=True,default=0,
                 help_text=_("$Disponible Generado en Intereses"),)
@@ -120,7 +124,7 @@ class Tickets(models.Model):
     tBankTicket = models.CharField(_("Voucher"), max_length=32,blank=True,
         help_text=_("Referencia/Voucher Transaccion"))
 
-    CommentText = models.TextField(_("Comentarios"),max_length=256)
+    CommentText = models.TextField(_("Comentarios"),max_length=256,blank=True,null=True)
 
     rState = models.CharField(_("Estado"), choices=lst_sts, default="Pendiente", max_length=16)
     
@@ -133,8 +137,8 @@ class Tickets(models.Model):
 
 class UserRank(models.Model):
         
-    rName = models.CharField(_("Categoria"), choices=lst_ranks, max_length=16, unique=True, default="r1",
-                                help_text=_("Categoria del Inversionista en VaorTrading"),)
+    rName = models.CharField(_("Status"), choices=lst_ranks, max_length=16, unique=True, default="r1",
+                                help_text=_("Status del Inversionista en VaorTrading"),)
     
     rTravelGift = models.BooleanField(_("Viajes"),)
     rVacations = models.BooleanField(_("Vacaciones"),)
@@ -143,8 +147,47 @@ class UserRank(models.Model):
     rAdvisory = models.BooleanField(_("Asesorias"),)
     
     class Meta:
-            verbose_name = _("Categoria")
-            verbose_name_plural = _("Categorias")
+            verbose_name = _("Status")
+            verbose_name_plural = _("Status")
 
     def __str__(self):
-        return "Categoria: %s" % (self.rName())
+        return "Status: %s" % (self.rName)
+    
+    
+class InvestRequests(models.Model):
+
+    username = models.OneToOneField(Usuario, on_delete=models.CASCADE, limit_choices_to={'is_active': False})
+        
+    full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
+    email = models.EmailField(_("E-mail"), blank=True)
+    country = models.CharField(_("Ubicacíon"),max_length=64,blank=True)
+    phone = models.CharField(_("Telefono"), max_length=64, blank=True)  
+
+    ammount = models.PositiveBigIntegerField(_("Inversion"),blank=True,default=0,
+                help_text=_("Volumen de Capital a Invertir ($COP)"),)
+    
+    interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
+                help_text=_("Volumen de Retorno Mensual (%)"),)
+    
+    bank = models.CharField(_("Banco"), max_length=32, choices=lst_banks,blank=True,
+                help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
+    
+    bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
+
+    CommentText = models.TextField(_("Comentarios"),max_length=256,blank=True,null=True)
+
+    staff = models.CharField(_("Staff"), max_length=64, blank=True)
+    staff_cod = models.CharField(_("Codigo Staff"),max_length=64,
+                help_text=_("Codigo del Usuario Staff Afiliador"))
+
+    date_joined = models.DateTimeField(_("Ingreso"), default=timezone.now)
+    date_expire = models.DateTimeField(_("Finaliza"), default=(timezone.now() + timedelta(days=365)))
+
+    rState = models.CharField(_("Estado"), choices=lst_sts, default="Pendiente", max_length=16)
+
+    class Meta:
+        verbose_name = _("Solicitud")
+        verbose_name_plural = _("Solicitudes")
+
+    def __str__(self):
+        return "Solicitud: %s" % (self.pk)   
