@@ -182,7 +182,7 @@ class TicketsAdmin(admin.ModelAdmin):
         ("username","rStatet"),
         ("tAmmount","tAmmountFrom"),
         ("tBank","tBankAccount"),
-        ("date","BankTicket"),
+        ("date","tBankTicket"),
         "CommentText"
         )}
 
