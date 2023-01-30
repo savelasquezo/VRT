@@ -239,7 +239,7 @@ def PasswordResetRequestView(request):
 					}
 					email = render_to_string(email_template_name, c)
 					try:
-						send_mail(subject, email, 'mail@vrtfund.com' , [user.email], fail_silently=False)
+						send_mail(subject, email, 'noreply@vrtfund.com' , [user.email], fail_silently=False)
 					except BadHeaderError:
 						return HttpResponse('Invalid header found.')
 					return redirect ("/accounts/password_reset/done/")
