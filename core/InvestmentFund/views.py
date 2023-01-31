@@ -193,14 +193,6 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
 
         InfoUser = Usuario.objects.get(id=request.user.id)
         AviableTickets = InfoUser.available_tickets
-        
-        rAmmount = int(request.POST['ammount'])
-        rAmmountFrom = request.POST['ammount_from']
-        rBank = request.POST['bank']
-        rBankAccount = request.POST['bank_account']
-        rComment = request.POST["message"]
-        rState = "Pendiente"
-
 
         subject = "Notificacion - Solicitud de Retiro"        
         email_template_name = "interface/tickets_email_notify.txt"

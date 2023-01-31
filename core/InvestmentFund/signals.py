@@ -35,7 +35,8 @@ def add_record(sender, instance, **kwargs):
 @receiver(post_save, sender=Tickets)
 def add_record(sender, instance, **kwargs):
     if instance.rState == "Aprobado" or instance.rState == "Denegado":
-
+        
+        InfoUser = Usuario.objects.get(username=instance.username)
         subject = "Solicitud - Abono de Fondos"
         
         if instance.rState == "Aprobado":
@@ -58,7 +59,7 @@ def add_record(sender, instance, **kwargs):
         email = render_to_string(email_template_name, c)
         
         try:
-            send_mail(subject, email, 'noreply@vrtfund.com' , [instance.email], fail_silently=False)
+            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
                 f.write("EmailError: {}\n".format(str(e)))
