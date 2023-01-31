@@ -1,8 +1,10 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
-from .models import Usuario, InvestRequests
+from .models import Usuario, InvestRequests, Tickets
 
 @receiver(post_save, sender=InvestRequests)
 def add_record(sender, instance, **kwargs):
@@ -30,8 +32,34 @@ def add_record(sender, instance, **kwargs):
             )
         
         
+@receiver(post_save, sender=Tickets)
+def add_record(sender, instance, **kwargs):
+    if instance.rState == "Aprobado" or instance.rState == "Denegado":
 
-
+        subject = "Solicitud - Abono de Fondos"
         
-
+        if instance.rState == "Aprobado":
+            email_template_name = "interface/tickets_email_success.txt"
         
+        if instance.rState == "Denegado":
+            email_template_name = "interface/tickets_email_deny.txt"
+
+        c = {
+        'username': instance.username,
+        'tAmmount':instance.tAmmount,
+        'tAmmountFrom':instance.tAmmountFrom,
+        'tBank':instance.tBank,
+        'tBankAccount':instance.tBankAccount,
+        'tBankTicket':instance.tBankTicket,        
+        'site_name': 'VRT-Fund',
+        'protocol': 'https',# http
+        'domain':'vrtfund.com',# 127.0.0.1:8000
+        }
+        email = render_to_string(email_template_name, c)
+        
+        try:
+            send_mail(subject, email, 'noreply@vrtfund.com' , [instance.email], fail_silently=False)
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                f.write("EmailError: {}\n".format(str(e)))
+

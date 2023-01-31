@@ -126,8 +126,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         rBankAccount = request.POST['bank_account']
         rComment = request.POST["message"]
         rState = "Pendiente"
-
-
+        
         if AviableTickets < 1:
             messages.error(request, 'ERROR', extra_tags="title")
             messages.error(request, '¡Ha exedigo el numero de retiros mensuales!', extra_tags="info")
@@ -190,8 +189,43 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             rState=rState
             ) 
 
-        FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
+        TimeDelta = self.days_until_next_month()
 
+        InfoUser = Usuario.objects.get(id=request.user.id)
+        AviableTickets = InfoUser.available_tickets
+        
+        rAmmount = int(request.POST['ammount'])
+        rAmmountFrom = request.POST['ammount_from']
+        rBank = request.POST['bank']
+        rBankAccount = request.POST['bank_account']
+        rComment = request.POST["message"]
+        rState = "Pendiente"
+
+
+        subject = "Notificacion - Solicitud de Retiro"        
+        email_template_name = "interface/tickets_email_notify.txt"
+
+        c = {
+        'username': InfoUser.username,
+        'tAmmount':rAmmount,
+        'tAmmountFrom':rAmmountFrom,
+        'tBank':rBank,
+        'tBankAccount':rBankAccount,   
+        'TimeDelta':TimeDelta,    
+        'site_name': 'VRT-Fund',
+        'protocol': 'https',# http
+        'domain':'vrtfund.com',# 127.0.0.1:8000
+        }
+        email = render_to_string(email_template_name, c)
+
+        try:
+            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                f.write("EmailError: {}\n".format(str(e)))
+
+
+        FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
 
         if not os.path.exists(FileName):
             WB = Workbook()
@@ -210,7 +244,6 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
 
         Usuario.objects.filter(id=InfoUser.id).update(available_tickets=F('available_tickets')-1)
         Usuario.objects.filter(id=1).update(fee=F('fee')+FEE)
-        TimeDelta = self.days_until_next_month()
         
         messages.success(request, 'Solicitud Registrada', extra_tags="title")
         messages.success(request, f'EL tiempo de espera aproximado sera de {TimeDelta} dias habiles', extra_tags="info")
@@ -225,17 +258,16 @@ def PasswordResetRequestView(request):
 			associated_users = Usuario.objects.filter(Q(email=data))
 			if associated_users.exists():
 				for user in associated_users:
-					subject = "Password Reset Requested"
+					subject = "Solicitud - Restablecer Contraseña"
 					email_template_name = "password/password_reset_email.txt"
 					c = {
-					"email":user.email,
-					'domain':'vrtfund.com',# 127.0.0.1:8000
-					'site_name': 'VRT-Fund',
+                    'username': user.username,
 					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
 					"user": user,
 					'token': default_token_generator.make_token(user),
+     				'site_name': 'VRT-Fund',
 					'protocol': 'https',# http
-                    'username': user.username,
+                    'domain':'vrtfund.com',# 127.0.0.1:8000
 					}
 					email = render_to_string(email_template_name, c)
 					try:

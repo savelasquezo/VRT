@@ -1,0 +1,17 @@
+{% autoescape off %}
+Saludos {{ username }}!
+
+Es un placer informarle que su solicitud de retiro de fondos ha sido ACEPTADA
+El valor solicitado de {{ tAmmount }} proveniente de {{ tAmmountFrom }}
+
+Los fondos serán transferidos a la cuenta {{ tBank }} - {{ tBankAccount }}
+El plazo maximo para que se realize el deposito es de {{ TimeDelta }} dias habiles.
+
+Por favor, asegúrese de verificar la cuenta de destino para evitar errores.
+le recordamos que VRT-Fund no se hace responsable por errores por parte del Usuario al generar recibos de pago.
+Si tiene alguna pregunta o necesita más información, por favor no dude en ponerse en contacto con nosotros.
+A través del correo noreply@vrtfund.com 
+
+Atentamente!
+VRT-Fund-Inversiones"
+{% endautoescape %}
