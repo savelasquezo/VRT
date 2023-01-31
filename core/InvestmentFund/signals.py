@@ -42,11 +42,10 @@ def tickets_add_record(sender, instance, **kwargs):
 @receiver(post_save, sender=InvestRequests)
 def investment_add_record(sender, instance, **kwargs):
     if instance.rState == "Aprobado":
-
-        InfoUser = Usuario.objects.get(username=instance.username)
-
+        CUser = Usuario.objects.filter(username=instance.username)
+        
         try:
-            InfoUser.update(
+            CUser.update(
                 ref_id = instance.staff_cod,
                 ref_name = instance.staff,
                 ref_interest = 1,
@@ -63,7 +62,7 @@ def investment_add_record(sender, instance, **kwargs):
                 interest = instance.interest,
                 date_expire = instance.date_expire
                 )
-                
+
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
                 f.write("SignalError: {}\n".format(str(e)))
