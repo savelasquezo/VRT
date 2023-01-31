@@ -7,5 +7,4 @@ class InvestmentfundConfig(AppConfig):
     verbose_name = "Fondo de Inversion"
 
     def ready(self):
-        from InvestmentFund.signals import investment_add_record
-        from InvestmentFund.signals import tickets_add_record
+        from . import signals

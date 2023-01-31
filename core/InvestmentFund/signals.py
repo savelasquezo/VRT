@@ -43,10 +43,10 @@ def tickets_add_record(sender, instance, **kwargs):
 def investment_add_record(sender, instance, **kwargs):
     if instance.rState == "Aprobado":
 
-        CUser = Usuario.objects.get(username=instance.username)
+        InfoUser = Usuario.objects.get(username=instance.username)
 
         try:
-            CUser.update(
+            InfoUser.update(
                 ref_id = instance.staff_cod,
                 ref_name = instance.staff,
                 ref_interest = 1,
