@@ -31,8 +31,10 @@ def add_record(sender, instance, **kwargs):
                 date_joined = timezone.now(),
                 date_expire = instance.date_expire
                 )
+            with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
+                f.write("SignalSuccces: Usuario-> {}\n".format(str(CUser.pk)))
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/signal_err.txt", "a") as f:
+            with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
                 f.write("SignalError: {}\n".format(str(e)))
 
         
