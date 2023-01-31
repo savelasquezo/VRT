@@ -29,7 +29,7 @@ def GlobalContext(request):
         
         ref_available = info_user.ref_available
         
-        cash_total = available + ref_available
+        cash_total = info_user.total_interest + info_user.total_ref
         total_paid = info_user.paid + info_user.ref_paid
         
         try:
