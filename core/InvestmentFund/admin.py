@@ -53,7 +53,8 @@ class UserBaseAdmin(UserAdmin):
         )
 
     fAutenticationSuperUser = {"fields": (
-        ("codigo", "fee", "available_tickets"),
+        ("codigo", "fee"),
+        ("available_tickets","is_active","is_operating"),
         "password"
         )}
 
