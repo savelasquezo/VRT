@@ -18,7 +18,7 @@ urlpatterns = [
     path("accounts/password_reset/", views.PasswordResetRequestView, name="password_reset"),
 
     path('index.php/servicios/', views.BenefitView.as_view(), name='Benefit'),
-    path('index.php/contenido/', views.ContentView.as_view(), name='Content'),
+    path('index.php/login/', views.ContentView.as_view(), name='Content'),
 
     path('investment/', views.InvestmentView.as_view(), name='Investment'),
     path('terms&conditions/', views.LegalView.as_view(), name='Legal'),    
