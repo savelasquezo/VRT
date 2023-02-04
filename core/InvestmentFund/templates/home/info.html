@@ -3,6 +3,17 @@
 {% load humanize %}
 
 {% block block %}
+{% if messages %}
+<div class="{{ message.tags }}">
+    <ul class="ul-messages">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div style="height: 49px;"></div>
+{% endif %}
 <div class="payment">
     <div class="payment_title">
         <h1>INSCRIPCIONES</h1>
@@ -10,16 +21,16 @@
     </div>
     <div class="payment_container">
         <div class="payment_box">
-            <span style="background-image: url( {% static 'images/paypal.png' %} )"></span>
+            <span style="background-image: url( {% static 'images/metamask.png' %} )"></span>
             <div class="payment_info">
-                <h1>PAYPAL</h1><br>
-                <h4>mail@vrtfund.com</h4>
-                <h4>00.000.0000</h4>
+                <h1>Metamask</h1><br>
+                <h4>Criptomonedas</h4>
+                <h4>BTC/ETH/BNB</h4>
                 <div class="pay_button_container">
-                    <a href="#">
-                        <button type="submit" class="tutorial_button"><i class="fa-solid fa-question"></i></button>
-                    </a>
-                    <a href="#">
+                    <button id="play1" class="tutorial_button">
+                        <i class="fa-solid fa-question"></i>
+                    </button>
+                    <a href="{% url 'InfoForm' %}">
                         <button type="submit" class="pay_button">SOLICITAR</button>
                     </a>
                 </div>
@@ -28,40 +39,67 @@
         <div class="payment_box">
             <span style="background-image: url( {% static 'images/binance.png' %} )"></span>
             <div class="payment_info">
-                <h1>BINANCE</h1><br>
-                <h4>mail@vrtfund.com</h4>
-                <h4>00.000.0000</h4>
+                <h1>Binance</h1><br>
+                <h4>Criptomonedas</h4>
+                <h4>USDT/BUSD/USDC</h4>
                 <div class="pay_button_container">
-                    <a href="#">
-                        <button type="submit" class="tutorial_button"><i class="fa-solid fa-question"></i></button>
-                    </a>
-                    <a href="#">
+                    <button id="play2" class="tutorial_button">
+                        <i class="fa-solid fa-question"></i>
+                    </button>
+                    <a href="{% url 'InfoForm' %}">
                         <button type="submit" class="pay_button">SOLICITAR</button>
                     </a>
                 </div>
             </div>
         </div>
         <div class="payment_box">
-            <span style="background-image: url( {% static 'images/skrill.png' %} )"></span>
+            <span style="background-image: url( {% static 'images/fiat.png' %} )"></span>
             <div class="payment_info">
-                <h1>SKRILL</h1><br>
-                <h4>mail@vrtfund.com</h4>
-                <h4>00.000.0000</h4>
+                <h1>Fiat</h1><br>
+                <h4>Efectivo/Transferencia</h4>
+                <h4>COP/USD/CHF</h4>
                 <div class="pay_button_container">
-                    <a href="#">
-                        <button type="submit" class="tutorial_button"><i class="fa-solid fa-question"></i></button>
-                    </a>
-                    <a href="#">
+                    <button id="play3" class="tutorial_button">
+                        <i class="fa-solid fa-question"></i>
+                    </button>
+                    <a href="{% url 'InfoForm' %}">
                         <button type="submit" class="pay_button">SOLICITAR</button>
                     </a>
                 </div>
             </div>
         </div>
     </div>
+    <dialog id="dlog" class="dlog">
+        <div id="video-player">
+            <div class="button-video-container">
+                <button id="back" class="adm-video adm-video-close"><i class="fa-solid fa-x"></i></button>
+            </div>
+            <div class="main-play">
+                <video id="tut1" class="video-player" controls width="70%" height="70%" src="{% static '/video/tut1.mp4' %}"></video>
+                <video id="tut2" class="video-player" controls width="70%" height="70%" src="{% static '/video/tut2.mp4' %}"></video>
+                <video id="tut3" class="video-player" controls width="70%" height="70%" src="{% static '/video/tut3.mp4' %}"></video>
+            </div>
+        </div>
+    </dialog>
     <div class="payment_coments">
         <h3>VRTFUND provee los siguientes metods de pago, la activacion del registro se realizara en las proximas 
             24 horas posteriores a la confirmacion del pago, para mayor informacion contacte con un administrador.
         </h3><br><br>
     </div>
+    <script src="{% static 'js/tutorials.js' %}"></script>
 </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

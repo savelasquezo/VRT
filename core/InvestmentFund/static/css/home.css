@@ -260,7 +260,7 @@ button.link-title:hover{color: #61CE70;}
   background-color: rgba(0, 0, 0, 0.4);
   background-size: calc(100% + 20px) calc(100% + 20px);
   appearance: none;
-  border-radius: 20px;
+  border-radius: 10px;
   border-width: 0;
   color: rgb(248, 245, 245);
   cursor: pointer;
@@ -284,7 +284,7 @@ button.link-title:hover{color: #61CE70;}
 
 .benefits-home{
   height: 150px;
-  width: 430px;
+  max-width: 430px;
   margin:38px 0 20px 0;
   padding: 10px;
   background: rgba(0, 0, 0, 0.30);
@@ -601,11 +601,11 @@ button.link-title:hover{color: #61CE70;}
   font-size: small;
   font-weight: lighter;
 }
-.tutorial_button, .pay_button{
+.tutorial_button {
   align-items: center;
   background-image: linear-gradient(1deg, #a0a0a0, #ffffff 99%);
   border-radius: 2px;
-  border-width: 0;
+  border-width: 0px;
   color: #1e1e1e;
   padding: 3px 6px 3px 6px;
   height: 28px;
@@ -614,6 +614,34 @@ button.link-title:hover{color: #61CE70;}
   text-align: center;
   vertical-align: top;
 }
+
+.tutorial_button, .pay_button{
+  align-items: center;
+  appearance: none;
+  background-image: linear-gradient(1deg, #1e1e1e, #021936c4 100%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-width: 0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #ffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  font-weight:500;
+  height: 25px;
+  justify-content: center;
+  line-height: 1.5;
+  text-align: center;
+  transition: background-color .5s,background-position .5s;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.tutorial_button:active, .tutorial_button:focus, .pay_button:active, .pay_button:focus {outline: none;}
+.tutorial_button:hover, .pay_button:hover {background-position: -20px -20px; outline: none;}
+
+
 .payment_coments{
   display: flex;
   justify-content: center;
@@ -632,6 +660,163 @@ button.link-title:hover{color: #61CE70;}
 }
 
 /* Payments section end */
+
+/* Payments Forms section start */
+
+.link-img{
+  background: none;
+  border: none;
+  transition: all 1s;
+}
+.link-img button{cursor: pointer;}
+.link-img:hover{filter: brightness(130%)}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.label-payment{
+  display: flex;
+  margin: 5px;
+  justify-content: space-between;
+}
+.label-name-payment{
+  color:#ccc;
+}
+.name-payment-h5{padding: 0px;margin: 0px;font-weight: lighter}
+.name-payment-h4{padding: 0px;margin: 0px;}
+
+.img-payment{
+  width: 128px;
+  height: 64px;
+  margin: -20px -23px 0px 0px;
+}
+
+.payment-form {
+  padding: 2em;
+  padding-bottom: 1em;
+  width:365px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.20);
+}
+
+.flex-row {
+  display: flex;
+  margin-bottom: 0.3em;
+}
+
+.lf--label {
+  width: 2em;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6f8;
+  cursor: pointer;
+}
+.option-label{
+  width: 100%;
+  height: 32px;
+  color: #8f8f8f;
+  font-size: 1rem;
+  padding-left: 40px;
+}option[value=""][disabled][selected][hidden] {display: none;}
+
+
+.lf--input {
+  flex: 1;
+  padding: 1em;
+  border: 0;
+  color: #1e1e1e;
+  height: 32px;
+  font-size: 1rem;
+}.lf--input::placeholder{color: #8f8f8f;}
+.lf--input:focus {
+  outline: none;
+}
+
+.text--input{
+  flex: 1;
+  padding: 1em;
+  border: 0;
+  color: #1e1e1e;
+  height: 64px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  overflow-y:auto;
+  resize: none;
+  margin-bottom: 10px;
+}
+.text--input::placeholder{
+  color: #8f8f8f;
+  font-size: 0.6rem;
+  padding-top: 10px;
+  text-align: center;
+}
+
+
+.lf--submit {
+  display: block;
+  padding: 1em;
+  width: 100%;
+  background: linear-gradient(to top, #0f5368, #0f708d );
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  transition: 1.35s all;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+.lf--submit:focus {
+  outline: none;
+  transform: scale(1.01);
+}
+
+.lf--forgot {
+  display: flex;
+  margin-top: 1em;
+  color: rgb(161, 158, 151);
+  font-size: 0.65em;
+  text-align: center;
+  justify-content: center;
+}
+
+.lf--allready {
+  display: flex;
+  margin: 0.3em 0 0 0;
+  padding: 0;
+  color: rgb(211, 207, 199);
+  font-size: 0.6em;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: 0.2s all;
+}.lf--allready:hover{color: rgb(130, 260, 140)}
+
+.payment__field {
+padding: 20px 0px;	
+position: relative;
+}
+
+.payment__icon {
+position: absolute;
+top: 8px;
+color: #0b2742;
+left: 7px;
+transform:scale(1.3);
+}
+
+
+/* Payments Forms section end */
+
+
 
 
 /* footer section start */
@@ -827,6 +1012,7 @@ button.link-title:hover{color: #61CE70;}
   display: flex;
   justify-content: center;
   width: 300px;
+  border-radius: 20px;
   align-items: center;
 }
 .button-home-h5-movil{display: inline;}

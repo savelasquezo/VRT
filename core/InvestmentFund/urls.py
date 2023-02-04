@@ -23,6 +23,8 @@ urlpatterns = [
     path('investment/', views.InvestmentView.as_view(), name='Investment'),
     path('terms&conditions/', views.LegalView.as_view(), name='Legal'),    
     path('info/', views.InfoView.as_view(), name='Info'),
+    path('info/form', views.InfoFormView.as_view(), name='InfoForm'),
+
 
     path('accounts/admin/', views.InterfaceView.as_view(), name='Interface'),
     path('accounts/admin/ticket/', views.TicketFormView.as_view(), name='Tickets'),

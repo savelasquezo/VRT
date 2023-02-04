@@ -1,0 +1,81 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body>
+    <div class="container">
+        <form action="{% url 'Info' %}" target="_self" method="POST" class='payment-form'>
+        {% csrf_token %}
+        <div class="label-payment">
+            <div class="label-name-payment">
+                <h4 class="name-payment-h4">{{full_name}}</h4>
+                <h5 class="name-payment-h5">{{email}}</h5>
+            </div>
+            <button class="link-img" onclick=window.location.href="{% url 'Home' %}">
+                <img class="img-payment" src="{% static '/images/vrt-logo0.png' %}" name="logo">
+            </button>
+        </div>
+        <div class="flex-row">
+            <div class="payment__field"><i class="payment__icon fa-solid fa-sack-dollar"></i></div>
+            <label class="lf--label" for="ammount"></label>
+            <input type="number" class='lf--input' placeholder='Inversion' name="ammount" autofocus="" required id="ammount" min="0" max="9999999999" step="100000">
+        </div>
+        <div class="flex-row">
+            <div class="payment__field"><i class="payment__icon fa-solid fa-earth-americas"></i></div>
+            <label class="lf--label" for="country"></label>
+            <input type="text" class='lf--input' placeholder='Ubicacion/Estado' name="country" autofocus="" autocapitalize="true"  maxlength="64" required id="country">
+        </div>
+        <div class="flex-row">
+            <div class="payment__field"><i class="payment__icon fa-solid fa-phone"></i></div>
+            <label class="lf--label" for="phone"></label>
+            <input type="text" class='lf--input' placeholder='Whatsapp/Telefono' name="phone"  required id="phone">
+        </div>
+        <div class="flex-row">
+            <div class="payment__field">
+                <i class="payment__icon fa-solid fa-clock"></i>
+            </div>
+            <select class="option-label" name="rtimedelta" id="rtimedelta" aria-label="" required>
+                <option class="placeholder-label" value="" disabled selected hidden>Temporalidad</option>
+                <option value="m1">3 Meses/Interes E.A 12%</option>
+                <option value="m2">6 Meses/Interes E.A 24%</option>
+                <option value="m3">12 Meses/Interes E.A 36%</option>
+            </select>
+        </div>
+        <div class="flex-row">
+            <div class="payment__field">
+                <i class="payment__icon fa-solid fa-building-columns"></i>
+            </div>
+            <select class="option-label" name="bank" id="bank" aria-label="" required>
+                <option value="" disabled selected hidden>Metodo de Inversion</option>
+                <option value="Binance">Binance</option>
+                <option value="Metamask">Metamask</option>
+                <option value="Fiat">Fiat</option>
+            </select>
+        </div>
+        <div class="flex-row">
+            <div class="payment__field"><i class="payment__icon fa-solid fa-address-card"></i></div>
+            <label class="lf--label" for="bank_account"></label>
+            <input type="text" class='lf--input' placeholder='Wallet/Cuenta' name="bank_account"  required id="bank_account">
+        </div>
+        <div class="flex-row">
+            <textarea class='text--input' placeholder='Comentarios' maxlength="128" name="comment_text" id="comment_text"></textarea>
+        </div>
+        <input class='lf--submit' type='submit' value='SOLICITAR'>
+        <a href="{% url 'Legal' %}" class='lf--allready'>TERMINOS & CONDICIONES</a>
+        </form>
+    </div>
+</body>
+</html>
+

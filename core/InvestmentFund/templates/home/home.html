@@ -30,9 +30,15 @@
                 </h4>
             </div>
             <div class="button-home-container">
+                {% if user.is_operating %}
                 <button class="button-home-interface" onclick=window.location.href="{% url 'Interface' %}">
                     <h5 class="button-home-h5">ADMINISTRAR</h5>
                 </button>
+                {% else %}
+                <button class="button-home-interface" onclick=window.location.href="{% url 'Info' %}">
+                    <h5 class="button-home-h5">SOLICITAR</h5>
+                </button>
+                {% endif %}
                 <button class="button-home-interface" onclick=window.location.href="{% url 'Investment' %}">
                     <h5 class="button-home-h5">SIMULAR</h5>
                 </button>

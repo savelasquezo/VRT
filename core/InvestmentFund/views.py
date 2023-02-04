@@ -4,6 +4,8 @@ from openpyxl import load_workbook
 
 from datetime import datetime, timedelta
 
+from django.contrib.auth import login
+
 from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
@@ -22,7 +24,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 
-from .models import Usuario, Tickets, FEE
+from .models import Usuario, Tickets, InvestRequests, FEE
 
 class HomeView(TemplateView):
     template_name='home/home.html'
@@ -45,8 +47,8 @@ class HomeView(TemplateView):
             
             nUser.set_password(iPass)
             nUser.save()
-            
-            #login(request, nUser) ---> Usuario Inactivo Default
+
+            login(request, nUser)
 
             messages.success(request, '¡Registro Exitoso!', extra_tags="title")
             messages.success(request, f'Comuniquese con un Administrador para activar su Cuenta', extra_tags="info")
@@ -63,33 +65,137 @@ class SingupView(TemplateView):
     
 class InvestmentView(LoginRequiredMixin, TemplateView):
     template_name='home/investment.html'
+   
+class InfoFormView(LoginRequiredMixin, TemplateView):
+    template_name='home/info_ticket.html'
+
+class InfoView(LoginRequiredMixin, TemplateView):
+    template_name='home/info.html'
+    
+    def post(self, request, *args, **kwargs):
+        
+        InfoUser = Usuario.objects.get(id=request.user.id)
+        iUsername = InfoUser.username
+
+        if InfoUser.is_operating:
+            messages.error(request, 'ERROR', extra_tags="title")
+            messages.error(request, 'Actualmente ya cuenta con una Inversion Activa', extra_tags="info")
+            return redirect(reverse('Info')) 
+
+        rInstanceUser = Usuario.objects.get(username=iUsername)
+        
+        try:
+            iCode = InvestRequests.objects.last().pk
+        except TypeError:
+            iCode = 0
+        
+        iName = InfoUser.full_name
+        iEmail = InfoUser.email
+        iCountry = request.POST['country']
+        iPhone = request.POST['phone']
+        iAmmount = int(request.POST['ammount'])
+
+        iBank = str(request.POST['bank'])
+        iBankAccount = request.POST['bank_account']
+        iCommentText = request.POST['comment_text']
+        
+        rtimedelta = request.POST['rtimedelta']
+    
+        if rtimedelta == "m1":
+            Interest = 1
+            iDateExpire = timezone.now() + timedelta(days=90)
+            
+        if rtimedelta == "m2":
+            Interest = 2
+            iDateExpire = timezone.now() + timedelta(days=180)
+            
+        if rtimedelta == "m3":
+            Interest = 3
+            iDateExpire = timezone.now() + timedelta(days=365)
+
+        iDateString = iDateExpire.isoformat()
+        iDateObject = datetime.fromisoformat(iDateString) 
+
+        try:
+            InvestRequests.objects.create(
+                username = rInstanceUser,
+                codigo = iCode,
+                full_name = iName,
+                email = iEmail,
+                country = iCountry,
+                phone = iPhone,
+                ammount = iAmmount,
+                bank = iBank,
+                bank_account = iBankAccount,
+                CommentText = iCommentText,
+                staff = "Anonimo",
+                staff_cod = 0,
+                date_joined = timezone.now(),
+                interest = Interest,
+                date_expire = iDateObject,
+                rState = "Pendiente"
+                ) 
+
+            subject = "Solicitud - Informacion Inversion"        
+            email_template_name = "home/info_email.txt"
+
+            c = {
+            'tU': iUsername,
+            'tName':iName,
+            'tAmmountFrom':iAmmount,
+            'tBank':iBank,   
+            'site_name': 'VRT-Fund',
+            'protocol': 'https',# http
+            'domain':'vrtfund.com',# 127.0.0.1:8000
+            }
+            email = render_to_string(email_template_name, c)
+
+            try:
+                send_mail(subject, email, 'noreply@vrtfund.com' , [email], fail_silently=False)
+            except Exception as e:
+                with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                    f.write("EmailError: {}\n".format(str(e)))
+            
+            messages.success(request, 'Solicitud Registrada', extra_tags="title")
+            messages.success(request, f'Hemos enviado un correo con informacion del proceso de Inscripcion', extra_tags="info")
+            return redirect(reverse('Info'))
+
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/log_err.txt", "a") as f:
+                f.write("QueryError: {}\n".format(str(e)))   
+            
+            messages.error(request, 'ERROR', extra_tags="title")
+            messages.error(request, 'La solicitud no se ha podiso procesar', extra_tags="info")
+            return redirect(reverse('Info')) 
 
 #LoginRequiredMixin
 class ContentView(TemplateView):
     template_name='home/content.html'
+    
 
 #LoginRequiredMixin
 class BenefitView(TemplateView):
     template_name='home/benefit.html'
+    
 
 class InterfaceView(LoginRequiredMixin, TemplateView):
     template_name='interface/interface.html'
+    
 
 class LegalView(LoginRequiredMixin, TemplateView):
     template_name='home/legal.html'
-
-class InfoView(LoginRequiredMixin, TemplateView):
-    template_name='home/info.html'
+        
 
 class TicketFormView(LoginRequiredMixin, TemplateView):
     template_name='interface/tickets.html'
+    
 
 class HistoryListView(LoginRequiredMixin, TemplateView):
       
     template_name='interface/history.html'
 
     def days_until_next_month(self):
-        Today = datetime.now()
+        Today = timezone.now()
         NextMonth = Today.replace(day=28) + timedelta(days=4)
         TimeDelta = NextMonth.replace(day=1) - Today
         return TimeDelta.days

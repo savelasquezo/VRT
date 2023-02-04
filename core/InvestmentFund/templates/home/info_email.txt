@@ -1,0 +1,12 @@
+{% autoescape off %}
+Saludos {{ iName }}!
+
+Hemos recibido una solicitud de intencion de inversaion por un valor de {{ iAmmount }} a traves de {{ iBank }}
+Informamos la recepcion de esta solicitud, uno de nuestros asesores se pondra en contacto con usted lo antes posible.
+
+Si tiene alguna pregunta o necesita más información, por favor no dude en ponerse en contacto con nosotros.
+A través del correo mail@vrtfund.com 
+
+Atentamente!
+VRT-Fund-Inversiones"
+{% endautoescape %}
