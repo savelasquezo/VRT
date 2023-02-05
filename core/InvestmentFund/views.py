@@ -93,7 +93,7 @@ class SingupView(UserPassesTestMixin, TemplateView):
                 'username': iUsername,
                 "uid": urlsafe_base64_encode(force_bytes(cUser.pk)),
                 "user": cUser,
-                'token': default_token_generator.make_token(cUser),
+                'token': gToken.make_token(cUser),
                 'site_name': 'VRT-Fund',
                 'protocol': 'https',# http
                 'domain':'vrtfund.com',# 127.0.0.1:8000
