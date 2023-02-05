@@ -11,6 +11,7 @@
             {% for message in messages %}
                 <h5 {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</h5>
             {% endfor %}
+            {% messages.used %}
             </ul>
         </div>
         {% else %}

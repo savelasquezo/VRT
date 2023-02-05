@@ -81,27 +81,33 @@ class SingupView(UserPassesTestMixin, TemplateView):
             messages.success(request, '¡Registro Exitoso!', extra_tags="title")
             messages.success(request, f'Hemos enviado un Email para verificar su cuenta', extra_tags="info")
             
-            cUser = Usuario.objects.get(username=iUsername)
-            
-            subject = "Activacion - VRTFund"
-            email_template_name = "password/email_confirm.txt"
-            c = {
-            'username': cUser.username,
-            "uid": urlsafe_base64_encode(force_bytes(cUser.pk)),
-            "user": cUser,
-            'token': default_token_generator.make_token(cUser),
-            'site_name': 'VRT-Fund',
-            'protocol': 'https',# http
-            'domain':'vrtfund.com',# 127.0.0.1:8000
-            }
-            email = render_to_string(email_template_name, c)
             try:
-                send_mail(subject, email, 'noreply@vrtfund.com' , [cUser.email], fail_silently=False)
-            except BadHeaderError:
+                cUser = Usuario.objects.get(username=iUsername)
+                
+                subject = "Activacion - VRTFund"
+                email_template_name = "password/email_confirm.txt"
+                c = {
+                'username': iUsername,
+                "uid": urlsafe_base64_encode(force_bytes(cUser.pk)),
+                "user": cUser,
+                'token': default_token_generator.make_token(cUser),
+                'site_name': 'VRT-Fund',
+                'protocol': 'https',# http
+                'domain':'vrtfund.com',# 127.0.0.1:8000
+                }
+                email = render_to_string(email_template_name, c)
+                try:
+                    send_mail(subject, email, 'noreply@vrtfund.com' , [iEmail], fail_silently=False)
+                except BadHeaderError:
+                    with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                        eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
+                        f.write("EmailError SingupEmail--> {} Error: {}\n".format(eDate, str(e)))
+                    return HttpResponse('Invalid Header Found')
+                
+            except Exception as e:
                 with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
                     eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
-                    f.write("EmailError SingupEmail--> {} Error: {}\n".format(eDate, str(e)))
-                return HttpResponse('Invalid Header Found')
+                    f.write("EmailError SingupConfig--> {} Error: {}\n".format(eDate, str(e)))
 
         except Exception as e:
             messages.error(request, '¡Registro Incompleto!', extra_tags="title")
@@ -462,3 +468,6 @@ def EmailConfirmView(request, uidb64, token):
             return render(request, 'registration/email_confirm.html', {"user": nUser})
 
         return render(request, 'registration/email_confirm-failed.html', {"user": nUser})
+    
+    
+    
