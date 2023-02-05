@@ -1,10 +1,10 @@
 import os
+import re
+
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
 from datetime import datetime, timedelta
-
-from django.contrib.auth import login
 
 from django.utils import timezone
 from django.views.generic.base import TemplateView
@@ -13,29 +13,57 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import IntegrityError
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.forms import PasswordResetForm
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_str
 from django.db.models.query_utils import Q
 from django.http import HttpResponse
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
+from django.contrib.auth.views import LoginView
+
+from .tools import gToken
 
 from .models import Usuario, Tickets, InvestRequests, FEE
 
 class HomeView(TemplateView):
     template_name='home/home.html'
 
+
+class SingupView(UserPassesTestMixin, TemplateView):
+    template_name='registration/singup.html'
+
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        return redirect(reverse('Home'))
+
     def post(self, request, *args, **kwargs):
+        
         iUsername = request.POST['username']
         iPass = request.POST['password']
         iFullName = request.POST['name']
         iEmail = request.POST['email']
 
         LastID = Usuario.objects.latest('id').id + 1
+
+        if not re.match(r'^[a-zA-Z0-9]+$', iUsername):
+            messages.error(request, '¡Registro Incompleto!', extra_tags="title")
+            messages.error(request, f'El Nombre de Usuario no es Valido', extra_tags="info") 
+            return redirect(reverse('Singup'))
+
+        if Usuario.objects.filter(username=iUsername):
+            messages.error(request, '¡Registro Incompleto!', extra_tags="title")
+            messages.error(request, f'El Nombre de Usuario no esta Disponible', extra_tags="info") 
+            return redirect(reverse('Singup'))
+
+        if Usuario.objects.filter(email=iEmail):
+            messages.error(request, '¡Registro Incompleto!', extra_tags="title")
+            messages.error(request, f'El Email no esta Disponible', extra_tags="info") 
+            return redirect(reverse('Singup'))
         
         try:
             nUser = Usuario.objects.create(
@@ -48,21 +76,49 @@ class HomeView(TemplateView):
             nUser.set_password(iPass)
             nUser.save()
 
-            login(request, nUser)
+            #login(request, nUser)
 
             messages.success(request, '¡Registro Exitoso!', extra_tags="title")
-            messages.success(request, f'Comuniquese con un Administrador para activar su Cuenta', extra_tags="info")
+            messages.success(request, f'Hemos enviado un Email para verificar su cuenta', extra_tags="info")
             
-        except IntegrityError:
+            subject = "Activacion - VRTFund"
+            email_template_name = "password/email_confirm.txt"
+            c = {
+            'username': nUser.username,
+            "uid": urlsafe_base64_encode(force_bytes(nUser.pk)),
+            "user": nUser,
+            'token': default_token_generator.make_token(nUser),
+            'site_name': 'VRT-Fund',
+            'protocol': 'https',# http
+            'domain':'vrtfund.com',# 127.0.0.1:8000
+            }
+            email = render_to_string(email_template_name, c)
+            try:
+                send_mail(subject, email, 'noreply@vrtfund.com' , [nUser.email], fail_silently=False)
+            except BadHeaderError:
+                return HttpResponse('Invalid Header Found')
+
+        except Exception as e:
             messages.error(request, '¡Registro Incompleto!', extra_tags="title")
-            messages.error(request, f'El Usuario ingresado actualmente esta registrado', extra_tags="info")         
+            messages.error(request, f'Ha ocurrido un error durante el registro', extra_tags="info")         
         
+        return redirect(reverse('Singup'))
+
+class UserLoginView(UserPassesTestMixin, LoginView):
+    template_name='registration/login.html'
+
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
         return redirect(reverse('Home'))
 
+    def form_invalid(self, form):
+        messages.error(self.request, 'Usuario/Contraseña Incorrectos', extra_tags="title")
+        messages.error(self.request, 'Intentelo Nuevamente', extra_tags="info")
+        return super().form_invalid(form)
 
-class SingupView(TemplateView):
-    template_name='registration/singup.html'
-    
+
 class InvestmentView(LoginRequiredMixin, TemplateView):
     template_name='home/investment.html'
    
@@ -79,7 +135,7 @@ class InfoView(LoginRequiredMixin, TemplateView):
 
         if InfoUser.is_operating:
             messages.error(request, 'ERROR', extra_tags="title")
-            messages.error(request, 'Actualmente ya cuenta con una Inversion Activa', extra_tags="info")
+            messages.error(request, 'Actualmente ya cuenta con una Inversión Activa', extra_tags="info")
             return redirect(reverse('Info')) 
 
         rInstanceUser = Usuario.objects.get(username=iUsername)
@@ -136,7 +192,7 @@ class InfoView(LoginRequiredMixin, TemplateView):
                 rState = "Pendiente"
                 ) 
 
-            subject = "Solicitud - Informacion Inversion"        
+            subject = "Solicitud - Información Inversión"        
             email_template_name = "home/info_email.txt"
 
             c = {
@@ -154,18 +210,20 @@ class InfoView(LoginRequiredMixin, TemplateView):
                 send_mail(subject, email, 'noreply@vrtfund.com' , [email], fail_silently=False)
             except Exception as e:
                 with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
-                    f.write("EmailError: {}\n".format(str(e)))
+                    eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
+                    f.write("EmailError InfoEmail--> {} Error: {}\n".format(eDate, str(e)))
             
             messages.success(request, 'Solicitud Registrada', extra_tags="title")
-            messages.success(request, f'Hemos enviado un correo con informacion del proceso de Inscripcion', extra_tags="info")
+            messages.success(request, f'Hemos enviado un correo con información del proceso de Inscripción', extra_tags="info")
             return redirect(reverse('Info'))
 
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/log_err.txt", "a") as f:
-                f.write("QueryError: {}\n".format(str(e)))   
+                eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
+                f.write("QueryError InfoForm--> {} Error: {}\n".format(eDate, str(e)))
             
             messages.error(request, 'ERROR', extra_tags="title")
-            messages.error(request, 'La solicitud no se ha podiso procesar', extra_tags="info")
+            messages.error(request, 'La solicitud no se ha podido procesar', extra_tags="info")
             return redirect(reverse('Info')) 
 
 #LoginRequiredMixin
@@ -235,7 +293,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         
         if AviableTickets < 1:
             messages.error(request, 'ERROR', extra_tags="title")
-            messages.error(request, '¡Ha exedigo el numero de retiros mensuales!', extra_tags="info")
+            messages.error(request, '¡Ha excedido el número de retiros Mensuales!', extra_tags="info")
             return redirect(reverse('History'))
 
         if rAmmountFrom == "f1":
@@ -272,7 +330,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             Total = rPaidAvailable + rPaidRef
             if rAmmount > Total:
                 messages.error(request, 'ERROR', extra_tags="title")
-                messages.error(request, 'La solicitud no se ha podiso procesar', extra_tags="info")
+                messages.error(request, 'La solicitud no se ha podido procesar', extra_tags="info")
                 return redirect(reverse('History'))
 
     
@@ -300,7 +358,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         InfoUser = Usuario.objects.get(id=request.user.id)
         AviableTickets = InfoUser.available_tickets
 
-        subject = "Notificacion - Solicitud de Retiro"        
+        subject = "Notificación - Solicitud de Retiro"        
         email_template_name = "interface/tickets_email_notify.txt"
 
         c = {
@@ -320,7 +378,8 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
-                f.write("EmailError: {}\n".format(str(e)))
+                eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
+                f.write("EmailTicket Notification--> {} Error: {}\n".format(eDate, str(e)))
 
 
         FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
@@ -344,7 +403,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         Usuario.objects.filter(id=1).update(fee=F('fee')+FEE)
         
         messages.success(request, 'Solicitud Registrada', extra_tags="title")
-        messages.success(request, f'EL tiempo de espera aproximado sera de {TimeDelta} dias habiles', extra_tags="info")
+        messages.success(request, f'¡EL tiempo de espera aproximado será de {TimeDelta} días Hábiles!', extra_tags="info")
         return redirect(reverse('History'))
 
 
@@ -371,8 +430,30 @@ def PasswordResetRequestView(request):
 					try:
 						send_mail(subject, email, 'noreply@vrtfund.com' , [user.email], fail_silently=False)
 					except BadHeaderError:
-						return HttpResponse('Invalid header found.')
+						return HttpResponse('Invalid Header Found')
 					return redirect ("/accounts/password_reset/done/")
  
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
+
+
+
+def EmailConfirmView(request, uidb64, token):
+   
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            nUser = Usuario.objects.get(pk=uid)
+
+        except Exception as e:
+            nUser = None
+            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
+                f.write("EmailConfirm--> {} Error: {}\n".format(eDate, str(e)))
+
+        if nUser and gToken.check_token(nUser, token):
+            nUser.is_active = True
+            nUser.save()
+
+            return render(request, 'registration/email_confirm.html', {"user": nUser})
+
+        return render(request, 'registration/email_confirm-failed.html', {"user": nUser})

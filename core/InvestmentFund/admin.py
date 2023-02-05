@@ -104,7 +104,7 @@ class UserBaseAdmin(UserAdmin):
         ("Inversion", fInvestment),
         ("Intereses", fInterest),
         ("Comiciones", fReferees),
-        ("Informacion del Referido", fRefInformation),
+        ("Informacion del Asociado", fRefInformation),
         ("Autorizaciones", fGroups)
         )
 
@@ -133,7 +133,7 @@ class UserBaseAdmin(UserAdmin):
                 ("Inversion", self.fInvestment),
                 ("Intereses", self.fInterest),
                 ("Comiciones", self.fReferees),
-                ("Informacion del Referido", self.fRefInformation)
+                ("Informacion del Asociado", self.fRefInformation)
             )
         return super().get_fieldsets(request, obj)
 

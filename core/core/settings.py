@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    "django_cron",
+    'django_cron',
     'InvestmentFund.apps.InvestmentfundConfig',
 ]
 

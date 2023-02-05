@@ -5,11 +5,11 @@ Es un placer informarle que su solicitud de retiro de fondos ha sido APROBADA
 El valor depositado ha sido de {{ tAmmount }} proveniente de su saldo de {{ tAmmountFrom }}
 
 Los fondos fueron transferidos a la cuenta de {{ tBank }} - {{ tBankAccount }}
-Suministramos el codigo de la transaccion {{ tBankTicket }}  
+Suministramos el código de la transacción {{ tBankTicket }}  
 
 Si tiene alguna pregunta o necesita más información, por favor no dude en ponerse en contacto con nosotros.
 A través del correo mail@vrtfund.com 
 
-Atentamente!
+¡Atentamente!
 VRT-Fund-Inversiones"
 {% endautoescape %}

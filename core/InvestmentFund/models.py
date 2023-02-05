@@ -33,7 +33,7 @@ class Usuario(AbstractUser):
                 help_text=_("Caracters Max-64, Únicamente letras, dígitos y @/./+/-/_"),
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
 
-    is_active = models.BooleanField(_(" "),default=True)
+    is_active = models.BooleanField(_(" "),default=False)
     is_staff = models.BooleanField(_("Staff"),default=False,
                 help_text=_("Usuario con facultades Administrativas"),                  )
     
@@ -90,13 +90,13 @@ class Usuario(AbstractUser):
     total = models.PositiveBigIntegerField(_("Total"),blank=True,default=0,
                 help_text=_("$Total Generado ($COP)"),)
 
-    ref_id = models.CharField(_("Codigo Referido"), max_length=32, blank=True)
+    ref_id = models.CharField(_("Codigo Asociado"), max_length=32, blank=True)
     ref_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
     ref_interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
-        help_text=_("Comisiones Mensuales x Referido (%)"),)
+        help_text=_("Comisiones Mensuales x Asociado (%)"),)
 
     ref_total = models.PositiveBigIntegerField(_("Total"),blank=True,default=0,
-                help_text=_("Capital Generado al Referido ($COP)"),)
+                help_text=_("Capital Generado al Asociado ($COP)"),)
 
     
     class Meta:

@@ -5,6 +5,17 @@
 {% block block %}
   <div class="container">
     <form target="_self" method="POST" class='login-form'>
+      {% if messages %}
+      <div class="{{ message.tags }}">
+          <ul class="ul-messages">
+          {% for message in messages %}
+              <h5 {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</h5>
+          {% endfor %}
+          </ul>
+      </div>
+      {% else %}
+      <div style="height: 30px;"></div>
+      {% endif %}
       {% csrf_token %}
       <div class="flex-row">
         <div class="login__field"><i class="login__icon fa-solid fa-circle-user"></i></div>
@@ -15,10 +26,13 @@
         <div class="login__field"><i class="login__icon fas fa-lock"></i></div>
           <label class="lf--label" for="password"></label>
           <input type="password" class='lf--input' placeholder='Contraseña' name="password" autocomplete="current-password" required="" id="id_password">
+        <div toggle="#id_password" class="fa fa-fw fa-eye field-icon toggle-password"></div>
       </div>
       <input class='lf--submit' type='submit' value='INGRESAR'>
-      <a href="{% url 'Singup' %}" class='lf--allready'>¿No Eres Miembro? Registrate</a>
+      <a href="{% url 'Singup' %}" class='lf--allready'>¿No Eres Miembro? Regístrate</a>
       <a href="{% url 'password_reset' %}" class='lf--allready'>¿Olvidaste la Contraseña?</a>
     </form>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/toggle-password.js' %}"></script>
   </div>
 {% endblock %}

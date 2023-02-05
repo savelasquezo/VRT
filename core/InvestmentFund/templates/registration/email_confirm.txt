@@ -1,0 +1,10 @@
+{% autoescape off %}
+Hola {{ username }}!
+
+Esperamos que te encuentres bien. Recibimos una solicitud para la activacion de tu cuenta. Para continuar con el proceso, por favor sigue los siguientes pasos:
+
+Haz clic en el siguiente enlace: {{ protocol }}://{{ domain }}{% url 'email_confirm' uidb64=uid token=token %}
+
+¡Gracias!
+VRT-Fund-Inversiones"
+{% endautoescape %}

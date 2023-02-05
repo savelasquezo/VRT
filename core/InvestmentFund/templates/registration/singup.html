@@ -4,7 +4,18 @@
 
 {% block block %}
     <div class="container">
-        <form action="{% url 'Home' %}" target="_self" method="POST" class='login-form'>
+        <form action="{% url 'Singup' %}" target="_self" method="POST" class='login-form'>
+        {% if messages %}
+        <div class="{{ message.tags }}">
+            <ul class="ul-messages">
+            {% for message in messages %}
+                <h5 {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</h5>
+            {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div style="height: 30px;"></div>
+        {% endif %}
         {% csrf_token %}
         <div class="flex-row">
             <div class="login__field"><i class="login__icon fa-solid fa-circle-user"></i></div>
@@ -24,10 +35,13 @@
         <div class="flex-row">
             <div class="login__field"><i class="login__icon fas fa-lock"></i></div>
             <label class="lf--label" for="password"></label>
-            <input type="password" class='lf--input' placeholder='Contraseña' name="password"  required id="password">
+            <input type="password" class='lf--input' placeholder='Contraseña' name="password" required id="password" autocomplete="off">
+            <div toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></div>
         </div>
         <input class='lf--submit' type='submit' value='REGISTRAR'>
-        <a href="{% url 'login' %}" class='lf--allready'>¿Eres Miembro? Inicia Sesion</a>
+        <a href="{% url 'login' %}" class='lf--allready'>¿Eres Miembro? Inicia Sesión</a>
         </form>
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/toggle-password.js' %}"></script>
     </div>
 {% endblock %}

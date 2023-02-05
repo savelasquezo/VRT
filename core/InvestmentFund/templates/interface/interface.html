@@ -21,7 +21,7 @@
   <div class="ammount">
     <h1 class="ammount_value">{{ammount|intcomma}}</h1>
     <h6 class="help_text_a">Actualmente genera intereses al {{interest|intcomma}}% Mensual</h6>
-    <h6 class="help_text_b">Maximo beneficio al finalizar la suscripcion ${{max_profit|intcomma}}</h6>
+    <h6 class="help_text_b">Máximo beneficio al finalizar la suscripción ${{max_profit|intcomma}}</h6>
   </div>
 </div>
 <!-- TimeTrial section end-->
@@ -38,7 +38,7 @@
   <div class="contect">
     {% if user.is_staff %}
       <div class="name n3">COMISIONES
-        <h6 class="help_text">$Ingresos extras por referidos</h6>
+        <h6 class="help_text">$Ingresos extras por Asociados</h6>
         <h1 class="valor">{{ref_available|intcomma}}</h1>
       </div>
     {% else %}
@@ -56,7 +56,7 @@
       <h1 class="valor">{{total_paid|intcomma}}</h1>
     </div>
     <div class="name n4">TOTAL
-      <h6 class="help_text">$Totales incluye referidos</h6>
+      <h6 class="help_text">$Total Historico</h6>
       <h1 class="valor">{{cash_total|intcomma}}</h1>
     </div>
   </div>

@@ -67,3 +67,12 @@ def investment_add_record(sender, instance, **kwargs):
             with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
                 f.write("SignalError: {}\n".format(str(e)))
 
+    if instance.rState == "Error":
+        CUser = Usuario.objects.filter(username=instance.username)
+        
+        try:
+            CUser.update(is_operating =False)
+
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
+                f.write("SignalError: {}\n".format(str(e)))

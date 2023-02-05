@@ -1,0 +1,23 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+	<div class="container">
+      <img class="img-pw1" src="{% static '/images/em2.png' %}" alt="img-pw1">
+      <div class="container-pw">
+            <h2 class="pw-h2">ERROR</h2><br>
+            <h3 class="pw-h3">Lamentablemente no ha sido posible validar la direccion de correo electronico, la validación 
+            por correo electrónico ha fallado. Por favor, comuníquese con un administrador para resolver este problema.
+            </h3>
+          <div class="pw-links">
+            <a href="{% url 'Home' %}">
+              <button class="pw-boton"><i class="fa-sharp fa-solid fa-arrow-left"></i></button>
+            </a>
+            <a href="https://wa.me/573205997183">
+              <button class="pw-boton"><i class="fa-brands fa-whatsapp"></i></button>
+            </a>
+          </div>
+      </div>
+    </div>
+{% endblock %}

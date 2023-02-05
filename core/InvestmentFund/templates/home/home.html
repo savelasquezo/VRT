@@ -12,20 +12,19 @@
             </h1>
         </div>
         <div class="info-home">
-            <h4>Somos un fondo de inversión colectiva, privado por
-                referencia; si has llegado hasta aquí es por que alguien
+            <h4>Somos un fondo de inversión colectiva, privado por 
+                referencia; si has llegado hasta aquí es porque alguien
                 te a referenciado para que puedas hacer parte de
                 nuestro portafolio, contamos con un equipo de
-                comerciantes experimentados , con el fin de brindarte
-                los retornos mas ajustados al riesgo, por lo tanto el
-                beneficio es el mas sostenible que existe en el
-                momento.
+                comerciantes experimentados, con el fin de brindarte
+                los retornos más ajustados al riesgo, por lo tanto, el
+                beneficio es el más sostenible que existe en el momento.
             </h4>
         </div>
         <div class="home-simulator">
             <div class="info-home-simulator">
                 <h4 class="text-home-simulator">Nuestros comerciantes experimentados manejan un
-                    amplio portafolio de inversion como lo son CFD de
+                    amplio portafolio de inversión como lo son CFD de
                     divisas y metales, también acciones y commodities.
                 </h4>
             </div>
@@ -49,9 +48,10 @@
         <button class="benefits-button" onclick=window.location.href="{% url 'Benefit' %}">
             <div class="benefits-home">
                 <h1 class="benefits-home-h1">BENEFICIOS</h1>    
-            <h5 class="text-benefits-h5">Asociandose al fondo de inversión, podrán acceder a múltiples beneficios
-                 ademas de la diversificación de su cartera de inversiones, acceso a un equipo de expertos en inversiones 
-                 posibilidad de obtener descuentos en diferentes productos servicios asociados.</h5>
+                <h5 class="text-benefits-h5">Asociándose al fondo de inversión, podrán acceder a múltiples beneficios
+                    además de la diversificación de su cartera de inversiones, acceso a un equipo de expertos en inversiones 
+                    posibilidad de obtener descuentos en diferentes productos servicios asociados.
+                </h5>
             </div>
         </button>
         <div class="plan-container">
@@ -76,23 +76,13 @@
         </div>
         <div class="plan-final-container">
             <h4 class="plan-final-info"> interés simple, puedes solicitar tu
-                rentabilidad cada mes si lo deseas, para mayor informacion lee nuestros terminos y condiciones.
+                rentabilidad cada mes si lo deseas, para mayor información lee nuestros términos y condiciones.
             </h4><br><br>
         </div>
     </div>
 </div>
 {% else %}
-{% if messages %}
-<div class="{{ message.tags }}">
-    <ul class="ul-messages">
-    {% for message in messages %}
-        <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
-</div>
-{% else %}
-<div style="height: 49px;"></div>
-{% endif %}
+<div style="height: 50px"></div>
 <div class="container-home">
     <div class="main-home">
         <div class="title-home">
@@ -104,7 +94,9 @@
             </h1>
         </div>
         <div class="info-home">
-            <h4>¿Sabías qué los Fondos de Inversión Colectiva, son una alternativa de inversión que te permite diversificar tus recursos para alcanzar tus sueños a corto mediano o largo plazo?</h4>
+            <h4>¿Sabías qué los Fondos de Inversión Colectiva, son una alternativa de inversión que te permite 
+                diversificar tus recursos para alcanzar tus sueños a corto mediano o largo plazo?
+            </h4>
         </div>
     </div>
     <dialog id="dlog" class="dlog">
