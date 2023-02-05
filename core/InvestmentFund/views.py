@@ -65,6 +65,9 @@ class SingupView(UserPassesTestMixin, TemplateView):
             messages.error(request, f'El Email no esta Disponible', extra_tags="info") 
             return redirect(reverse('Singup'))
         
+        
+        request.session['django_messages'] = []
+
         try:
             nUser = Usuario.objects.create(
                 username = iUsername,
@@ -85,7 +88,7 @@ class SingupView(UserPassesTestMixin, TemplateView):
                 cUser = Usuario.objects.get(username=iUsername)
                 
                 subject = "Activacion - VRTFund"
-                email_template_name = "password/email_confirm.txt"
+                email_template_name = "registration/email_confirm.txt"
                 c = {
                 'username': iUsername,
                 "uid": urlsafe_base64_encode(force_bytes(cUser.pk)),
@@ -468,6 +471,5 @@ def EmailConfirmView(request, uidb64, token):
             return render(request, 'registration/email_confirm.html', {"user": nUser})
 
         return render(request, 'registration/email_confirm-failed.html', {"user": nUser})
-    
     
     
