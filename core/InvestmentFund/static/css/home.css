@@ -430,6 +430,7 @@ button.link-title:hover{color: #61CE70;}
   align-items: center;
   text-align: center;
 }.info-investment h1{margin-bottom:20px}.investment-bottom{margin-top: 10px;}
+.info-investment-bottom{margin: 5px;}
 
 .info-investment h3{
   font-size: xx-small;
@@ -439,7 +440,7 @@ button.link-title:hover{color: #61CE70;}
   font-weight: lighter;
   text-align: center;
 }.info-investment h2{margin-top: 7px;}
-.invest-legal h5{color: #8f8f8f;font-size: x-small;margin-top: 5px;transition: 0.5s all;}
+.invest-legal h5{color: #8f8f8f;font-size: x-small;margin-top: 5px;transition: 0.5s all; text-align: center;}
 .invest-legal h5:hover{color: rgb(130, 260, 140);}
 
 .button-investment-container{
@@ -1084,7 +1085,7 @@ button.link-title:hover{color: #61CE70;}
 
 /* Simulador section start */
 .inv-output{width: 380px;}
-.button-investment{width: 380px;}
+
 /* Simulador section end */
 
 /* Beneficios section start */

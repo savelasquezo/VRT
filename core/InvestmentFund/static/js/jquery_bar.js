@@ -9,7 +9,7 @@ $(document).ready(function() {
       'angleArc': 180,
       'angleOffset': -90,
       'textY': -20,
-      'displayInput':true,
+      'displayInput':false,
       'fgColor':"#17570e",
       'inputColor':"#292c2f",
       'release':function(v) {$("p");},

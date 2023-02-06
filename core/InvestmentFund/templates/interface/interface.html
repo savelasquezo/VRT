@@ -20,7 +20,7 @@
     <div class="date"><h1><span id="seconds"></span></h1><h1 class="cm">SEGUNDOS</h1></div>
   </div>
 
-  <script> let bar_percent = {{ percent }};</script>
+  <script> let bar_percent = {{ time_percent }};</script>
   <div class="progress-bar-container">
     <div class="progress-bar" id="progress-bar"></div>
   </div>
@@ -38,9 +38,8 @@
 <!-- Knobbar section end -->
 <script src="{% static 'js/jquery.knob.js' %}"></script>
 <script src="{% static 'js/jquery_bar.js' %}"></script>
-<div class="trial_bar">
-  <input type="text" value="{{ percent }}" class="dial">
-</div>
+<div class="trial_bar"><input type="text" value="{{ knobvalue }}" class="dial"></div>
+<div class="dial-value" for="text-dial"><h1>{{ knobtext }}</h1></div>
 <!-- Knobbar section end-->
 <div class="contect-container">
   <div class="contect">

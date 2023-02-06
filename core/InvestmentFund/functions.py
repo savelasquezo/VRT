@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 from .models import Usuario, FEE, MINAMMOUNT
 
 def GlobalContext(request):
@@ -10,39 +11,51 @@ def GlobalContext(request):
     """
     
     if request.user.id is not None:
-        user = request.user.id
-        info_user = Usuario.objects.get(id=user)
+        rUser = request.user
+        InfoUser = Usuario.objects.get(id=rUser.id)
 
         date_now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        date_to_string = info_user.date_expire.strftime('%m/%d/%Y %I:%M %p')
-        days_difference = (info_user.date_expire - info_user.date_joined).days
+        date_to_string = InfoUser.date_expire.strftime('%m/%d/%Y %I:%M %p')
+        days_difference = (InfoUser.date_expire - InfoUser.date_joined).days
         
-        ammount = info_user.ammount
-        interest = info_user.interest
+        now = timezone.now()
+        time_percent = int(((now - InfoUser.date_joined).days/days_difference)*100)
+
+        ammount = InfoUser.ammount
+        interest = InfoUser.interest
         dayli_interest = interest/(100*30)
         total_dayli_interest = int(ammount*dayli_interest)
         
-        available = info_user.available
+        available = InfoUser.available
 
         max_profit = int(ammount*dayli_interest*days_difference)        
         
-        ref_available = info_user.ref_available
+        ref_available = InfoUser.ref_available
         
-        cash_total = info_user.total_interest + info_user.total_ref
-        total_paid = info_user.paid + info_user.ref_paid
+        cash_total = InfoUser.total_interest + InfoUser.total_ref
+        total_paid = InfoUser.paid + InfoUser.ref_paid
         
         try:
-            percent = min(info_user.total_interest/max_profit,1)*100
+            knobvalue = int(min(InfoUser.total_interest/ammount,1)*100)
+            percent = round(((InfoUser.total_interest/ammount)*100),2)
+            
+            if percent >= 100:
+                knobtext = str(percent/100)+"x"
+                
+            if percent < 100:
+                knobtext = str(percent)+"%"
+            
+            
         except ZeroDivisionError:
             percent = 0
         
         return {
-            'username':info_user.username,              #//Nombre de Usuario
-            'email':info_user.email,                    #//Correo Electronico
-            'full_name':info_user.full_name,            #//Nombre
-            'bank':info_user.bank,                      #//Banco
-            'bank_account':info_user.bank_account,      #//Cuenta Bancaria
+            'username':InfoUser.username,               #//Nombre de Usuario
+            'email':InfoUser.email,                     #//Correo Electronico
+            'full_name':InfoUser.full_name,             #//Nombre
+            'bank':InfoUser.bank,                       #//Banco
+            'bank_account':InfoUser.bank_account,       #//Cuenta Bancaria
             'fee':FEE,                                  #//Impuesto
             'min_ammount': MINAMMOUNT,                  #//$Min-Retiro
             'ammount':ammount,                          #//Inversion Inicial
@@ -53,7 +66,9 @@ def GlobalContext(request):
             'ref_available': ref_available,             #//Disponible Comiciones
             'cash_total':cash_total,                    #//Total -> Intereses + Comiciones
             'date_expire': date_to_string,              #//Fecha Finalizacion
-            'percent': int(percent),                    #//Porcentaje de Avance ->"Only Intereses"
+            'knobvalue':knobvalue,                      #//Valor WidgetBar
+            'knobtext': knobtext,                       #//Porcentaje de Avance ->"Only Intereses"
+            'time_percent':time_percent,                #//Porcentaje de Avance Tiempo
             'max_profit':max_profit,                    #//Maximo Beneficio Posible
             'date_now_str': date_now_str                #//Hora/Fecha Actual
             }
