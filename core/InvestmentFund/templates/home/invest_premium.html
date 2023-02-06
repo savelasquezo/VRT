@@ -15,13 +15,13 @@
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
 <body>
-
 {% block block %}
 <div class="info-investment">
-    <h1>SIMULADOR</h1><br>
-    <h3>Con el plazo y el monto que quieres invertir podrás simular el comportamiento aproximado de la inversión
-        Las comisiones y el capital inicial podrán ser retirados en cualquier momento, para mayor información consulte
-        los Términos y condiciones
+    <h1>SIMULADOR</h1>
+    <h2>ADMINISTRATIVO</h2><br>
+    <h3>Las comiciones generadas a partir de los intereses a capital seran depositadas diariamente a la cuenta del usuario, 
+        VRTFund provee de un panel administrativo a sus usuarios activos para gestionar y monitorear en tiempo real el 
+        comportamiento de su inversion.
     </h3>
 </div>
 <div class="container-inv">
@@ -30,16 +30,13 @@
         <div class="inv-results">
             <h1 class="inv-results-h1" id="ctotal">-</h1>
         </div>
-        <div class="choices">
-            <input class="button-choices" name="ammount_for" type="button" id="m1" value="3 Meses-1%" required>
-            <input class="button-choices" name="ammount_for" type="button" id="m2" value="6 Meses-2%" required>
-            <input class="button-choices" name="ammount_for" type="button" id="m3" value="12 Meses-3%" required>
-        </div>
+        <input class="inv-ammount input-premium" type="number" placeholder="INTERES" id="pinterest" min="0" max="100" step="1">
+        <input class="inv-ammount input-premium" type="number" placeholder="MESES" id="pmonths" min="0" max="1200" step="1">
         <div class="inv-details">
             <span id="title">Capital Inicial:</span><span id="rammount">-</span>
         </div>
         <div class="inv-details">
-            <span id="title">Interes:</span><span id="rinterest">-</span>
+            <span id="title">Ganancias:</span><span id="rinterest">-</span>
         </div>
         <div class="inv-details">
             <span id="title">Interes:*</span><span id="daylint">-</span>
@@ -47,22 +44,17 @@
         <div class="inv-details">
             <span id="title">Total:</span><span id="rtotal">-</span>
         </div>
-        <script src="{% static 'js/jinvs.js' %}"></script>
+        <script src="{% static 'js/jinvsAdmin.js' %}"></script>
         <div class="button-investment-container">
-            <button class="button-investment" onclick=window.location.href="{% url 'Home' %}">
+            <button class="button-investment" onclick=window.location.href="{% url 'Investment' %}">
                 <h5 class="button-investment-h5"><i class="fa-solid fa-delete-left"></i></h5>
             </button>
             <button class="button-investment" onclick=window.location.href="{% url 'Info' %}">
                 <h5 class="button-investment-h5"><i class="fa-solid fa-comments-dollar"></i></h5>
             </button>
-            <button class="button-investment" onclick=window.location.href="{% url 'Investment' %}">
+            <button class="button-investment" onclick=window.location.href="{% url 'InvEspecial' %}">
                 <h5 class="button-investment-h5"><i class="fa-solid fa-arrows-rotate"></i></h5>
             </button>
-            {% if user.is_staff %}
-                <button class=" button-investment button-premium" onclick=window.location.href="{% url 'InvEspecial' %}">
-                    <h5 class="button-investment-h5"><i class="fa-solid fa-users"></i></h5>
-                </button>
-            {% endif %}
         </div>
     </div>
 </div>

@@ -53,7 +53,7 @@ def GlobalContext(request):
             'ref_available': ref_available,             #//Disponible Comiciones
             'cash_total':cash_total,                    #//Total -> Intereses + Comiciones
             'date_expire': date_to_string,              #//Fecha Finalizacion
-            'percent': percent,                         #//Porcentaje de Avance ->"Only Intereses"
+            'percent': int(percent),                    #//Porcentaje de Avance ->"Only Intereses"
             'max_profit':max_profit,                    #//Maximo Beneficio Posible
             'date_now_str': date_now_str                #//Hora/Fecha Actual
             }

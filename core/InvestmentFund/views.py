@@ -1,9 +1,5 @@
-import os
-import re
-
-from openpyxl import Workbook
-from openpyxl import load_workbook
-
+import os, re
+from openpyxl import Workbook, load_workbook
 from datetime import datetime, timedelta
 
 from django.utils import timezone
@@ -14,6 +10,8 @@ from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import PasswordResetForm
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
@@ -27,6 +25,9 @@ from django.contrib.auth.views import LoginView
 from .tools import gToken
 
 from .models import Usuario, Tickets, InvestRequests, FEE
+
+def IsStaff(user):
+    return user.is_staff
 
 class HomeView(TemplateView):
     template_name='home/home.html'
@@ -135,7 +136,14 @@ class UserLoginView(UserPassesTestMixin, LoginView):
 
 class InvestmentView(LoginRequiredMixin, TemplateView):
     template_name='home/investment.html'
-   
+
+class InvestPremiumView(LoginRequiredMixin, TemplateView):
+    template_name='home/invest_premium.html'
+    
+    @method_decorator(user_passes_test(IsStaff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 class InfoFormView(LoginRequiredMixin, TemplateView):
     template_name='home/info_ticket.html'
 
@@ -473,3 +481,5 @@ def EmailConfirmView(request, uidb64, token):
         return render(request, 'registration/email_confirm-failed.html', {"user": nUser})
     
     
+def UserIsStaff(user):
+    return user.is_staff

@@ -355,6 +355,7 @@ button.link-title:hover{color: #61CE70;}
 /* Simulador section start */
 .container-inv{
   display: flex;
+  flex-direction: column;
   margin-top: 0px;
   padding: 3px;
   text-align: center;
@@ -372,7 +373,7 @@ button.link-title:hover{color: #61CE70;}
   padding-left: 15px;
   font-size: large;
   background-color: rgba(255, 255, 255, 0.95);
-}
+}.input-premium{font-size: small; height: 25px; width: 40%;margin:5px 0px 20px 0px;}
 
 .button-choices{
   padding: 5px;
@@ -391,7 +392,6 @@ button.link-title:hover{color: #61CE70;}
 .inv-output{
   border-radius: 10px;
   width: 25%;
-  height: 300px;
   background: rgba(0, 0, 0, 0.30);
 }.inv-hr{border-color: #96a5ac31; width: 90%;}
 
@@ -423,14 +423,13 @@ button.link-title:hover{color: #61CE70;}
   flex-direction: column;
   color: aliceblue;
   justify-content: center;
-  margin: 0px 0px 5px 0px;
+  margin: 50px 0px 5px 0px;
   padding: 0px;
   text-transform: uppercase;
   line-height: 0px;
-  font-size: smaller;
   align-items: center;
   text-align: center;
-}.info-investment h1{margin-bottom:20px;}
+}.info-investment h1{margin-bottom:20px}.investment-bottom{margin-top: 10px;}
 
 .info-investment h3{
   font-size: xx-small;
@@ -439,29 +438,83 @@ button.link-title:hover{color: #61CE70;}
   color: #ccc;
   font-weight: lighter;
   text-align: center;
-}
+}.info-investment h2{margin-top: 7px;}
+.invest-legal h5{color: #8f8f8f;font-size: x-small;margin-top: 5px;transition: 0.5s all;}
+.invest-legal h5:hover{color: rgb(130, 260, 140);}
 
 .button-investment-container{
   margin: 0px;
   padding: 0px;
   display: flex;
+  flex-direction: row;
+  column-gap: 5px;
   text-align: center;
   align-items: center;
   justify-content: center;
 }
-.button-investment{
-  width: 340px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.4);
+
+.button-investment {
+  align-items: center;
+  appearance: none;
+  background-image: linear-gradient(1deg, #0a1b25, #021936c4 100%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 30px;
   border-width: 0;
-  border-radius: 10px;
+  box-sizing: border-box;
   color: #ccc;
   cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  height: 25px;
+  width: 80px;
+  margin: 10px 0 10px 0;
   justify-content: center;
+  line-height: 1.5;
   text-align: center;
-  align-items: center;
-  transition: 0.75s all;
+  transition: background-color .2s,background-position .2s;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}a{text-decoration: none; color: azure; font-weight: bold;}
+.button-investment:active, .button-investment:focus {outline: none;}
+.button-investment:hover {background-position: -20px -20px; outline: none;}
+
+.button-premium{
+  width: 30px;
+  color:goldenrod;
+  margin-right: -5px;
 }
+
+.pw-boton {
+  align-items: center;
+  appearance: none;
+  background-image: linear-gradient(1deg, #0a1b25, #021936c4 100%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 30px;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #ccc;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  height: 25px;
+  width: 80px;
+  justify-content: center;
+  line-height: 1.5;
+  text-align: center;
+  transition: background-color .2s,background-position .2s;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}a{text-decoration: none; color: azure; font-weight: bold;}
+.pw-boton:active,.pw-boton:focus {outline: none;}
+.pw-boton:hover {background-position: -20px -20px; outline: none;}
+
+
+
+
 .button-investment:hover{color: rgb(130, 260, 140);}
 
 .button-investment-h5{margin:0px;padding:0; padding-top: 3px;}

@@ -122,7 +122,26 @@ body{margin: 0;background: #ccc;}
   font-family: 'Work Sans', sans-serif;
 }
 
+.progress-bar-container{
+  margin: 0 auto;
+  padding: 0;
+  width: 420px;
+}
+.progress-bar{
+  margin: -5px 0 -5px 0;
+  padding: 0;
+}
+.semiprogress-bar {
+  margin: 20px;
+  width: 200px;
+  height: 100px;
+}
+
+
 .time-ammount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin:0px auto;
   text-align: center;
 }
@@ -597,6 +616,7 @@ h2 small {
   padding:0px;
 }
 
+.progress-bar-container{width: 265px;}
 .ammount_value {width: 265px;margin-bottom: 20px;}
 .valor {width: 90px;font-size: small;}
 .adm-boton {margin-top: 50px;width: 90px;}

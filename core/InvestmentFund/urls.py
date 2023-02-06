@@ -21,6 +21,7 @@ urlpatterns = [
     path('index.php/servicios/', views.BenefitView.as_view(), name='Benefit'),
     path('index.php/login/', views.ContentView.as_view(), name='Content'),
 
+    path('investment/premium', views.InvestPremiumView.as_view(), name='InvEspecial'),
     path('investment/', views.InvestmentView.as_view(), name='Investment'),
     path('terms&conditions/', views.LegalView.as_view(), name='Legal'),    
     path('info/', views.InfoView.as_view(), name='Info'),
