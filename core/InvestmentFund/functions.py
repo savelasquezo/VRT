@@ -53,6 +53,7 @@ def GlobalContext(request):
             
         except ZeroDivisionError:
             knobvalue = 0
+            knobtext = 0
             percent = 0
         
         return {
