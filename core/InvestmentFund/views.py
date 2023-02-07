@@ -466,17 +466,17 @@ def EmailConfirmView(request, uidb64, token):
             uid = force_str(urlsafe_base64_decode(uidb64))
             nUser = Usuario.objects.get(pk=uid)
 
+            if nUser and gToken.check_token(nUser, token):
+                nUser.is_active = True
+                nUser.save()
+
+                return render(request, 'registration/email_confirm.html', {"user": nUser})
+            
         except Exception as e:
             nUser = None
             with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailConfirm--> {} Error: {}\n".format(eDate, str(e)))
-
-        if nUser and gToken.check_token(nUser, token):
-            nUser.is_active = True
-            nUser.save()
-
-            return render(request, 'registration/email_confirm.html', {"user": nUser})
 
         return render(request, 'registration/email_confirm-failed.html', {"user": nUser})
     

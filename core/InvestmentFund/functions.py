@@ -20,7 +20,11 @@ def GlobalContext(request):
         days_difference = (InfoUser.date_expire - InfoUser.date_joined).days
         
         now = timezone.now()
-        time_percent = int(((now - InfoUser.date_joined).days/days_difference)*100)
+        
+        try:
+            time_percent = int(((now - InfoUser.date_joined).days/days_difference)*100)
+        except ZeroDivisionError:
+            time_percent = 0
 
         ammount = InfoUser.ammount
         interest = InfoUser.interest
