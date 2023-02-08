@@ -19,6 +19,7 @@ urlpatterns = [
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete'),      
  
     path('index.php/servicios/', views.BenefitView.as_view(), name='Benefit'),
+    path('index.php/servicios/nuevo', views.BenefitNewView.as_view(), name='BenefitNew'),
     path('index.php/login/', views.ContentView.as_view(), name='Content'),
 
     path('investment/premium', views.InvestPremiumView.as_view(), name='InvEspecial'),

@@ -256,6 +256,9 @@ class ContentView(TemplateView):
 #LoginRequiredMixin
 class BenefitView(TemplateView):
     template_name='home/benefit.html'
+
+class BenefitNewView(TemplateView):
+    template_name='home/benefit_new.html'
     
 
 class InterfaceView(LoginRequiredMixin, TemplateView):

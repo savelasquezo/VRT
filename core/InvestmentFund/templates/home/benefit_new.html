@@ -1,0 +1,143 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/cards.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body>
+    <div class="container-flex">
+        <div class="container">
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{% static '/images/cards/img1.jpg' %}" alt="Event image">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+                    <div class="event-info">
+                        <p class="title">TELEFONIA</p>
+                        <div class="separator"></div>
+                        <p class="info">
+                            Simcards Internacionales, Llamadas y Navegacion en mas de 180 paises, 
+                            cobertura garantizada en tus viajes al exterior
+                        </p>
+                        <p class="info-link"><a href="">+3000 PTS</a></p>
+                        <div class="additional-info">
+                            <p class="info">
+                                <h2>SIMCARDTRAVEL</h2><br>
+                                <h5>Aplica para viajes con fecha inferior a 31 de Diciembre del presente año<br>
+                                    el descuento sera aplicable a traves del codigo del asociado cuando este lo solicite
+                                </h5><br>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="action">VER</button>
+                </div>
+            </div>
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+                    <div class="event-info">
+                        <p class="title">TURISMO</p>
+                        <div class="separator"></div>
+                        <p class="info">
+                            Descuentos en destinos turisticos nacionales, vive unas incribles vacaciones
+                            en alguno de nuestros desticos turisticos asosiados
+                        </p>
+                        <p class="info-link"><a href="">+7000 PTS</a></p>
+                        <div class="additional-info">
+                            <p class="info">
+                                <h2>TURISCOM</h2><br>
+                                <h5>Aplica unicamente a destinos ofrecidos y en las fechas estipuladas en la programacion
+                                    de los eventos<br> Unicamente se cubre el valor de la inscripcion
+                                </h5><br>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="action">VER</button>
+                </div>
+            </div>
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{% static '/images/cards/img3.jpg' %}" alt="Event image">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+                    <div class="event-info">
+                        <p class="title">GIFTCARDS</p>
+                        <div class="separator"></div>
+                        <p class="info">
+                            Tarjetas de regalo redimibles en las principales tiendas del pais, o principales
+                            tiendas virtuales con sede en Colombia
+                        </p>
+                        <p class="info-link"><a href="">+9000 PTS</a></p>
+                        <div class="additional-info">
+                            <p class="info">
+                                <h2>AMAZON</h2><br>
+                                <h5>El valor de la tarjeta dependera del puntaje invertido<br> la disponibilidad de uso
+                                    dependera de la tienda seleccionada, el plazo de uso esta sujeto al tipo de tarjeta
+                                </h5><br>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="action">VER</button>
+                </div>
+            </div>
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{% static '/images/cards/img4.jpg' %}" alt="Event image">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+                    <div class="event-info">
+                        <p class="title">SORTEOS</p>
+                        <div class="separator"></div>
+                        <p class="info">
+                            Participa en los diferentes sorteos de bonos de regalo, premios y viajes a destinos nacionales
+                            todo incluido.
+                        </p>
+                        <p class="info-link"><a href="">+1000 PTS</a></p>
+                        <div class="additional-info">
+                            <p class="info">
+                                <h2>VRTFUND</h2><br>
+                                <h5>El sorteo se realizara en base a las ultimas cifras reportadas en la TMR del Dolar
+                                    en las fechas establecidas<br>El plazo para redimir dependera del tipo de sorteo
+                                </h5><br><br>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="action">VER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="admin-container">
+        <div class="inv-results">
+            <h1 class="inv-results-h1">PROXIMAMENTE</h1>
+        </div>
+        <div>
+            <button class="admin-button" onclick=window.location.href="{% url 'Home' %}">
+                <i class="fa-solid fa-delete-left"></i>
+            </button>
+            <button class="admin-button">
+                <i class="fa-solid fa-ban"></i>
+            </button>
+            <button class="admin-button">
+                <i class="fa-solid fa-ban"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

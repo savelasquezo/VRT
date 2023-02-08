@@ -20,12 +20,7 @@ def GlobalContext(request):
         days_difference = (InfoUser.date_expire - InfoUser.date_joined).days
         
         now = timezone.now()
-        
-        try:
-            time_percent = int(((now - InfoUser.date_joined).days/days_difference)*100)
-        except ZeroDivisionError:
-            time_percent = 0
-
+            
         ammount = InfoUser.ammount
         interest = InfoUser.interest
         dayli_interest = interest/(100*30)
@@ -41,17 +36,19 @@ def GlobalContext(request):
         total_paid = InfoUser.paid + InfoUser.ref_paid
         
         try:
+            time_percent = int(((now - InfoUser.date_joined).days/days_difference)*100)
             knobvalue = int(min(InfoUser.total_interest/ammount,1)*100)
-            percent = round(((InfoUser.total_interest/ammount)*100),2)
+            percent = (InfoUser.total_interest/ammount)*100
             
             if percent >= 100:
-                knobtext = str(percent/100)+"x"
+                knobtext = str(round(percent/100),2)+"x"
                 
             if percent < 100:
-                knobtext = str(percent)+"%"
+                knobtext = str(round(percent,2))+"%"
             
             
         except ZeroDivisionError:
+            time_percent = 0
             knobvalue = 0
             knobtext = 0
             percent = 0
