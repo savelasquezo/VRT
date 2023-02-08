@@ -41,7 +41,7 @@ def GlobalContext(request):
             percent = (InfoUser.total_interest/ammount)*100
             
             if percent >= 100:
-                knobtext = str(round(percent/100),2)+"x"
+                knobtext = str(round((percent/100),2))+"x"
                 
             if percent < 100:
                 knobtext = str(round(percent,2))+"%"
