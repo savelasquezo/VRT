@@ -62,7 +62,17 @@ class Usuario(AbstractUser):
 
     user_rank = models.CharField(_("Categoria"), choices=lst_ranks, default="Silver", max_length=16,
                 help_text=_("Categoria del Inversionista en VRT"),)
-    
+
+    rank_points = models.IntegerField(_("Acumulado"),blank=True,default=0,
+                help_text=_("VRTs Acumulados"),)
+
+    rank_used = models.IntegerField(_("Usados"),blank=True,default=0,
+                help_text=_("VRTs Usados"),)
+
+    rank_total = models.IntegerField(_("Total"),blank=True,default=0,
+                help_text=_("VRTs Totales"),)
+
+
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)
 
@@ -194,3 +204,32 @@ class InvestRequests(models.Model):
 
     def __str__(self):
         return "Solicitud: %s" % (self.pk)   
+    
+    
+    
+class Services(models.Model):
+        
+    id = models.AutoField(primary_key=True, verbose_name="ID")
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,verbose_name="Usuario")
+    sPts = models.PositiveBigIntegerField(_("PTS"),blank=False,null=False,default=0,
+        help_text=_("Cantidad de VRTs Usados"),)
+
+    sType = models.CharField(_("Origen"), max_length=32,blank=False,null=False,
+        help_text=_("Servicio Solicitado"),)
+    
+    sCode = models.CharField(_("Codigo"), max_length=32,blank=True,
+        help_text=_("Referencia/Codigo Promocional"))
+
+    date_join = models.DateTimeField(_("Solicitado"), default=timezone.now)
+    date_approved = models.DateTimeField(_("Modificado"), default=timezone.now)
+
+    CommentText = models.TextField(_("Comentarios"),max_length=256,blank=True,null=True)
+
+    sState = models.CharField(_("Estado"), choices=lst_sts, default="Pendiente", max_length=16)
+    
+    class Meta:
+        verbose_name = _("Servicio")
+        verbose_name_plural = _("Servicios")
+
+    def __str__(self):
+        return "Servicio: %s" % (self.pk)

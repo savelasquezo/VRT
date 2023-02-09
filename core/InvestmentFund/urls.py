@@ -18,20 +18,23 @@ urlpatterns = [
     path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'), name='password_reset_done'),
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete'),      
  
-    path('index.php/servicios/', views.BenefitView.as_view(), name='Benefit'),
-    path('index.php/servicios/nuevo', views.BenefitNewView.as_view(), name='BenefitNew'),
+    path('index.php/servicios/basic', views.BenefitView.as_view(), name='Benefit'),
+    path('index.php/servicios/', views.ServicesView.as_view(), name='Services'),
     path('index.php/login/', views.ContentView.as_view(), name='Content'),
 
-    path('investment/premium', views.InvestPremiumView.as_view(), name='InvEspecial'),
+    path('investment/premium/', views.InvestPremiumView.as_view(), name='InvEspecial'),
     path('investment/', views.InvestmentView.as_view(), name='Investment'),
     path('terms&conditions/', views.LegalView.as_view(), name='Legal'),    
     path('info/', views.InfoView.as_view(), name='Info'),
-    path('info/form', views.InfoFormView.as_view(), name='InfoForm'),
+    path('info/form/', views.InfoFormView.as_view(), name='InfoForm'),
 
+    path('@', views.ComingSoonView, name='ComingSoon'),
 
     path('accounts/admin/', views.InterfaceView.as_view(), name='Interface'),
     path('accounts/admin/ticket/', views.TicketFormView.as_view(), name='Tickets'),
     path('accounts/admin/history/', views.HistoryListView.as_view(), name='History'),
+
+
 ]
 
 

@@ -12,67 +12,44 @@ def GlobalContext(request):
     
     if request.user.id is not None:
         rUser = request.user
+
+        NowToday = timezone.now()
         InfoUser = Usuario.objects.get(id=rUser.id)
 
-        date_now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        date_to_string = InfoUser.date_expire.strftime('%m/%d/%Y %I:%M %p')
-        days_difference = (InfoUser.date_expire - InfoUser.date_joined).days
-        
-        now = timezone.now()
+        TimeDelta = (InfoUser.date_expire - InfoUser.date_joined).days
+        TimeExpire = InfoUser.date_expire
             
-        ammount = InfoUser.ammount
-        interest = InfoUser.interest
-        dayli_interest = interest/(100*30)
-        total_dayli_interest = int(ammount*dayli_interest)
+        Ammount = InfoUser.ammount
+        Interet = InfoUser.interest
         
-        available = InfoUser.available
-
-        max_profit = int(ammount*dayli_interest*days_difference)        
+        IntDayli = Interet/(100*30)
         
-        ref_available = InfoUser.ref_available
+        EA = int(Interet*12)
         
-        cash_total = InfoUser.total_interest + InfoUser.total_ref
-        total_paid = InfoUser.paid + InfoUser.ref_paid
+        TotalDayli = int(Ammount*IntDayli)
+    
+        MaxAmmount = int(InfoUser.total_interest + Ammount*IntDayli*(TimeExpire - NowToday).days)    
         
-        try:
-            time_percent = int(((now - InfoUser.date_joined).days/days_difference)*100)
-            knobvalue = int(min(InfoUser.total_interest/ammount,1)*100)
-            percent = (InfoUser.total_interest/ammount)*100
-            
-            if percent >= 100:
-                knobtext = str(round((percent/100),2))+"x"
-                
-            if percent < 100:
-                knobtext = str(round(percent,2))+"%"
-            
-            
-        except ZeroDivisionError:
-            time_percent = 0
-            knobvalue = 0
-            knobtext = 0
-            percent = 0
+        TotalCash = int(InfoUser.total_interest + InfoUser.total_ref)
+        TotalPaid = int(InfoUser.paid + InfoUser.ref_paid)
         
+        TimeKValue = int(((NowToday - InfoUser.date_joined).days/TimeDelta)*100) if TimeDelta else 0
+        KValue = (InfoUser.total_interest/Ammount)*100 if Ammount else 0
+        
+        KnobValue = int(min(InfoUser.total_interest/Ammount,1)*100) if Ammount else 0
+        KnobText = str(round((KValue / 100)+1, 2)) + "x" if KValue >= 100 else str(round(KValue, 1)) + "%"
+   
         return {
-            'username':InfoUser.username,               #//Nombre de Usuario
-            'email':InfoUser.email,                     #//Correo Electronico
-            'full_name':InfoUser.full_name,             #//Nombre
-            'bank':InfoUser.bank,                       #//Banco
-            'bank_account':InfoUser.bank_account,       #//Cuenta Bancaria
-            'fee':FEE,                                  #//Impuesto
-            'min_ammount': MINAMMOUNT,                  #//$Min-Retiro
-            'ammount':ammount,                          #//Inversion Inicial
-            'interest':interest,                        #//Interes Mensual
-            'dayli_interest':total_dayli_interest,      #//Interes Diario
-            'total_paid':total_paid,                    #//Total Abonado
-            'available':available,                      #//Disponible Intereses
-            'ref_available': ref_available,             #//Disponible Comiciones
-            'cash_total':cash_total,                    #//Total -> Intereses + Comiciones
-            'date_expire': date_to_string,              #//Fecha Finalizacion
-            'knobvalue':knobvalue,                      #//Valor WidgetBar
-            'knobtext': knobtext,                       #//Porcentaje de Avance ->"Only Intereses"
-            'time_percent':time_percent,                #//Porcentaje de Avance Tiempo
-            'max_profit':max_profit,                    #//Maximo Beneficio Posible
-            'date_now_str': date_now_str                #//Hora/Fecha Actual
+            'TAX':FEE,                                  
+            'MinTicket': MINAMMOUNT,                                  
+            'TotalDayli':TotalDayli,      
+            'TotalPaid':TotalPaid,                    
+            'TotalCash':TotalCash,                                
+            'KnobValue':KnobValue,                      
+            'KnobText': KnobText,                       
+            'TimeKValue':TimeKValue,                
+            'MaxAmmount':MaxAmmount,
+            'EA': EA,
+            'TimeExpire': TimeExpire.strftime('%m/%d/%Y %I:%M %p')        
             }
     return {}   

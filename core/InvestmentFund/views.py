@@ -257,8 +257,8 @@ class ContentView(TemplateView):
 class BenefitView(TemplateView):
     template_name='home/benefit.html'
 
-class BenefitNewView(TemplateView):
-    template_name='home/benefit_new.html'
+class ServicesView(TemplateView):
+    template_name='home/services.html'
     
 
 class InterfaceView(LoginRequiredMixin, TemplateView):
@@ -482,7 +482,9 @@ def EmailConfirmView(request, uidb64, token):
                 f.write("EmailConfirm--> {} Error: {}\n".format(eDate, str(e)))
 
         return render(request, 'registration/email_confirm-failed.html', {"user": nUser})
-    
+
+def ComingSoonView(request):
+    return render(request, '000.html')
     
 def UserIsStaff(user):
     return user.is_staff

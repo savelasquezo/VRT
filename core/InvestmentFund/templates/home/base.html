@@ -15,6 +15,11 @@
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
 <body>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <div id="loader"><div class="lds-ellipsis"><div></div><div></div><div></div></div></div>
+    <script type="text/javascript">     
+        window.onload = function(){$("#loader").fadeOut(1600);}     
+    </script>
     <!-- header section start -->    
     <div class="wrapper">
         <div class="left">
@@ -30,7 +35,7 @@
                 <button class="link link-right" onclick=window.location.href="{% url 'Content' %}">
                     <h5 class="h5-links"><i class="fa-solid fa-sack-dollar"></i> SERVICIOS</h5>
                 </button>
-                <button class="link link-right" onclick=window.location.href="{% url 'Benefit' %}">
+                <button class="link link-right" onclick=window.location.href="{% url 'Services' %}">
                     <h5 class="h5-links"><i class="fa-solid fa-file-circle-plus"></i> BENEFICIOS</h5>
                 </button>
                 <button class="link link-right" onclick=window.location.href="{% url 'Info' %}">

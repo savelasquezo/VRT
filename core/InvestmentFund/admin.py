@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Usuario, UserRank, Tickets, InvestRequests
+from .models import Usuario, UserRank, Tickets, InvestRequests, Services
 
 
 class MyAdminSite(admin.AdminSite):
@@ -18,7 +18,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Status": 4,"Grupos": 5}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Status": 4, "Servicios": 5,"Grupos": 0}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
@@ -72,8 +72,7 @@ class UserBaseAdmin(UserAdmin):
         )}
     
     fInvestment = {"fields": (
-        ("user_rank","interest"),
-        ("ammount"),
+        ("ammount","interest"),
         ("bank",
         "bank_account"),
         ("date_joined","date_expire")
@@ -88,7 +87,13 @@ class UserBaseAdmin(UserAdmin):
         ("ref_available","ref_paid"),
         "total_ref"
         )}
-    
+
+    frank = {"fields": (
+        "user_rank",
+        ("rank_points","rank_used"),
+        "rank_total"
+        )}
+
     fRefInformation = {"fields": (
             ("ref_id","ref_name"),
             ("ref_total","ref_interest")
@@ -104,6 +109,7 @@ class UserBaseAdmin(UserAdmin):
         ("Inversion", fInvestment),
         ("Intereses", fInterest),
         ("Comiciones", fReferees),
+        ("VRT-Beneficios", frank),
         ("Informacion del Asociado", fRefInformation),
         ("Autorizaciones", fGroups)
         )
@@ -133,6 +139,7 @@ class UserBaseAdmin(UserAdmin):
                 ("Inversion", self.fInvestment),
                 ("Intereses", self.fInterest),
                 ("Comiciones", self.fReferees),
+                ("VRT-Beneficios", self.frank),
                 ("Informacion del Asociado", self.fRefInformation)
             )
         return super().get_fieldsets(request, obj)
@@ -279,11 +286,43 @@ class InvestRequestsAdmin(admin.ModelAdmin):
         return self.superlist_filter
 
 
+class ServicesAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "username",
+        "sType",
+        "sPts",
+        "date_join",
+        "date_approved",
+        "sState"
+        )
+
+    fServices = {"fields": (
+        ("username","sState"),
+        ("sType","sPts"),
+        ("date_join","date_approved"),
+        ("sCode"),
+        "CommentText"
+        )}
+
+    list_filter = ["date_join","date_approved","sType"]
+    search_fields = ['username']
+
+    radio_fields = {'sState': admin.HORIZONTAL}
+
+    fieldsets = (
+        ("Caracteristicas", fServices),
+        )
+
+    def has_add_permission(self, request, obj=None):
+            return False
+
 admin.site.register(Group)
 
 admin.site.register(Usuario, UserBaseAdmin)
 admin.site.register(UserRank, UserRankAdmin)
 admin.site.register(Tickets, TicketsAdmin)
+admin.site.register(Services, ServicesAdmin)
 admin.site.register(InvestRequests, InvestRequestsAdmin)
 
 

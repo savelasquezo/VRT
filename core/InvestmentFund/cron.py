@@ -42,6 +42,7 @@ class AddFundsToUser(CronJobBase):
 
                 cAmmount = int(nUser.ammount)
                 cTotalInterest = int(nUser.total_interest)
+                
                 cPaid = int(nUser.paid)
                 cPaidRef = int(nUser.ref_paid)
 
@@ -50,8 +51,10 @@ class AddFundsToUser(CronJobBase):
 
                 cValue = int(cAmmount*(cInterest))
                 cValueRef = int(cAmmount*(cInterestRef))
+                cValueRank = int(1+cAmmount/1000000)
                 
                 cAvailable = int(cTotalInterest-cPaid + cValue)
+                cRankPoints = int(nUser.rank_total-nUser.rank_used + cValueRank)
 
                 try:
                     CUser.update(
@@ -88,8 +91,16 @@ class AddFundsToUser(CronJobBase):
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
                         f.write("QueryError: {}\n".format(str(e)))
                         
+                try:
+                    CUser.update(
+                        rank_points=cRankPoints,
+                        rank_total=F('rank_total') + cValueRank)
+                    
+                except Exception as e:
+                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                        f.write("QueryError: {}\n".format(str(e)))    
+                        
                 FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ nUser.username + '.xlsx'
-
                 try:
                     if not os.path.exists(FileName):
                         WB = Workbook()

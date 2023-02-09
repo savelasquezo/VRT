@@ -4,25 +4,27 @@
 
 {% block block %}
 <div class="container">
-      <script> var available = '{{ available }}';</script>
-      <script> var ref_available = '{{ ref_available }}';</script>
-      <script> var cash_total = '{{ cash_total }}';</script>
-      <script> var fee = '{{ fee }}';</script>
-      <script> var min_ammount = '{{ min_ammount }}';</script>
+      <script> var available = '{{ user.available }}';</script>
+      <script> var ref_available = '{{ user.ref_available }}';</script>
+      <script> var cash_total = '{{ TotalCash }}';</script>
+      <script> var fee = '{{ TAX }}';</script>
+      <script> var min_ammount = '{{ MinTicket }}';</script>
       <form action="{% url 'History' %}" target="_self" method="POST" name="ticket" id="ticket">
         {% csrf_token %}
         <div class="label">
-          <h4>{{full_name}}</h4>
+          <h4>{{user.full_name}}</h4>
           <img src="{% static '/images/vrt-logo2.png' %}" name="logo" width="52">
         </div>
         <div class="label">
-          <span id="title">$Disponible Total:</span><span id="aviable_value">${{ cash_total|intcomma }}</span>
+          <span id="title">$Disponible Total:</span><span id="aviable_value">${{ TotalCash|intcomma }}</span>
         </div>
         <div class="choices">
           <input class="radio-choices" name="ammount_from" type="radio" id="choice1" value="f1" required>
           <label for="choice1">Intereses</label>
-          <input class="radio-choices" name="ammount_from" type="radio" id="choice2" value="f2" required>
-          <label for="choice2">Comisiones</label>
+          {% if user.is_staff %}
+            <input class="radio-choices" name="ammount_from" type="radio" id="choice2" value="f2" required>
+            <label for="choice2">Comisiones</label>
+          {% endif %}
           <input class="radio-choices" name="ammount_from" type="radio" id="choice3" value="f3" required>
           <label for="choice3">Total</label>
         </div>
@@ -44,11 +46,11 @@
         </div>
         <div class="label">
           <label for="name">#Cuenta:</label>
-          <input type="text" class="label_input" name="bank_account" id="bank_account" value="{{bank_account}}" required/>
+          <input type="text" class="label_input" name="bank_account" id="bank_account" value="{{user.bank_account}}" required/>
         </div>
         <div class="label">
-          <span class="splitext">$Costo:</span>
-          <span>{{fee|intcomma}}</span>
+          <span class="splitext">Costo:</span>
+          <span>${{TAX|intcomma}}</span>
         </div>
         <textarea class="textarea" name="message" for="message" id="message" maxlength="256"></textarea><p></p>
         <button type="submit" class="boton_ticket" name="succces"><i class="fa-solid fa-money-check-dollar"></i></button>
