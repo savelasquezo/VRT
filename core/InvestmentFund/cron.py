@@ -40,6 +40,7 @@ class AddFundsToUser(CronJobBase):
                 if date.today().day == 1:
                     CUser.update(available_tickets=3)
 
+                cUsername = nUser.username
                 cAmmount = int(nUser.ammount)
                 cTotalInterest = int(nUser.total_interest)
                 
@@ -51,10 +52,12 @@ class AddFundsToUser(CronJobBase):
 
                 cValue = int(cAmmount*(cInterest))
                 cValueRef = int(cAmmount*(cInterestRef))
-                cValueRank = int(1+cAmmount/1000000)
                 
                 cAvailable = int(cTotalInterest-cPaid + cValue)
-                cRankPoints = int(nUser.rank_total-nUser.rank_used + cValueRank)
+                
+                cValueRank = int(5+cAmmount/1000000)
+                cRankPaid = nUser.rank_used
+                cRankPoints = int(nUser.rank_total-cRankPaid + cValueRank)
 
                 try:
                     CUser.update(
@@ -63,7 +66,8 @@ class AddFundsToUser(CronJobBase):
                     
                 except Exception as e:
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("QueryError: {}\n".format(str(e)))
+                        f.write("{} QueryError Interest: {}\n".format(str(cUsername), str(e)))
+
 
                 try:
                     if nUser.ref_id:
@@ -72,7 +76,7 @@ class AddFundsToUser(CronJobBase):
                     
                 except Exception as e:
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("QueryError: {}\n".format(str(e)))
+                        f.write("QueryError Referido: {}\n".format(str(e)))
                 
                 UserRef = Usuario.objects.filter(ref_id= nUser.codigo)
                 mAviableUserRef = 0
@@ -89,7 +93,7 @@ class AddFundsToUser(CronJobBase):
                     
                 except Exception as e:
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("QueryError: {}\n".format(str(e)))
+                        f.write("QueryError Asociados: {}\n".format(str(e)))
                         
                 try:
                     CUser.update(
@@ -98,29 +102,31 @@ class AddFundsToUser(CronJobBase):
                     
                 except Exception as e:
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("QueryError: {}\n".format(str(e)))    
+                        f.write("QueryError UserRank: {}\n".format(str(e)))    
                         
                 FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ nUser.username + '.xlsx'
                 try:
                     if not os.path.exists(FileName):
                         WB = Workbook()
                         WS = WB.active
-                        WS.append(["Tipo","Fecha", "$Interes", "$Comiciones", "AcInteres", "AcComisiones", "$Ticket", "Origen", "Total"])
+                        WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
                     else:
                         WB = load_workbook(FileName)
                         WS = WB.active
                     
                     cTotal = nUser.total
                     cAviableRef = nUser.ref_available
+                    
+                    cRankTotal = nUser.rank_total
 
-                    FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal]
+                    FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal,cRankPoints,cRankPaid,cRankTotal]
 
                     WS.append(FileData)
                     WB.save(FileName)
                     
                 except Exception as e:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("WorkbookError: {}\n".format(str(e)))
+                    with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+                        f.write("CronJob WorkbookError: {}\n".format(str(e)))
 
 cronjobs = [
     AddFundsToUser,

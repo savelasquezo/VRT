@@ -1,0 +1,199 @@
+{% extends 'gift/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/cards-gift.css' %}">
+<div class="container-flex">
+    <div class="container">
+        <div class="item-container">
+            <div class="img-container">
+                <img src="{% static '/images/cards/img1.jpg' %}" alt="Event image">
+            </div>
+            <div class="body-container">
+                <div class="overlay"></div>
+                <div class="event-info">
+                    <p class="title">TELEFONIA</p>
+                    <div class="separator"></div>
+                    <p class="info-gift">
+                        Simcards Internacionales, Llamadas y Navegacion en mas de 180 paises, 
+                        cobertura garantizada en tus viajes al exterior
+                    </p>
+                    <p class="info-link"><a href="">+{{Setting.gSTPtsMin}} PTS</a></p>
+                    <div class="additional-info">
+                        <p class="info-gift">
+                            <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>SIMCARDTRAVEL</h2></a><br>
+                            <h5>Aplica para viajes con fecha inferior a 31 de Diciembre del presente año<br>
+                                el descuento sera aplicable a traves del codigo del asociado cuando este lo solicite
+                            </h5><br>
+                        </p>
+                    </div>
+                </div>
+                <button class="action" onclick="openform('SimcardTravel', {{Setting.gSTPtsMin}} )">SOLICITAR</button>
+            </div>
+        </div>
+        <div class="item-container">
+            <div class="img-container">
+                <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+            </div>
+            <div class="body-container">
+                <div class="overlay"></div>
+                <div class="event-info">
+                    <p class="title">TRADING</p>
+                    <div class="separator"></div>
+                    <p class="info-gift">
+                        Descuentos en suscripcion en nuestra academia de trading, entiende
+                        los mercados de valores y opera con nosotros en vivo
+                    </p>
+                    <p class="info-link"><a href="">+{{Setting.gVTPtsMin}} PTS</a></p>
+                    <div class="additional-info">
+                        <p class="info-gift">
+                            <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>VAORTRADING</h2></a><br>
+                            <h5>Aplica a todos los planes de suscripcion, asesoramientos personalizados
+                               y clases en vivo, acceso a canal premium<br> Unicamente se cubre el valor de la inscripcion
+                            </h5><br>
+                        </p>
+                    </div>
+                </div>
+                <button class="action" onclick="openform('VaorTrading', {{Setting.gVTPtsMin}} )">SOLICITAR</button>
+            </div>
+        </div>
+        <div class="item-container">
+            <div class="img-container">
+                <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+            </div>
+            <div class="body-container">
+                <div class="overlay"></div>
+                <div class="event-info">
+                    <p class="title">TURISMO</p>
+                    <div class="separator"></div>
+                    <p class="info-gift">
+                        Descuentos en destinos turisticos nacionales, vive unas incribles vacaciones
+                        en alguno de nuestros desticos turisticos asosiados
+                    </p>
+                    <p class="info-link"><a href="">+{{Setting.gLTPtsMin}} PTS</a></p>
+                    <div class="additional-info">
+                        <p class="info-gift">
+                            <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>LIFETRAVEL</h2></a><br>
+                            <h5>Aplica unicamente a destinos ofrecidos y en las fechas estipuladas en la programacion
+                                de los eventos<br> Unicamente se cubre el valor de la inscripcion
+                            </h5><br>
+                        </p>
+                    </div>
+                </div>
+                <button class="action" onclick="openform('LifeTravel', {{Setting.gLTPtsMin}} )">SOLICITAR</button>
+            </div>
+        </div>
+        <div class="item-container">
+            <div class="img-container">
+                <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+            </div>
+            <div class="body-container">
+                <div class="overlay"></div>
+                <div class="event-info">
+                    <p class="title">MEDICINA</p>
+                    <div class="separator"></div>
+                    <p class="info-gift">
+                        Descuentos en destinos turisticos nacionales, vive unas incribles vacaciones
+                        en alguno de nuestros desticos turisticos asosiados
+                    </p>
+                    <p class="info-link"><a href="">+{{Setting.gDCPtsMin}} PTS</a></p>
+                    <div class="additional-info">
+                        <p class="info-gift">
+                            <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>1DOC3</h2></a><br>
+                            <h5>Aplica unicamente a destinos ofrecidos y en las fechas estipuladas en la programacion
+                                de los eventos<br> Unicamente se cubre el valor de la inscripcion
+                            </h5><br>
+                        </p>
+                    </div>
+                </div>
+                <button class="action" onclick="openform('1DOC3', {{Setting.gDCPtsMin}} )">SOLICITAR</button>
+            </div>
+        </div>
+        <!--<div class="item-container">
+            <div class="img-container">
+                <img src="{% static '/images/cards/img3.jpg' %}" alt="Event image">
+            </div>
+            <div class="body-container">
+                <div class="overlay"></div>
+                <div class="event-info">
+                    <p class="title">GIFTCARDS</p>
+                    <div class="separator"></div>
+                    <p class="info-gift">
+                        Tarjetas de regalo redimibles en las principales tiendas del pais, o principales
+                        tiendas virtuales con sede en Colombia
+                    </p>
+                    <p class="info-link"><a href="">+9000 PTS</a></p>
+                    <div class="additional-info">
+                        <p class="info-gift">
+                            <h2>AMAZON</h2><br>
+                            <h5>El valor de la tarjeta dependera del puntaje invertido<br> la disponibilidad de uso
+                                dependera de la tienda seleccionada, el plazo de uso esta sujeto al tipo de tarjeta
+                            </h5><br>
+                        </p>
+                    </div>
+                </div>
+                <button class="action">VER</button>
+            </div>
+        </div>-->
+        <!--<div class="item-container">
+            <div class="img-container">
+                <img src="{% static '/images/cards/img4.jpg' %}" alt="Event image">
+            </div>
+            <div class="body-container">
+                <div class="overlay"></div>
+                <div class="event-info">
+                    <p class="title">SORTEOS</p>
+                    <div class="separator"></div>
+                    <p class="info-gift">
+                        Participa en los diferentes sorteos de bonos de regalo, premios y viajes a destinos nacionales
+                        todo incluido.
+                    </p>
+                    <p class="info-link"><a href="">+1000 PTS</a></p>
+                    <div class="additional-info">
+                        <p class="info-gift">
+                            <h2>VRTFUND</h2><br>
+                            <h5>El sorteo se realizara en base a las ultimas cifras reportadas en la TMR del Dolar
+                                en las fechas establecidas<br>El plazo para redimir dependera del tipo de sorteo
+                            </h5><br><br>
+                        </p>
+                    </div>
+                </div>
+                <button class="action">VER</button>
+            </div>
+        </div>-->
+    </div>
+</div>
+<div class="admin-panel-gift">
+    <button class="admin-button" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+    <button class="admin-button" onclick=window.location.href="#"><i class="fa-solid fa-circle-info"></i></button>
+    <button class="admin-button" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>
+</div>
+<dialog id="dlog" class="dlog">
+    <div class="dlog-absolute">
+        <div class="container-dlog">
+            <form action="{% url 'GiftHistory' %}" target="_self" method="POST" name="giftticket" id="giftticket">
+                {% csrf_token %}
+                <div class="label">
+                    <div class="label label-name">
+                        <h4>{{user.full_name}}</h4>
+                        <span>{{ user.rank_points|intcomma }} VRTs</span>
+                    </div>
+                    <img src="{% static '/images/logo/vrt-logo2.png' %}" name="logo" width="52">
+                </div>
+                <div class="label label-Gift">
+                    <h4 id="tGift" name="tGift">SERVICIO</h4><h4 id="vGift" name="vGift">VALOR</h4>
+                </div>
+                <textarea class="textarea" name="message" for="message" id="message" maxlength="256" ></textarea><p></p>
+                <input id="ivGift" name="ivGift" type="hidden" value="N/A">
+                <input id="itGift" name="itGift" type="hidden" value="N/A">
+                <button type="submit" class="boton_ticket" name="succces"><i class="fa-solid fa-money-check-dollar"></i></button>
+                <script src="{% static 'js/forms.js' %}"></script>
+            </form>
+            <button class="boton_ticket" name="comeback" id="back"><i class="fa-solid fa-delete-left"></i></button>
+        </div>
+    </div>
+</dialog>
+<script src="{% static 'js/popup.js' %}"></script>
+
+{% endblock %}

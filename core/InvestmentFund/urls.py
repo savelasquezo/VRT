@@ -34,6 +34,10 @@ urlpatterns = [
     path('accounts/admin/ticket/', views.TicketFormView.as_view(), name='Tickets'),
     path('accounts/admin/history/', views.HistoryListView.as_view(), name='History'),
 
+    path('accounts/admin/gift/', views.GiftView.as_view(), name='Gift'),
+    path('accounts/admin/gift/ticket', views.GiftTicketView.as_view(), name='GiftTicket'),
+    path('accounts/admin/gift/history', views.GiftHistoryView.as_view(), name='GiftHistory'),
+
 
 ]
 

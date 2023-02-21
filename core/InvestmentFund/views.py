@@ -22,9 +22,9 @@ from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 from django.contrib.auth.views import LoginView
 
-from .tools import gToken
+from .tools import gToken, HashCode
 
-from .models import Usuario, Tickets, InvestRequests, FEE
+from .models import Usuario, Tickets, InvestRequests, Settings, Services
 
 def IsStaff(user):
     return user.is_staff
@@ -37,13 +37,19 @@ class SingupView(UserPassesTestMixin, TemplateView):
     template_name='registration/singup.html'
 
     def test_func(self):
+        """ UserAutenticate Cant Create NewUser, When User is Antenticate test_func is False
+        """
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
+        """When test_fun(self) is False, Redirect User Autenticate to Home
+        """
         return redirect(reverse('Home'))
 
     def post(self, request, *args, **kwargs):
-        
+        """Tasker request Form to Create a NewUser, Verifi User/Email in DB 
+            If Success form Send Email Verification to User
+        """ 
         iUsername = request.POST['username']
         iPass = request.POST['password']
         iFullName = request.POST['name']
@@ -61,7 +67,7 @@ class SingupView(UserPassesTestMixin, TemplateView):
             messages.error(request, f'El Nombre de Usuario no esta Disponible', extra_tags="info") 
             return redirect(reverse('Singup'))
 
-        if Usuario.objects.filter(email=iEmail):
+        if Usuario.objects.filter(email=iEmail, is_active=True):
             messages.error(request, '¡Registro Incompleto!', extra_tags="title")
             messages.error(request, f'El Email no esta Disponible', extra_tags="info") 
             return redirect(reverse('Singup'))
@@ -80,7 +86,7 @@ class SingupView(UserPassesTestMixin, TemplateView):
             nUser.set_password(iPass)
             nUser.save()
 
-            #login(request, nUser)
+            #login(request, nUser) -->Email ServiceAutenticate
             
             messages.success(request, '¡Registro Exitoso!', extra_tags="title")
             messages.success(request, f'Hemos enviado un Email para verificar su cuenta', extra_tags="info")
@@ -123,10 +129,15 @@ class UserLoginView(UserPassesTestMixin, LoginView):
     template_name='registration/login.html'
 
     def test_func(self):
+        """ UserAutenticate Cant Create NewUser, When User is Antenticate test_func is False
+        """
         return not self.request.user.is_authenticated
 
     def handle_no_permission(self):
+        """When test_fun(self) is False, Redirect User Autenticate to Home
+        """
         return redirect(reverse('Home'))
+
 
     def form_invalid(self, form):
         messages.error(self.request, 'Usuario/Contraseña Incorrectos', extra_tags="title")
@@ -142,6 +153,8 @@ class InvestPremiumView(LoginRequiredMixin, TemplateView):
     
     @method_decorator(user_passes_test(IsStaff))
     def dispatch(self, request, *args, **kwargs):
+        """ Only UserStaff Can Acces to this View
+        """
         return super().dispatch(request, *args, **kwargs)
 
 class InfoFormView(LoginRequiredMixin, TemplateView):
@@ -308,7 +321,14 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
 
         InfoUser = Usuario.objects.get(id=request.user.id)
         AviableTickets = InfoUser.available_tickets
-        
+
+        try:
+            Setting = Settings.objects.get(Online=True)  
+        except:
+            Setting = None
+            
+        Fee = Setting.sFee if Setting else 0
+
         rAmmount = int(request.POST['ammount'])
         rAmmountFrom = request.POST['ammount_from']
         rBank = request.POST['bank']
@@ -366,7 +386,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
                 ref_paid=F('ref_paid')+rPaidRef
                 )
 
-        rAmmountFee = rAmmount - FEE
+        rAmmountFee = rAmmount - Fee
         
         Tickets.objects.create(
             username = InfoUser,
@@ -379,9 +399,6 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             ) 
 
         TimeDelta = self.days_until_next_month()
-
-        InfoUser = Usuario.objects.get(id=request.user.id)
-        AviableTickets = InfoUser.available_tickets
 
         subject = "Notificación - Solicitud de Retiro"        
         email_template_name = "interface/tickets_email_notify.txt"
@@ -409,23 +426,37 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
 
         FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
 
-        if not os.path.exists(FileName):
-            WB = Workbook()
-            WS = WB.active
-            WS.append(["Tipo","Fecha", "$Interes", "$Comiciones", "AcInteres", "AcComisiones", "$Ticket", "Origen", "Total"])
-        else:
-            WB = load_workbook(FileName)
-            WS = WB.active
+        try:
+            if not os.path.exists(FileName):
+                WB = Workbook()
+                WS = WB.active
+                WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
+            else:
+                WB = load_workbook(FileName)
+                WS = WB.active
 
-        NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
+            NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
 
-        FileData = [0, NowToday, "", "", "", "", rAmmount, rAmmountFrom,""]
+            FileData = [0, NowToday, "", "", "", "", rAmmount, rAmmountFrom,"","","",""]
 
-        WS.append(FileData)
-        WB.save(FileName)
+            WS.append(FileData)
+            WB.save(FileName)
+            
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+                f.write("HistoryList WorkbookError: {}\n".format(str(e)))
+
 
         Usuario.objects.filter(id=InfoUser.id).update(available_tickets=F('available_tickets')-1)
-        Usuario.objects.filter(id=1).update(fee=F('fee')+FEE)
+
+        try:
+            Setting = Settings.objects.get(Online=True) 
+            Setting.sFeeAmmount += Fee
+            Setting.save()
+             
+        except Settings.DoesNotExist:
+            Setting = None
+
         
         messages.success(request, 'Solicitud Registrada', extra_tags="title")
         messages.success(request, f'¡EL tiempo de espera aproximado será de {TimeDelta} días Hábiles!', extra_tags="info")
@@ -485,6 +516,129 @@ def EmailConfirmView(request, uidb64, token):
 
 def ComingSoonView(request):
     return render(request, '000.html')
+
+
+class GiftView(TemplateView):
+    template_name='gift/gift.html'
+
+
+class GiftTicketView(TemplateView):
+    template_name='gift/giftticket.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        try:
+            Setting = Settings.objects.get(Online=True)  
+        except:
+            Setting = None
+        
+        context = self.get_context_data(**kwargs)
+        context={
+            'gSTPtsMin':Setting.gSTPtsMin,
+            'Setting':Setting,
+        }
+
+        return self.render_to_response(context)
+
+class GiftHistoryView(TemplateView):
+    template_name='gift/gifthistory.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        ITEMS = 5
+        MAXPAGES = 5
+        
+        OGifts = Services.objects.filter(username=request.user.id).order_by("-date_join")[:ITEMS*MAXPAGES]
+        ListGiftPages = Paginator(OGifts,ITEMS).get_page(request.GET.get('page'))
+        
+        GiftsFix = ITEMS - len(OGifts)%ITEMS
+        
+        if GiftsFix == ITEMS and len(OGifts) != 0:
+            GiftsFix = 0
+        
+        context = self.get_context_data(**kwargs)
+        context={
+            'ListGiftPages':ListGiftPages,
+            'FixGifts':range(0,GiftsFix)
+        }
+
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+
+        InfoUser = Usuario.objects.get(id=request.user.id)
+        UserVRTs = InfoUser.rank_points
+
+        rPts = int(request.POST['ivGift'])
+        rType = request.POST['itGift']
+        rComment = request.POST["message"]
+
+        if UserVRTs < rPts:
+            messages.error(request, 'ERROR', extra_tags="title")
+            messages.error(request, '¡VRTs Insuficientes!', extra_tags="info")
+            return redirect(reverse('GiftHistory'))
+
+        Usuario.objects.filter(id=InfoUser.id).update(rank_points=F('rank_points') - rPts)
+        xCode = HashCode(5)
+ 
+        Services.objects.create(
+            username = InfoUser,
+            sPts = rPts,
+            sType = rType,
+            sCode = xCode,
+            CommentText = rComment,
+            ) 
+
+
+        subject = "Notificación - Solicitud de Servicio"        
+        email_template_name = "gift/gift_email_notify.txt"
+
+        c = {
+        'username': InfoUser.username,
+        'sPts':rPts,
+        'sType':rType,
+        'site_name': 'VRT-Fund',
+        'protocol': 'https',# http
+        'domain':'vrtfund.com',# 127.0.0.1:8000
+        }
+        email = render_to_string(email_template_name, c)
+
+        try:
+            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
+                f.write("EmailGift Notification--> {} Error: {}\n".format(eDate, str(e)))
+
+
+        FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
+
+        try:
+            if not os.path.exists(FileName):
+                WB = Workbook()
+                WS = WB.active
+                WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
+            else:
+                WB = load_workbook(FileName)
+                WS = WB.active
+
+            NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
+            
+            cAviablePoints = int(InfoUser.rank_points)
+            cRankPoints = int(InfoUser.rank_total-rPts)
+
+            FileData = [0, NowToday, "", "", "", "", "", "","",cAviablePoints,rPts,cRankPoints]
+
+            WS.append(FileData)
+            WB.save(FileName)
+            
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+                f.write("HistoryList WorkbookError: {}\n".format(str(e)))
+
+
+        messages.success(request, 'Solicitud Registrada', extra_tags="title")
+        messages.success(request, f'¡EL tiempo de espera aproximado será de 3 días Hábiles!', extra_tags="info")
+        return redirect(reverse('GiftHistory'))
     
-def UserIsStaff(user):
-    return user.is_staff
+

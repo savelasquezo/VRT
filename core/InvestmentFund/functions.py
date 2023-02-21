@@ -1,6 +1,7 @@
 from datetime import datetime
+
 from django.utils import timezone
-from .models import Usuario, FEE, MINAMMOUNT
+from .models import Usuario, Settings
 
 def GlobalContext(request):
     
@@ -13,8 +14,21 @@ def GlobalContext(request):
     if request.user.id is not None:
         rUser = request.user
 
-        NowToday = timezone.now()
+        LocalToday = timezone.now()
+        
         InfoUser = Usuario.objects.get(id=rUser.id)
+        
+        try:
+            Setting = Settings.objects.get(Online=True)  
+        except:
+            Setting = None
+            
+        Fee = Setting.sFee if Setting else 0
+        MinAmmount = Setting.sTicketsAmmount if Setting else 0
+        
+        TravelExpire = Setting.gTravelDate if Setting else "N/A"
+        ThisYear = Setting.gTravelDate.replace(month=1, day=1)
+        GiftDelta = (TravelExpire - LocalToday).days
 
         TimeDelta = (InfoUser.date_expire - InfoUser.date_joined).days
         TimeExpire = InfoUser.date_expire
@@ -24,32 +38,42 @@ def GlobalContext(request):
         
         IntDayli = Interet/(100*30)
         
-        EA = int(Interet*12)
+        InteretTotal = int(Interet*12)
         
         TotalDayli = int(Ammount*IntDayli)
     
-        MaxAmmount = int(InfoUser.total_interest + Ammount*IntDayli*(TimeExpire - NowToday).days)    
+        MaxAmmount = int(InfoUser.total_interest + Ammount*IntDayli*(TimeExpire - LocalToday).days)    
         
         TotalCash = int(InfoUser.total_interest + InfoUser.total_ref)
         TotalPaid = int(InfoUser.paid + InfoUser.ref_paid)
         
-        TimeKValue = int(((NowToday - InfoUser.date_joined).days/TimeDelta)*100) if TimeDelta else 0
+        TimeKValue = int(((LocalToday - InfoUser.date_joined).days/TimeDelta)*100) if TimeDelta else 0
+        
+        TimeGValue = int((1 - (GiftDelta/(TravelExpire-ThisYear).days)) * 100)
+        
         KValue = (InfoUser.total_interest/Ammount)*100 if Ammount else 0
         
         KnobValue = int(min(InfoUser.total_interest/Ammount,1)*100) if Ammount else 0
         KnobText = str(round((KValue / 100)+1, 2)) + "x" if KValue >= 100 else str(round(KValue, 1)) + "%"
+        
+        TravelState = Setting.IsActive if Setting else False
+        WinnerName = Setting.gWinnerName if TravelState else None
    
         return {
-            'TAX':FEE,                                  
-            'MinTicket': MINAMMOUNT,                                  
+            'TAX':Fee,                                  
+            'MinTicket': MinAmmount,                                  
             'TotalDayli':TotalDayli,      
             'TotalPaid':TotalPaid,                    
             'TotalCash':TotalCash,                                
             'KnobValue':KnobValue,                      
-            'KnobText': KnobText,                       
-            'TimeKValue':TimeKValue,                
+            'KnobText': KnobText,                                      
             'MaxAmmount':MaxAmmount,
-            'EA': EA,
+            'InteretTotal': InteretTotal,
+            'TimeGValue':TimeGValue,
+            'TravelState':TravelState,
+            'WinnerName':WinnerName,
+            'TravelExpire': TravelExpire.strftime('%m/%d/%Y %I:%M %p'),
+            'TimeKValue':TimeKValue, 
             'TimeExpire': TimeExpire.strftime('%m/%d/%Y %I:%M %p')        
             }
     return {}   

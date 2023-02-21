@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime
 
 from django.utils import timezone
 from django.db import models
@@ -9,10 +9,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 lst_ranks = (('Silver','Silver'),('Gold','Gold'),('Platinum','Platinum'))
 lst_sts = (('Pendiente','Pendiente'),('Aprobado','Aprobado'),('Denegado','Denegado'),('Error','Error'))
 lst_banks = (('Binance','Binance'),('Metamask','Metamask'),('Fiat','Fiat'))
-
-FEE = 6000
-ATICKETS = 3
-MINAMMOUNT = 100000
 
 class Usuario(AbstractUser):
     """
@@ -39,11 +35,8 @@ class Usuario(AbstractUser):
     
     is_operating = models.BooleanField(_("Activo"),default=False,
                 help_text=_("El Usuario actualmente genera Intereses ¡Posterior a la Fecha de Expiracion sera desactivado!"),)
-    
-    fee = models.PositiveBigIntegerField(_("Fee"),blank=True,default=0,
-                help_text=_("Capital Acumulado en Fee ($COP)"),)
 
-    available_tickets = models.IntegerField(_("Tickets"),blank=True,default=ATICKETS,
+    available_tickets = models.IntegerField(_("Tickets"),blank=True,default=3,
                 help_text=_("Tickets Disponibles"),)
 
     full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
@@ -144,24 +137,6 @@ class Tickets(models.Model):
 
     def __str__(self):
         return "Ticket: %s" % (self.pk)
-
-class UserRank(models.Model):
-        
-    rName = models.CharField(_("Status"), choices=lst_ranks, max_length=16, unique=True, default="r1",
-                                help_text=_("Status del Inversionista en VaorTrading"),)
-    
-    rTravelGift = models.BooleanField(_("Viajes"),)
-    rVacations = models.BooleanField(_("Vacaciones"),)
-    rGiftCard = models.BooleanField(_("Tarjetas"),)
-    rSimCard = models.BooleanField(_("Simcard"),)
-    rAdvisory = models.BooleanField(_("Asesorias"),)
-    
-    class Meta:
-            verbose_name = _("Status")
-            verbose_name_plural = _("Status")
-
-    def __str__(self):
-        return "Status: %s" % (self.rName)
     
     
 class InvestRequests(models.Model):
@@ -233,3 +208,75 @@ class Services(models.Model):
 
     def __str__(self):
         return "Servicio: %s" % (self.pk)
+
+class UserRank(models.Model):
+        
+    rName = models.CharField(_("Status"), choices=lst_ranks, max_length=16, unique=True, default="r1",
+                                help_text=_("Status del Inversionista en VaorTrading"),)
+    
+    rTravelGift = models.BooleanField(_("Viajes"),)
+    rVacations = models.BooleanField(_("Vacaciones"),)
+    rGiftCard = models.BooleanField(_("Tarjetas"),)
+    rSimCard = models.BooleanField(_("Simcard"),)
+    rAdvisory = models.BooleanField(_("Asesorias"),)
+    
+    class Meta:
+            verbose_name = _("Status")
+            verbose_name_plural = _("Status")
+
+    def __str__(self):
+        return "Status: %s" % (self.rName)
+
+class Settings(models.Model):
+        
+    id = models.AutoField(primary_key=True, verbose_name="ID")
+    Online = models.BooleanField(_("Status"),default=True,unique=True)
+
+    sName = models.CharField(_("Configuracion"), max_length=64,blank=False,null=False)
+
+    sFee = models.PositiveIntegerField(_("TAX"),default=5000,
+                help_text=_("Impuesto Tickets ($COP)"),)
+
+    sFeeAmmount = models.PositiveIntegerField(_("$Impuestos"),blank=True,default=0,
+                help_text=_("Capital Acumulado en Fee ($COP)"),)
+
+    sTickets = models.PositiveIntegerField(_("Tickets"),default=3,
+                help_text=_("Tickets/Mensuales"),)
+
+    sTicketsAmmount = models.PositiveIntegerField(_("$TicketsMin"),default=100000,
+                help_text=_("Min Volumen x Tickets ($COP)"),)
+
+    gTravelPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,
+        help_text=_("% VRT-PTS Minimos"),)
+
+    gTravelName = models.CharField(_("Nombre"), max_length=64,blank=False,null=False,
+        help_text=_("Nombre/Referencia del Destino"),)
+        
+    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/static/banner/", height_field=None, width_field=None, max_length=128,
+        help_text=_("Width 480px x Height 120px"),)
+    
+    gTravelDate = models.DateTimeField(_("Fecha"), default=datetime(2050, 1, 1),
+        help_text=_("Fecha del Sorteo"),)
+    
+    gWinnerName = models.CharField(_("Ganador"), max_length=32,blank=True)
+
+    IsActive = models.BooleanField(_("¿Finalizado?"),default=False)
+
+    gSTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
+    gSTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("SimcardTravel %Descuento"),)
+
+    gVTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
+    gVTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("VaorTrading %Descuento"),)
+
+    gLTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
+    gLTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("LifeTravel %Descuento"),)
+
+    gDCPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
+    gDCDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("1DOC3 %Descuento"),)
+
+    class Meta:
+        verbose_name = _("Configuracion")
+        verbose_name_plural = _("Configuraciones")
+
+    def __str__(self):
+        return "Configuracion: %s" % (self.pk)

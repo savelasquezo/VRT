@@ -1,0 +1,16 @@
+{% autoescape off %}
+Saludos {{ username }}!
+
+Es un placer informarle que su solicitud de servicios ha sido ACEPTADA
+El servicio solicitado fue a ${{ sType }} por {{ sPts }} VRTs
+
+Nuestro equipo revisara la solicitud y una vez esta sea APROBADA enviaremos un correo
+con toda la informacion necesaria para redimir el servicio.
+
+le recordamos que VRT-Fund no se hace responsable por errores por parte del Usuario al generar solicitudes
+Si tiene alguna pregunta o necesita más información, por favor no dude en ponerse en contacto con nosotros.
+A través del correo mail@vrtfund.com 
+
+¡Atentamente!
+VRT-Fund-Inversiones"
+{% endautoescape %}

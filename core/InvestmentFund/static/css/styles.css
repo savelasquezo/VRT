@@ -204,7 +204,6 @@ body{margin: 0;background: #ccc;}
 .adm-boton {
   align-items: center;
   margin:30px;
-  margin-top: 30px;
   margin-bottom: 10px;
   appearance: none;
   background-image: linear-gradient(1deg, #0f273f, #184d5f 99%);
@@ -589,7 +588,7 @@ h2 small {
 .progress-bar-container{width: 265px;}
 .ammount_value {width: 265px;margin-bottom: 20px;}
 .valor {width: 90px;font-size: small;}
-.adm-boton {margin-top: 50px;width: 90px;}
+.adm-boton {margin-top: 50px 0px 10px 0px;width: 50px;}
 /* Interface section end */
 
 /* Tickets section start */
@@ -622,16 +621,16 @@ h2 small {
 .pagination {margin-top: -30px;padding: 0px;}
 /* History section end */
 
-  /* footer section start */
-  .footer-distributed {
-    text-align: center;
-    justify-content: space-between;
-    padding: 8px 35px;
-    margin: 0px;
-    height: 30px;
-  }.footer-right{display: none;}
-  .footer-links{display: none;}
-  /* footer section end */
+/* footer section start */
+.footer-distributed {
+  text-align: center;
+  justify-content: space-between;
+  padding: 8px 35px;
+  margin: 0px;
+  height: 30px;
+}.footer-right{display: none;}
+.footer-links{display: none;}
+/* footer section end */
 }
 
 

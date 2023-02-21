@@ -41,7 +41,7 @@
 <div class="trial_bar"><input type="text" value="{{ KnobValue }}" class="dial"></div>
 <div class="dial-value" for="text-dial">
     <h1>{{ KnobText }}</h1>
-    <!--<h2>{{ EA }}% E.A</h2>-->
+    <!--<h2>{{ InteretTotal }}% E.A</h2>-->
 </div>
 <!-- Knobbar section end-->
 <div class="contect-container">
@@ -72,15 +72,18 @@
   </div>
 </div>
 <div class="adm">
-  <a href="{% url 'Home' %}">
+  <form action="{% url 'Home' %}">
       <button type="submit" class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
-  </a>
-  <form action="ticket">
+  </form>
+  <form action="{% url 'Tickets' %}">
       <button type="submit" class="adm-boton"><i class="fa-solid fa-money-bill-transfer"></i></button>
   </form>
-  <a href="{% url 'History' %}">
+  <form action="{% url 'History' %}">
     <button type="submit" class="adm-boton"><i class="fa-solid fa-receipt"></i></button>
-  </a>
+  </form>
+  <form action="{% url 'Gift' %}">
+    <button type="submit" class="adm-boton"><i class="fa-solid fa-gift"></i></button>
+  </form>
 </div>
 {% endblock %}
 

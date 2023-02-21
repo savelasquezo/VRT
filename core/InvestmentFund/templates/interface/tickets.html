@@ -13,7 +13,7 @@
         {% csrf_token %}
         <div class="label">
           <h4>{{user.full_name}}</h4>
-          <img src="{% static '/images/vrt-logo2.png' %}" name="logo" width="52">
+          <img src="{% static '/images/logo/vrt-logo2.png' %}" name="logo" width="52">
         </div>
         <div class="label">
           <span id="title">$Disponible Total:</span><span id="aviable_value">${{ TotalCash|intcomma }}</span>
@@ -55,7 +55,7 @@
         <textarea class="textarea" name="message" for="message" id="message" maxlength="256"></textarea><p></p>
         <button type="submit" class="boton_ticket" name="succces"><i class="fa-solid fa-money-check-dollar"></i></button>
         <script src="{% static 'js/forms.js' %}"></script>
-    </form>
+      </form>
     <button onclick=window.location.href="{% url 'Interface' %}" class="boton_ticket succces" name="comeback"><i class="fa-solid fa-delete-left"></i></button>
 </div>
 {% endblock %}

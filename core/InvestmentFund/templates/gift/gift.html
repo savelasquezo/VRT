@@ -1,0 +1,99 @@
+{% extends 'gift/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+<!-- TimeTrial section start-->
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/simplyCountdown.min.js' %}"></script>
+<script> var date_string = '{{ TravelExpire }}';</script>
+
+
+<div class="time-ammount">
+  <i><img class="travel-banner" src="{% static '/banner/san-andres-banner.jpg' %}"></i>
+  <div class="travel-banner-info">
+    <h6 class="help_text_a">Sorteo anual viaje para dos personas de 3 días y 2 noches, con vuelos y hotel incluidos</h6>
+    <h6 class="help_text_b">Unicamente debes tener una suscripcion activa en VRTFund</h6>
+  </div>
+  <div class="time_trial">
+    {% if TravelState %}
+      <h4><span>{{ WinnerName }}</span></h4>
+    {% else %}
+      <div class="date date-travel"><h4><span id="days"></span></h4><h1 class="cm cm-travel">DIAS</h1></div>
+      <div class="date date-travel"><h4><span id="hours"></span></h4><h1 class="cm cm-travel">HORAS</h1></div>
+      <div class="date date-travel"><h4><span id="minutes"></span></h4><h1 class="cm cm-travel">MINUTOS</h1></div>
+      <div class="date date-travel"><h4><span id="seconds"></span></h4><h1 class="cm cm-travel">SEGUNDOS</h1></div>
+    {% endif %}
+  </div>
+  <script> let bar_percent = {{ TimeGValue }};</script>
+  <div class="progress-bar-container progress-bar-container-travel">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+  <script src="{% static 'js/progressbar.js' %}"></script>
+  <script src="{% static 'js/progressbar_bar.js' %}"></script>
+</div>
+	<link rel="stylesheet" href="{% static 'css/glider.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/glider-gift.css' %}">
+	<div class="contenedor-carousel contenedor-carousel-gift">
+		<div class="contenedor">
+			<div class="carousel">
+				<div class="carousel__contenedor">
+					<button aria-label="Anterior" class="carousel__anterior">
+						<i class="fas fa-chevron-left"></i>
+					</button>
+					<div class="carousel__lista carousel__lista-gift">
+						<div class="carousel__elemento">
+							<img src="{% static '/banner/banner1.jpg' %}">
+						</div>
+						<div class="carousel__elemento">
+							<img src="{% static '/banner/banner2.jpg' %}">
+						</div>
+						<div class="carousel__elemento">
+							<img src="{% static '/banner/banner3.jpg' %}">
+						</div>
+						<div class="carousel__elemento">
+							<img src="{% static '/banner/banner4.jpg' %}">
+						</div>
+					</div>
+					<button aria-label="Siguiente" class="carousel__siguiente">
+						<i class="fas fa-chevron-right"></i>
+					</button>
+				</div>
+				<div role="tablist" class="carousel__indicadores"></div>
+			</div>
+		</div>
+		<script src="{% static 'js/glider.min.js' %}"></script>
+		<script src="{% static 'js/glider_bar-gift.js' %}"></script>
+	</div>
+
+
+
+<div class="contect-container">
+  <div class="contect">
+    <div class="name n2">DISPONIBLES
+      <h6 class="help_text">VRTs ACUMULADOS</h6>
+      <h1 class="valor">{{user.rank_points|intcomma}}</h1>
+    </div>
+    <div class="name n1">USADOS
+      <h6 class="help_text">VRTs REDIMIDOS</h6>
+      <h1 class="valor">{{user.rank_used|intcomma}}</h1>
+    </div>
+    <div class="name n4">TOTAL
+      <h6 class="help_text">VRTs TOTALES</h6>
+      <h1 class="valor">{{user.rank_total|intcomma}}</h1>
+    </div>
+  </div>
+</div>
+<div class="adm">
+  <form action="{% url 'Interface' %}">
+      <button type="submit" class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
+  </form>
+  <form action="{% url 'GiftTicket' %}">
+      <button type="submit" class="adm-boton"><i class="fa-solid fa-gifts"></i></button>
+  </form>
+  <form action="{% url 'GiftHistory' %}">
+    <button type="submit" class="adm-boton"><i class="fa-solid fa-file-invoice"></i></button>
+  </form>
+</div>
+{% endblock %}
+

@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Usuario, UserRank, Tickets, InvestRequests, Services
+from .models import Usuario, UserRank, Tickets, InvestRequests, Services, Settings
 
 
 class MyAdminSite(admin.AdminSite):
@@ -18,7 +18,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Status": 4, "Servicios": 5,"Grupos": 0}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Servicios": 4, "Configuraciones": 5,"Grupos": 0}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
@@ -53,7 +53,7 @@ class UserBaseAdmin(UserAdmin):
         )
 
     fAutenticationSuperUser = {"fields": (
-        ("codigo", "fee"),
+        "codigo",
         ("available_tickets","is_active","is_operating"),
         "password"
         )}
@@ -144,7 +144,7 @@ class UserBaseAdmin(UserAdmin):
             )
         return super().get_fieldsets(request, obj)
 
-
+    
 class UserRankAdmin(admin.ModelAdmin):
 
     list_display = (
@@ -317,13 +317,69 @@ class ServicesAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
             return False
 
+
+class SettingsAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "id",
+        "sName",
+        "sFee",
+        "sFeeAmmount",
+        "sTickets",
+        "sTicketsAmmount",
+        "Online"
+        )
+
+    fConfig = {"fields": (
+        ("sName","Online"),
+        ("sFee","sFeeAmmount"),
+        ("sTickets","sTicketsAmmount")
+        )}
+
+    fTravel = {"fields": (
+        ("gTravelPtsMin","gWinnerName"),
+        ("gTravelName","IsActive"),
+        "gTravelBanner",
+        "gTravelDate"
+        )}
+
+    fSCfields = {"fields": (
+        ("gSTPtsMin","gSTDiscount"),
+        )}
+
+    fVTfields = {"fields": (
+        ("gVTPtsMin","gVTDiscount"),
+        )}
+
+    fLTfields = {"fields": (
+        ("gLTPtsMin","gLTDiscount"),
+        )}
+
+    fDCfields = {"fields": (
+        ("gDCPtsMin","gDCDiscount"),
+        )}
+
+    list_filter = ["Online"]
+    search_fields = ['sName']
+
+
+    fieldsets = (
+        ("Configuracion", fConfig),
+        ("VRT-Travel", fTravel),
+        ("VRT-SimcardTravel", fSCfields),
+        ("VRT-VaorTrading", fVTfields),
+        ("VRT-LifeTravel", fLTfields),
+        ("VRT-1DOC3", fDCfields),
+        )
+
+
 admin.site.register(Group)
 
 admin.site.register(Usuario, UserBaseAdmin)
-admin.site.register(UserRank, UserRankAdmin)
+#admin.site.register(UserRank, UserRankAdmin)
 admin.site.register(Tickets, TicketsAdmin)
 admin.site.register(Services, ServicesAdmin)
 admin.site.register(InvestRequests, InvestRequestsAdmin)
-
+admin.site.register(Settings, SettingsAdmin)
 
 

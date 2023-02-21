@@ -3,8 +3,37 @@ from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-from .models import Usuario, InvestRequests, Tickets
+from .models import Usuario, InvestRequests, Tickets, Settings, Services
 
+@receiver(post_save, sender=Services)
+def tickets_add_record(sender, instance, **kwargs):
+    if instance.sState == "Aprobado" or instance.sState == "Denegado":
+        
+        InfoUser = Usuario.objects.get(username=instance.username)
+        subject = "Solicitud - Servicios VRTFund"
+        
+        if instance.sState == "Aprobado":
+            email_template_name = "gift/gift_email_success.txt"
+        
+        if instance.sState == "Denegado":
+            email_template_name = "gift/gift_email_deny.txt"
+
+        c = {
+        'username': InfoUser.username,
+        'sPts':instance.sPts,
+        'sType':instance.sType,
+        'sCode':instance.sCode,
+        'site_name': 'VRT-Fund',
+        'protocol': 'https',# http
+        'domain':'vrtfund.com',# 127.0.0.1:8000
+        }
+        email = render_to_string(email_template_name, c)
+        
+        try:
+            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
+        except Exception as e:
+            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                f.write("SignalError Services: {}\n".format(str(e)))
         
 @receiver(post_save, sender=Tickets)
 def tickets_add_record(sender, instance, **kwargs):
@@ -36,14 +65,21 @@ def tickets_add_record(sender, instance, **kwargs):
             send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
-                f.write("EmailError: {}\n".format(str(e)))
+                f.write("SignalError Tickets: {}\n".format(str(e)))
 
 
 @receiver(post_save, sender=InvestRequests)
 def investment_add_record(sender, instance, **kwargs):
     if instance.rState == "Aprobado":
         CUser = Usuario.objects.filter(username=instance.username)
-        
+
+        try:
+            Setting = Settings.objects.get(Online=True)  
+        except:
+            Setting = None
+            
+        sTickets = Setting.sTickets if Setting else 3
+
         try:
             CUser.update(
                 ref_id = instance.staff_cod,
@@ -57,6 +93,7 @@ def investment_add_record(sender, instance, **kwargs):
                 country = instance.country,
                 codigo = instance.codigo,
                 bank = instance.bank,
+                available_tickets = sTickets,
                 bank_account = instance.bank_account,
                 ammount = instance.ammount,
                 interest = instance.interest,
@@ -65,14 +102,8 @@ def investment_add_record(sender, instance, **kwargs):
 
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
-                f.write("SignalError: {}\n".format(str(e)))
+                f.write("SignalSuccess InvestRequests: {}\n".format(str(e)))
 
     if instance.rState == "Error":
         CUser = Usuario.objects.filter(username=instance.username)
-        
-        try:
-            CUser.update(is_operating =False)
-
-        except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/signals.txt", "a") as f:
-                f.write("SignalError: {}\n".format(str(e)))
+        CUser.update(is_operating =False)
