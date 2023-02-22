@@ -121,8 +121,8 @@ body{margin: 0;background: #ccc;}
 
 .ammount-travel{margin: 0;}
 .travel-banner{
-  width: 100%;
-  height: 140px;
+  max-width: 100%;
+  height: auto;
   justify-content: space-around;
   margin-top: 10px;
   border-radius: 5px;
@@ -201,7 +201,8 @@ body{margin: 0;background: #ccc;}
   
   .adm-boton {
     align-items: center;
-    margin:30px;
+    margin:10px;
+    margin-top: 30px;
     margin-bottom: 10px;
     appearance: none;
     background-image: linear-gradient(1deg, #0f273f, #184d5f 99%);

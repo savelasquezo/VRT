@@ -78,14 +78,8 @@
     </div>
 </div>
 <div class="history-adm">
-    <a href="{% url 'Gift' %}">
-        <button class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
-    </a>
-    <a href="{% url 'GiftTicket' %}">
-        <button class="adm-boton"><i class="fa-solid fa-gifts"></i></button>
-    </a>
-    <a href="{% url 'GiftHistory' %}">
-        <button class="adm-boton"><i class="fa-solid fa-arrows-rotate"></i></button>
-    </a>
+    <button class="adm-boton" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'GiftTicket' %}"><i class="fa-solid fa-gifts"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-arrows-rotate"></i></button>
   </div>
 {% endblock %}

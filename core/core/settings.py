@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
@@ -164,3 +165,6 @@ LOGGING = {
         },
     },
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+MEDIA_URL = '/'

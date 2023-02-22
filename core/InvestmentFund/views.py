@@ -278,6 +278,20 @@ class InterfaceView(LoginRequiredMixin, TemplateView):
     template_name='interface/interface.html'
     
 
+    def get(self, request, *args, **kwargs):
+
+        try:
+            sState = Settings.objects.get(Online=True).sState
+        except:
+            sState = False
+            
+        context = self.get_context_data(**kwargs)
+        context={
+            'sState':sState
+        }
+
+        return self.render_to_response(context)
+
 class LegalView(LoginRequiredMixin, TemplateView):
     template_name='home/legal.html'
         
@@ -518,29 +532,13 @@ def ComingSoonView(request):
     return render(request, '000.html')
 
 
-class GiftView(TemplateView):
+class GiftView(LoginRequiredMixin, TemplateView):
     template_name='gift/gift.html'
 
-
-class GiftTicketView(TemplateView):
+class GiftTicketView(LoginRequiredMixin, TemplateView):
     template_name='gift/giftticket.html'
 
-    def get(self, request, *args, **kwargs):
-        
-        try:
-            Setting = Settings.objects.get(Online=True)  
-        except:
-            Setting = None
-        
-        context = self.get_context_data(**kwargs)
-        context={
-            'gSTPtsMin':Setting.gSTPtsMin,
-            'Setting':Setting,
-        }
-
-        return self.render_to_response(context)
-
-class GiftHistoryView(TemplateView):
+class GiftHistoryView(LoginRequiredMixin, TemplateView):
     template_name='gift/gifthistory.html'
 
     def get(self, request, *args, **kwargs):
@@ -578,7 +576,11 @@ class GiftHistoryView(TemplateView):
             messages.error(request, '¡VRTs Insuficientes!', extra_tags="info")
             return redirect(reverse('GiftHistory'))
 
-        Usuario.objects.filter(id=InfoUser.id).update(rank_points=F('rank_points') - rPts)
+        Usuario.objects.filter(id=InfoUser.id).update(
+            rank_used=F('rank_used')+rPts,
+            rank_points=F('rank_points') - rPts
+            )
+        
         xCode = HashCode(5)
  
         Services.objects.create(

@@ -593,7 +593,8 @@ button.link-title:hover{color: #61CE70;}
   font-size: smaller;
   vertical-align: baseline;
 }.toggle-down, .toggle-right{transition: 0.75s all;background: none;border: none;font-size: x-large;color: #caced4;}
-.toggle-down:hover, .toggle-right:hover{color: rgb(130, 260, 140);transform:scale(1.01); -webkit-transform:scale(1.01); }
+.toggle-down:hover, .toggle-right:hover{color: rgb(130, 260, 140);transform:scale(1.01); -webkit-transform:scale(1.01);
+}
 /* Beneficios section end */
 
 

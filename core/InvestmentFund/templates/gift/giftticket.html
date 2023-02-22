@@ -8,7 +8,7 @@
     <div class="container">
         <div class="item-container">
             <div class="img-container">
-                <img src="{% static '/images/cards/img1.jpg' %}" alt="Event image">
+                <img src="{{Setting.gSTCard.url}}">
             </div>
             <div class="body-container">
                 <div class="overlay"></div>
@@ -34,7 +34,7 @@
         </div>
         <div class="item-container">
             <div class="img-container">
-                <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+                <img src="{{Setting.gVTCard.url}}">
             </div>
             <div class="body-container">
                 <div class="overlay"></div>
@@ -60,7 +60,7 @@
         </div>
         <div class="item-container">
             <div class="img-container">
-                <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+                <img src="{{Setting.gLTCard.url}}">
             </div>
             <div class="body-container">
                 <div class="overlay"></div>
@@ -86,7 +86,7 @@
         </div>
         <div class="item-container">
             <div class="img-container">
-                <img src="{% static '/images/cards/img2.jpg' %}" alt="Event image">
+                <img src="{{Setting.gDCCard.url}}">
             </div>
             <div class="body-container">
                 <div class="overlay"></div>
@@ -94,15 +94,15 @@
                     <p class="title">MEDICINA</p>
                     <div class="separator"></div>
                     <p class="info-gift">
-                        Descuentos en destinos turisticos nacionales, vive unas incribles vacaciones
-                        en alguno de nuestros desticos turisticos asosiados
+                        Orientacion medica especializada, chatea con profecionales
+                        especialistas en todas las areas de la medicina y veterinaria
                     </p>
                     <p class="info-link"><a href="">+{{Setting.gDCPtsMin}} PTS</a></p>
                     <div class="additional-info">
                         <p class="info-gift">
                             <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>1DOC3</h2></a><br>
-                            <h5>Aplica unicamente a destinos ofrecidos y en las fechas estipuladas en la programacion
-                                de los eventos<br> Unicamente se cubre el valor de la inscripcion
+                            <h5>Aplica a servicios generales y especializados, incluidos servicios de veterinaria
+                                Unicamente se cubre el valor de la consulta
                             </h5><br>
                         </p>
                     </div>
@@ -166,7 +166,7 @@
 </div>
 <div class="admin-panel-gift">
     <button class="admin-button" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
-    <button class="admin-button" onclick=window.location.href="#"><i class="fa-solid fa-circle-info"></i></button>
+    <button class="admin-button" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>
     <button class="admin-button" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>
 </div>
 <dialog id="dlog" class="dlog">

@@ -7,10 +7,8 @@
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
 <script> var date_string = '{{ TravelExpire }}';</script>
-
-
 <div class="time-ammount">
-  <i><img class="travel-banner" src="{% static '/banner/san-andres-banner.jpg' %}"></i>
+  <img class="travel-banner" src="{{Setting.gTravelBanner.url}}">
   <div class="travel-banner-info">
     <h6 class="help_text_a">Sorteo anual viaje para dos personas de 3 días y 2 noches, con vuelos y hotel incluidos</h6>
     <h6 class="help_text_b">Unicamente debes tener una suscripcion activa en VRTFund</h6>
@@ -43,16 +41,16 @@
 					</button>
 					<div class="carousel__lista carousel__lista-gift">
 						<div class="carousel__elemento">
-							<img src="{% static '/banner/banner1.jpg' %}">
+              <img class="travel-banner" src="{{Setting.gSTBanner.url}}">
 						</div>
 						<div class="carousel__elemento">
-							<img src="{% static '/banner/banner2.jpg' %}">
+              <img class="travel-banner" src="{{Setting.gVTBanner.url}}">
 						</div>
 						<div class="carousel__elemento">
-							<img src="{% static '/banner/banner3.jpg' %}">
+              <img class="travel-banner" src="{{Setting.gLTBanner.url}}">
 						</div>
 						<div class="carousel__elemento">
-							<img src="{% static '/banner/banner4.jpg' %}">
+              <img class="travel-banner" src="{{Setting.gDCBanner.url}}">
 						</div>
 					</div>
 					<button aria-label="Siguiente" class="carousel__siguiente">
@@ -65,9 +63,6 @@
 		<script src="{% static 'js/glider.min.js' %}"></script>
 		<script src="{% static 'js/glider_bar-gift.js' %}"></script>
 	</div>
-
-
-
 <div class="contect-container">
   <div class="contect">
     <div class="name n2">DISPONIBLES
@@ -85,15 +80,9 @@
   </div>
 </div>
 <div class="adm">
-  <form action="{% url 'Interface' %}">
-      <button type="submit" class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
-  </form>
-  <form action="{% url 'GiftTicket' %}">
-      <button type="submit" class="adm-boton"><i class="fa-solid fa-gifts"></i></button>
-  </form>
-  <form action="{% url 'GiftHistory' %}">
-    <button type="submit" class="adm-boton"><i class="fa-solid fa-file-invoice"></i></button>
-  </form>
+  <button class="adm-boton" onclick=window.location.href="{% url 'Interface' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+  <button class="adm-boton" onclick=window.location.href="{% url 'GiftTicket' %}"><i class="fa-solid fa-gifts"></i></button>
+  <button class="adm-boton" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>
 </div>
 {% endblock %}
 

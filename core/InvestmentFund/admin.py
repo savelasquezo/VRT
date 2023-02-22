@@ -327,11 +327,12 @@ class SettingsAdmin(admin.ModelAdmin):
         "sFeeAmmount",
         "sTickets",
         "sTicketsAmmount",
+        "sState",
         "Online"
         )
 
     fConfig = {"fields": (
-        ("sName","Online"),
+        ("sName","Online","sState"),
         ("sFee","sFeeAmmount"),
         ("sTickets","sTicketsAmmount")
         )}
@@ -344,18 +345,22 @@ class SettingsAdmin(admin.ModelAdmin):
         )}
 
     fSCfields = {"fields": (
+        ("gSTCard","gSTBanner"),
         ("gSTPtsMin","gSTDiscount"),
         )}
 
     fVTfields = {"fields": (
+        ("gVTCard","gVTBanner"),
         ("gVTPtsMin","gVTDiscount"),
         )}
 
     fLTfields = {"fields": (
+        ("gLTCard","gLTBanner"),
         ("gLTPtsMin","gLTDiscount"),
         )}
 
     fDCfields = {"fields": (
+        ("gDCCard","gDCBanner"),
         ("gDCPtsMin","gDCDiscount"),
         )}
 

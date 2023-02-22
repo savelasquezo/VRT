@@ -60,6 +60,7 @@ def GlobalContext(request):
         WinnerName = Setting.gWinnerName if TravelState else None
    
         return {
+            'Setting':Setting,
             'TAX':Fee,                                  
             'MinTicket': MinAmmount,                                  
             'TotalDayli':TotalDayli,      

@@ -72,18 +72,12 @@
   </div>
 </div>
 <div class="adm">
-  <form action="{% url 'Home' %}">
-      <button type="submit" class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
-  </form>
-  <form action="{% url 'Tickets' %}">
-      <button type="submit" class="adm-boton"><i class="fa-solid fa-money-bill-transfer"></i></button>
-  </form>
-  <form action="{% url 'History' %}">
-    <button type="submit" class="adm-boton"><i class="fa-solid fa-receipt"></i></button>
-  </form>
-  <form action="{% url 'Gift' %}">
-    <button type="submit" class="adm-boton"><i class="fa-solid fa-gift"></i></button>
-  </form>
+  <button class="adm-boton" onclick=window.location.href="{% url 'Home' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+  <button class="adm-boton" onclick=window.location.href="{% url 'Tickets' %}"><i class="fa-solid fa-money-bill-transfer"></i></button>
+  <button class="adm-boton" onclick=window.location.href="{% url 'History' %}"><i class="fa-solid fa-receipt"></i></button>
+  {% if sState %}
+    <button class="adm-boton" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
+  {% endif %}
 </div>
 {% endblock %}
 

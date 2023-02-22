@@ -80,14 +80,8 @@
     </div>
 </div>
 <div class="history-adm">
-    <a href="{% url 'Interface' %}">
-        <button class="adm-boton"><i class="fa-solid fa-circle-arrow-left"></i></button>
-    </a>
-    <a href="{% url 'Tickets' %}">
-        <button class="adm-boton"><i class="fa-solid fa-money-bill-transfer"></i></button>
-    </a>
-    <a href="{% url 'History' %}">
-        <button class="adm-boton"><i class="fa-solid fa-arrows-rotate"></i></button>
-    </a>
-  </div>
+    <button class="adm-boton" onclick=window.location.href="{% url 'Interface' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'Tickets' %}"><i class="fa-solid fa-money-bill-transfer"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'History' %}"><i class="fa-solid fa-arrows-rotate"></i></button>
+</div>
 {% endblock %}
