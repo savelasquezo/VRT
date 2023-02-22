@@ -166,5 +166,5 @@ LOGGING = {
     },
 }
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '')
-MEDIA_URL = '/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/uploads/')
+MEDIA_URL = '/media/'
