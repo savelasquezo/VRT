@@ -166,5 +166,5 @@ LOGGING = {
     },
 }
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '/uploads/')
+MEDIA_ROOT = '/var/www/vrt/media/'
 MEDIA_URL = '/media/'
