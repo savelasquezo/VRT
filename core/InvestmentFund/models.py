@@ -254,7 +254,7 @@ class Settings(models.Model):
     gTravelName = models.CharField(_("Nombre"), max_length=64,blank=False,null=False,
         help_text=_("Nombre/Referencia del Destino"),)
         
-    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128,
+    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/static/images/banner/", blank=True, null=True, height_field=None, width_field=None, max_length=128,
         help_text=_("Width 520px x Height 140px"),)
     
     gTravelDate = models.DateTimeField(_("Fecha"), default=datetime(2050, 1, 1),
@@ -264,23 +264,23 @@ class Settings(models.Model):
 
     IsActive = models.BooleanField(_("¿Finalizado?"),default=False)
 
-    gSTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128)
-    gSTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128)
+    gSTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    gSTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
     gSTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
     gSTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("SimcardTravel %Descuento"),)
 
-    gVTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128)
-    gVTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128)
+    gVTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    gVTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
     gVTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
     gVTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("VaorTrading %Descuento"),)
 
-    gLTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128)
-    gLTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128)
+    gLTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    gLTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
     gLTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
     gLTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("LifeTravel %Descuento"),)
 
-    gDCCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128)
-    gDCBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128)
+    gDCCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    gDCBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
     gDCPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
     gDCDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("1DOC3 %Descuento"),)
 

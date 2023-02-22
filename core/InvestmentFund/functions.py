@@ -54,7 +54,11 @@ def GlobalContext(request):
         
         TimeKValue = int(((LocalToday - InfoUser.date_joined).days/TimeDelta)*100) if TimeDelta else 0
         
-        TimeGValue = int((1 - (GiftDelta/(TravelExpire-ThisYear).days)) * 100) if GiftDelta else 0
+        try:
+            TimeGValue = int((1 - (GiftDelta/(TravelExpire-ThisYear).days)) * 100)
+        except:
+            TimeGValue = 1
+        
         StrTravelExpire = TravelExpire.strftime('%m/%d/%Y %I:%M %p') if TravelExpire else "N/A"
         
         KValue = (InfoUser.total_interest/Ammount)*100 if Ammount else 0
