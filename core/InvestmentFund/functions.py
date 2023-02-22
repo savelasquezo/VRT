@@ -27,7 +27,12 @@ def GlobalContext(request):
         MinAmmount = Setting.sTicketsAmmount if Setting else 0
         
         TravelExpire = Setting.gTravelDate if Setting else "N/A"
-        ThisYear = Setting.gTravelDate.replace(month=1, day=1)
+        
+        try:
+            ThisYear = Setting.gTravelDate.replace(month=1, day=1)
+        except:
+            ThisYear = 0
+
         GiftDelta = (TravelExpire - LocalToday).days
 
         TimeDelta = (InfoUser.date_expire - InfoUser.date_joined).days
