@@ -26,14 +26,14 @@ def GlobalContext(request):
         Fee = Setting.sFee if Setting else 0
         MinAmmount = Setting.sTicketsAmmount if Setting else 0
         
-        TravelExpire = Setting.gTravelDate if Setting else "N/A"
+        TravelExpire = Setting.gTravelDate if Setting else None
         
         try:
             ThisYear = Setting.gTravelDate.replace(month=1, day=1)
         except:
             ThisYear = 0
 
-        GiftDelta = (TravelExpire - LocalToday).days
+        GiftDelta = (TravelExpire - LocalToday).days if TravelExpire else None
 
         TimeDelta = (InfoUser.date_expire - InfoUser.date_joined).days
         TimeExpire = InfoUser.date_expire
@@ -54,7 +54,8 @@ def GlobalContext(request):
         
         TimeKValue = int(((LocalToday - InfoUser.date_joined).days/TimeDelta)*100) if TimeDelta else 0
         
-        TimeGValue = int((1 - (GiftDelta/(TravelExpire-ThisYear).days)) * 100)
+        TimeGValue = int((1 - (GiftDelta/(TravelExpire-ThisYear).days)) * 100) if GiftDelta else 0
+        StrTravelExpire = TravelExpire.strftime('%m/%d/%Y %I:%M %p') if TravelExpire else "N/A"
         
         KValue = (InfoUser.total_interest/Ammount)*100 if Ammount else 0
         
@@ -78,7 +79,7 @@ def GlobalContext(request):
             'TimeGValue':TimeGValue,
             'TravelState':TravelState,
             'WinnerName':WinnerName,
-            'TravelExpire': TravelExpire.strftime('%m/%d/%Y %I:%M %p'),
+            'TravelExpire': StrTravelExpire,
             'TimeKValue':TimeKValue, 
             'TimeExpire': TimeExpire.strftime('%m/%d/%Y %I:%M %p')        
             }
