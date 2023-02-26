@@ -39,20 +39,19 @@
 					<button aria-label="Anterior" class="carousel__anterior">
 						<i class="fas fa-chevron-left"></i>
 					</button>
-					<div class="carousel__lista carousel__lista-gift">
-						<div class="carousel__elemento">
-              <img class="travel-banner" src="{{Setting.gSTBanner.url}}">
-						</div>
-						<div class="carousel__elemento">
-              <img class="travel-banner" src="{{Setting.gVTBanner.url}}">
-						</div>
-						<div class="carousel__elemento">
-              <img class="travel-banner" src="{{Setting.gLTBanner.url}}">
-						</div>
-						<div class="carousel__elemento">
-              <img class="travel-banner" src="{{Setting.gDCBanner.url}}">
-						</div>
-					</div>
+            <div class="carousel__lista carousel__lista-gift">
+              {% if ListGift %}
+                {% for Gift in ListGift %}
+                    <div class="carousel__elemento">
+                      <img class="travel-banner" src="{{Gift.pBanner.url}}">
+                    </div>
+                {% endfor %}
+              {% else %}
+                <div class="carousel__elemento">
+                  <img class="travel-banner" src="{% static '/images/comingsoon.png' %}">
+                </div>
+              {% endif %}
+            </div>
 					<button aria-label="Siguiente" class="carousel__siguiente">
 						<i class="fas fa-chevron-right"></i>
 					</button>

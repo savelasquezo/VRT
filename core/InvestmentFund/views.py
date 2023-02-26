@@ -535,6 +535,17 @@ def ComingSoonView(request):
 class GiftView(LoginRequiredMixin, TemplateView):
     template_name='gift/gift.html'
 
+    def get(self, request, *args, **kwargs):
+        
+        ListGift = Associate.objects.all().order_by("id")
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'ListGift':ListGift,
+        }
+
+        return self.render_to_response(context)
+
 class GiftTicketView(LoginRequiredMixin, TemplateView):
     template_name='gift/giftticket.html'
 
