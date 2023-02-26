@@ -248,7 +248,7 @@ class Settings(models.Model):
     gTravelName = models.CharField(_("Nombre"), max_length=64,blank=False,null=False,
         help_text=_("Nombre/Referencia del Destino"),)
         
-    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/static/images/banner/", blank=True, null=True, height_field=None, width_field=None, max_length=128,
+    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/uploads/images/banner/", blank=True, null=True, height_field=None, width_field=None, max_length=128,
         help_text=_("Width 520px x Height 140px"),)
     
     gTravelDate = models.DateTimeField(_("Fecha"), default=datetime(2050, 1, 1),
@@ -284,8 +284,8 @@ class Associate(models.Model):
 
     pDiscount = models.CharField(_("%"),blank=False,null=False,default="15% OFF", max_length=64,help_text=_("%Descuento/Gratis"),)
       
-    pCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    pBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    pCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/uploads/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    pBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/uploads/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
 
     IsActive = models.BooleanField(_("¿Activo?"),default=True)
 
