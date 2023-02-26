@@ -1,6 +1,7 @@
 body {
     margin: 0; 
     padding: 0;
+    padding-bottom: 100px;
 }
 .container-dlog{
 	width:320px;
@@ -61,8 +62,10 @@ textarea::placeholder {
     background: rgba(0, 0, 0, 0.800);
 }
 
+.big-container{display: flex;flex-direction: column;column-gap: 5px;}
 .container-flex{
     width: 100%;
+    height: auto;
     margin: 10px 0 10px 0; 
     padding: 0;
     display: flex;
@@ -138,6 +141,7 @@ textarea::placeholder {
     font-size: 1em;
     font-weight: bold;
     letter-spacing: 1px;
+    text-transform: uppercase;
     margin: 4px;
 }
 
@@ -203,7 +207,7 @@ textarea::placeholder {
 .action {
     color: #fff;
     border: 3px solid #fff;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.4);
     position: absolute;
     top: -100px;
     left: 50%;

@@ -56,15 +56,9 @@ class Usuario(AbstractUser):
     user_rank = models.CharField(_("Categoria"), choices=lst_ranks, default="Silver", max_length=16,
                 help_text=_("Categoria del Inversionista en VRT"),)
 
-    rank_points = models.IntegerField(_("Acumulado"),blank=True,default=0,
-                help_text=_("VRTs Acumulados"),)
-
-    rank_used = models.IntegerField(_("Usados"),blank=True,default=0,
-                help_text=_("VRTs Usados"),)
-
-    rank_total = models.IntegerField(_("Total"),blank=True,default=0,
-                help_text=_("VRTs Totales"),)
-
+    rank_points = models.IntegerField(_("Acumulado"),blank=True,default=0,help_text=_("VRTs Acumulados"),)
+    rank_used = models.IntegerField(_("Usados"),blank=True,default=0,help_text=_("VRTs Usados"),)
+    rank_total = models.IntegerField(_("Total"),blank=True,default=0,help_text=_("VRTs Totales"),)
 
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)
@@ -264,29 +258,40 @@ class Settings(models.Model):
 
     IsActive = models.BooleanField(_("¿Finalizado?"),default=False)
 
-    gSTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gSTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gSTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
-    gSTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("SimcardTravel %Descuento"),)
-
-    gVTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gVTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gVTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
-    gVTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("VaorTrading %Descuento"),)
-
-    gLTCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gLTBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gLTPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
-    gLTDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("LifeTravel %Descuento"),)
-
-    gDCCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gDCBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
-    gDCPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,help_text=_("% VRT-PTS Minimos"),)
-    gDCDiscount = models.PositiveIntegerField(_("Valor"),blank=False,null=False,default=0,help_text=_("1DOC3 %Descuento"),)
-
     class Meta:
         verbose_name = _("Configuracion")
         verbose_name_plural = _("Configuraciones")
 
     def __str__(self):
         return "Configuracion: %s" % (self.pk)
+    
+    
+class Associate(models.Model):
+    
+    pName = models.CharField(_("Empresa"), max_length=32,blank=True)
+    pTitle = models.CharField(_("Servicio"), max_length=32,blank=True)
+    
+    pPtsMin = models.PositiveIntegerField(_("Inversion"),blank=True,null=False,default=0,
+        help_text=_("Inversion Minima para Acceder al Beneficio ($COP)"),)
+    
+    pURL = models.URLField(_("URL"), max_length=128,blank=True,default="https://vrtfund.com/@")
+    
+    pInfo = models.TextField(_("Texto"), max_length=1024,blank=True,
+        help_text=_("Descripcion Principal"),)
+    
+    pInfoAdd = models.TextField(_("Texto"), max_length=1024,blank=True,
+        help_text=_("Informacio Adicional"),)
+
+    pDiscount = models.CharField(_("%"),blank=False,null=False,default="15% OFF", max_length=64,help_text=_("%Descuento/Gratis"),)
+      
+    pCard = models.ImageField(_("Miniatura"), upload_to="InvestmentFund/static/images/banner/cards/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+    pBanner = models.ImageField(_("Banner"), upload_to="InvestmentFund/static/images/banner/", height_field=None, width_field=None, max_length=128, blank=True, null=True,)
+
+    IsActive = models.BooleanField(_("¿Activo?"),default=True)
+
+    class Meta:
+        verbose_name = _("Asociado")
+        verbose_name_plural = _("Asociaciones")
+
+    def __str__(self):
+        return "Asociado: %s" % (self.pk)

@@ -24,7 +24,7 @@ from django.contrib.auth.views import LoginView
 
 from .tools import gToken, HashCode
 
-from .models import Usuario, Tickets, InvestRequests, Settings, Services
+from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate
 
 def IsStaff(user):
     return user.is_staff
@@ -537,6 +537,18 @@ class GiftView(LoginRequiredMixin, TemplateView):
 
 class GiftTicketView(LoginRequiredMixin, TemplateView):
     template_name='gift/giftticket.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        ListGift = Associate.objects.all().order_by("id")
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'ListGift':ListGift,
+        }
+
+        return self.render_to_response(context)
+
 
 class GiftHistoryView(LoginRequiredMixin, TemplateView):
     template_name='gift/gifthistory.html'

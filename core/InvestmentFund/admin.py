@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Usuario, UserRank, Tickets, InvestRequests, Services, Settings
+from .models import Usuario, UserRank, Tickets, InvestRequests, Services, Settings, Associate
 
 
 class MyAdminSite(admin.AdminSite):
@@ -18,7 +18,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Servicios": 4, "Configuraciones": 5,"Grupos": 0}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Configuraciones": 5,"Grupos": 0}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
@@ -324,7 +324,6 @@ class SettingsAdmin(admin.ModelAdmin):
         "id",
         "sName",
         "sFee",
-        "sFeeAmmount",
         "sTickets",
         "sTicketsAmmount",
         "sState",
@@ -338,30 +337,10 @@ class SettingsAdmin(admin.ModelAdmin):
         )}
 
     fTravel = {"fields": (
-        ("gTravelPtsMin","gWinnerName"),
+        ("gWinnerName"),
         ("gTravelName","IsActive"),
         "gTravelBanner",
         "gTravelDate"
-        )}
-
-    fSCfields = {"fields": (
-        ("gSTCard","gSTBanner"),
-        ("gSTPtsMin","gSTDiscount"),
-        )}
-
-    fVTfields = {"fields": (
-        ("gVTCard","gVTBanner"),
-        ("gVTPtsMin","gVTDiscount"),
-        )}
-
-    fLTfields = {"fields": (
-        ("gLTCard","gLTBanner"),
-        ("gLTPtsMin","gLTDiscount"),
-        )}
-
-    fDCfields = {"fields": (
-        ("gDCCard","gDCBanner"),
-        ("gDCPtsMin","gDCDiscount"),
         )}
 
     list_filter = ["Online"]
@@ -370,11 +349,39 @@ class SettingsAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Configuracion", fConfig),
-        ("VRT-Travel", fTravel),
-        ("VRT-SimcardTravel", fSCfields),
-        ("VRT-VaorTrading", fVTfields),
-        ("VRT-LifeTravel", fLTfields),
-        ("VRT-1DOC3", fDCfields),
+        ("VRT-Travel", fTravel)
+        )
+
+class AssociateAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "id",
+        "pName",
+        "pTitle",
+        "pDiscount",
+        "pPtsMin",
+        "IsActive"
+        )
+
+    fConfig = {"fields": (
+        ("pName","pTitle"),
+        ("pPtsMin","IsActive"),
+        ("pURL","pDiscount"),
+        ("pInfo","pInfoAdd")
+        )}
+
+    fTravel = {"fields": (
+        "pCard",
+        "pBanner"
+        )}
+
+    list_filter = ["IsActive"]
+    search_fields = ['pName']
+
+
+    fieldsets = (
+        ("Informacion", fConfig),
+        ("Multimedia", fTravel)
         )
 
 
@@ -383,8 +390,8 @@ admin.site.register(Group)
 admin.site.register(Usuario, UserBaseAdmin)
 #admin.site.register(UserRank, UserRankAdmin)
 admin.site.register(Tickets, TicketsAdmin)
-admin.site.register(Services, ServicesAdmin)
+#admin.site.register(Services, ServicesAdmin)
 admin.site.register(InvestRequests, InvestRequestsAdmin)
+admin.site.register(Associate, AssociateAdmin)
 admin.site.register(Settings, SettingsAdmin)
-
 

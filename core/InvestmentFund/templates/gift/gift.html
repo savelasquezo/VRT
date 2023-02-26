@@ -63,7 +63,7 @@
 		<script src="{% static 'js/glider.min.js' %}"></script>
 		<script src="{% static 'js/glider_bar-gift.js' %}"></script>
 	</div>
-<div class="contect-container">
+<!--<div class="contect-container">
   <div class="contect">
     <div class="name n2">DISPONIBLES
       <h6 class="help_text">VRTs ACUMULADOS</h6>
@@ -78,11 +78,12 @@
       <h1 class="valor">{{user.rank_total|intcomma}}</h1>
     </div>
   </div>
-</div>
+</div>-->
 <div class="adm">
   <button class="adm-boton" onclick=window.location.href="{% url 'Interface' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
   <button class="adm-boton" onclick=window.location.href="{% url 'GiftTicket' %}"><i class="fa-solid fa-gifts"></i></button>
-  <button class="adm-boton" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>
+  <button class="adm-boton" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>
+  <!--<button class="adm-boton" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>-->
 </div>
 {% endblock %}
 
