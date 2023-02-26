@@ -1,3 +1,6 @@
+# MediaUsers
+uploads/
+
 # Migrations
 **/migrations/*
 !migrations/__init__.py
