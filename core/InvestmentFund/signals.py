@@ -13,10 +13,10 @@ def tickets_add_record(sender, instance, **kwargs):
         subject = "Solicitud - Servicios VRTFund"
         
         if instance.sState == "Aprobado":
-            email_template_name = "gift/gift_email_success.txt"
+            email_template_name = "gift/email/gift_email_success.txt"
         
         if instance.sState == "Denegado":
-            email_template_name = "gift/gift_email_deny.txt"
+            email_template_name = "gift/email/gift_email_deny.txt"
 
         c = {
         'username': InfoUser.username,
@@ -43,10 +43,10 @@ def tickets_add_record(sender, instance, **kwargs):
         subject = "Solicitud - Abono de Fondos"
         
         if instance.rState == "Aprobado":
-            email_template_name = "interface/tickets_email_success.txt"
+            email_template_name = "interface/email/tickets_email_success.txt"
         
         if instance.rState == "Denegado":
-            email_template_name = "interface/tickets_email_deny.txt"
+            email_template_name = "interface/email/tickets_email_deny.txt"
 
         c = {
         'username': instance.username,

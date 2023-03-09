@@ -29,6 +29,9 @@ from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associ
 def IsStaff(user):
     return user.is_staff
 
+class TestView(TemplateView):
+    template_name='100.html'
+
 class HomeView(TemplateView):
     template_name='home/home.html'
 
@@ -95,7 +98,7 @@ class SingupView(UserPassesTestMixin, TemplateView):
                 cUser = Usuario.objects.get(username=iUsername)
                 
                 subject = "Activacion - VRTFund"
-                email_template_name = "registration/email_confirm.txt"
+                email_template_name = "registration/email/email_confirm.txt"
                 c = {
                 'username': iUsername,
                 "uid": urlsafe_base64_encode(force_bytes(cUser.pk)),
@@ -228,7 +231,7 @@ class InfoView(LoginRequiredMixin, TemplateView):
                 ) 
 
             subject = "Solicitud - Información Inversión"        
-            email_template_name = "home/info_email.txt"
+            email_template_name = "home/email/info_email.txt"
 
             c = {
             'tU': iUsername,
@@ -272,6 +275,17 @@ class BenefitView(TemplateView):
 
 class ServicesView(TemplateView):
     template_name='home/services.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        ListGift = Associate.objects.all().order_by("id")
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'ListGift':ListGift,
+        }
+
+        return self.render_to_response(context)
     
 
 class InterfaceView(LoginRequiredMixin, TemplateView):
@@ -415,7 +429,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         TimeDelta = self.days_until_next_month()
 
         subject = "Notificación - Solicitud de Retiro"        
-        email_template_name = "interface/tickets_email_notify.txt"
+        email_template_name = "interface/email/tickets_email_notify.html"
 
         c = {
         'username': InfoUser.username,
@@ -486,7 +500,7 @@ def PasswordResetRequestView(request):
 			if associated_users.exists():
 				for user in associated_users:
 					subject = "Solicitud - Restablecer Contraseña"
-					email_template_name = "password/password_reset_email.txt"
+					email_template_name = "password/email/password_reset_email.txt"
 					c = {
                     'username': user.username,
 					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
@@ -616,7 +630,7 @@ class GiftHistoryView(LoginRequiredMixin, TemplateView):
 
 
         subject = "Notificación - Solicitud de Servicio"        
-        email_template_name = "gift/gift_email_notify.txt"
+        email_template_name = "gift/email/gift_email_notify.txt"
 
         c = {
         'username': InfoUser.username,
