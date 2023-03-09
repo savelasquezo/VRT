@@ -32,6 +32,7 @@ def IsStaff(user):
 class TestView(TemplateView):
     template_name='100.html'
 
+
 class HomeView(TemplateView):
     template_name='home/home.html'
 
@@ -492,33 +493,33 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
 
 
 def PasswordResetRequestView(request):
-	if request.method == "POST":
-		password_reset_form = PasswordResetForm(request.POST)
-		if password_reset_form.is_valid():
-			data = password_reset_form.cleaned_data['email']
-			associated_users = Usuario.objects.filter(Q(email=data))
-			if associated_users.exists():
-				for user in associated_users:
-					subject = "Solicitud - Restablecer Contraseña"
-					email_template_name = "password/email/password_reset_email.txt"
-					c = {
+    if request.method == "POST":
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = Usuario.objects.filter(Q(email=data))
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Solicitud - Restablecer Contraseña"
+                    email_template_name = "password/email/password_reset_email.txt"
+                    c = {
                     'username': user.username,
-					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
-					"user": user,
-					'token': default_token_generator.make_token(user),
-     				'site_name': 'VRT-Fund',
-					'protocol': 'https',# http
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "user": user,
+                    'token': default_token_generator.make_token(user),
+                    'site_name': 'VRT-Fund',
+                    'protocol': 'https',# http
                     'domain':'vrtfund.com',# 127.0.0.1:8000
 					}
-					email = render_to_string(email_template_name, c)
-					try:
-						send_mail(subject, email, 'noreply@vrtfund.com' , [user.email], fail_silently=False)
-					except BadHeaderError:
-						return HttpResponse('Invalid Header Found')
-					return redirect ("/accounts/password_reset/done/")
+                    email = render_to_string(email_template_name, c)
+                    try:
+                        send_mail(subject, email, 'noreply@vrtfund.com' , [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid Header Found')
+                    return redirect ("/accounts/password_reset/done/")
  
-	password_reset_form = PasswordResetForm()
-	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
+    password_reset_form = PasswordResetForm()
+    return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
 
 
 
