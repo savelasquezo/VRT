@@ -6,6 +6,7 @@
 *:focus {outline: 0 !important;box-shadow: none !important;}
 *:active {outline: 0 !important;box-shadow: none !important;}
 
+.margin-auto{margin: auto;}
 
 a:-webkit-any-link {cursor: pointer;text-decoration: none;}
 button:-webkit-any-link {cursor: pointer;border: none;text-decoration: none;}
@@ -762,6 +763,7 @@ button.link-title:hover{color: #61CE70;}
 .link-img button{cursor: pointer;}
 .link-img:hover{filter: brightness(130%)}
 
+.super-container{display: flex;flex-direction: column;justify-content: center;align-items: center;}
 .container{
   display: flex;
   align-items: center;

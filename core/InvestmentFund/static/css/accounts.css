@@ -30,11 +30,13 @@ body{
     text-align: center;
 }.ul-messages{margin-bottom:20px;padding:0;}.info {margin-top:0px;}
 
+.super-container{display: flex;flex-direction: column;justify-content: center;align-items: center;}
 .container{
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 50px;
+    padding-bottom: 20px;
     margin-top: 5%;
 }
 
