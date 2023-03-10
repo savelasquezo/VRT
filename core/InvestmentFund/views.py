@@ -446,7 +446,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         email = render_to_string(email_template_name, c)
 
         try:
-            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
+            send_mail(subject, message=None, from_email='noreply@vrtfund.com', recipient_list=[InfoUser.email], fail_silently=False, html_message=email)
         except Exception as e:
             with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
