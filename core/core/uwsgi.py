@@ -16,7 +16,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': '/home/savelasquezo/apps/vrt/core/logs/jango.log',
+            'filename': '/home/savelasquezo/apps/vrt/core/logs/django.log',
         },
     },
     'loggers': {
