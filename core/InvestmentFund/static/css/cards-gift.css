@@ -73,6 +73,23 @@ textarea::placeholder {
     align-items: center;
 }
 
+.container-cards{
+    margin: auto; 
+    padding-top: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .section-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+
 .container {
     width: 100%;
     display: flex;
@@ -80,6 +97,7 @@ textarea::placeholder {
     align-items: center;
     flex-wrap: wrap;
 }
+
 
 .item-container {
     position: relative;
@@ -91,6 +109,8 @@ textarea::placeholder {
     margin-bottom: 0px;
     width: 220px;
     height: 370px;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.15);
     cursor: pointer;
@@ -202,6 +222,14 @@ textarea::placeholder {
 .info-gift span {
     color: #18537a;
     font-weight: bolder;
+}
+.info-gift-resume{
+    margin-top: 5px;
+    font-size: 0.83em;
+    text-align: center;
+    font-weight: lighter;
+    color: #1e1e1e !important;
+    
 }
 
 .action {

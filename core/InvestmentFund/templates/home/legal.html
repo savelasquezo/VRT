@@ -1,33 +1,48 @@
-{% extends 'home/base.html' %}
+
 {% load static %}
 {% load humanize %}
 
-{% block block %}
-<div class="legal_container">
-    <div class="legal_title">
-        <h1>TERMINOS & CONDICIONES</h1>
-    </div>
-    <div class="legal_text">
-        <h4><p>El inversor tendrá la opción de retirar su inversión en cualquier momento, pero deberá tener en cuenta que si
-                decide hacerlo antes del plazo establecido, no recibirá comisiones por un período de 2 semanas a partir de la 
-                fecha de retirada. El plazo establecido dependerá del fondo de inversión al que se aplique.</p>
-            <p>El inversor es responsable de comprender y aceptar los riesgos asociados con la inversión en el fondo de
-                inversión, y que la decisión de retirar su inversión antes del plazo establecido puede afectar significativamente
-            su rendimiento financiero.</p>
-            <p>El fondo de inversión se reserva el derecho de modificar estos términos y condiciones en cualquier 
-                momento y con un previo aviso a los usuarios vinculados.</p>
-            <p>El inversor debe proporcionar información veraz y precisa al momento de realizar su inversión y mantener 
-                actualizada dicha información.</p>
-            <p>Al invertir en el fondo, el inversor acepta estos términos y condiciones y se compromete a cumplirlos. 
-                El incumplimiento de estos términos y condiciones puede resultar en la pérdida de la inversión.</p>
-            <p>El fondo de inversión se reserva el derecho de aceptar o rechazar cualquier solicitud de inversión 
-                sin necesidad de proporcionar una explicación.</p>
-            <p>El inversor debe estar al tanto de las regulaciones fiscales y legales relacionadas con su inversión y ser
-                 responsable de cumplir con ellas.</p>
-            <p>El fondo de inversión no será responsable por las pérdidas sufridas por el inversor debido a su 
-                falta de información o conocimiento sobre el fondo o los riesgos asociados.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+    <!-- Bootstrap + Dorang main styles -->
+    <link rel="stylesheet" href="{% static '/dorang/assets/vendors/themify-icons/css/themify-icons.css' %}">
+	<link rel="stylesheet" href="{% static '/dorang/assets/css/dorang.css' %}">
+	<link rel="stylesheet" href="{% static '/dorang/assets/css/dorang-pages.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme">
+    <div class="legal-container">
+        <div class="logo-link">
+            <a class="link link-left" href="{% url 'Home' %}"><img src="{% static '/images/logo/vrt-logo0.png' %}"></a>
+        </div>
+        <div class="legal_title">
+            <p>TERMINOS & CONDICIONES</p>
+        </div>
+        <div class="legal_text">
+            <p>El inversor tendrá la opción de retirar su inversión en cualquier momento, pero deberá tener en cuenta que si
+                    decide hacerlo antes del plazo establecido, no recibirá comisiones por un período de 2 semanas a partir de la 
+                    fecha de retirada. El plazo establecido dependerá del fondo de inversión al que se aplique.</p>
+                <p>El inversor es responsable de comprender y aceptar los riesgos asociados con la inversión en el fondo de
+                    inversión, y que la decisión de retirar su inversión antes del plazo establecido puede afectar significativamente
+                su rendimiento financiero.El fondo de inversión se reserva el derecho de modificar estos términos y condiciones en cualquier 
+                    momento y con un previo aviso a los usuarios vinculados.</p>
+                <p>El inversor debe proporcionar información veraz y precisa al momento de realizar su inversión y mantener 
+                    actualizada dicha información.Al invertir en el fondo, el inversor acepta estos términos y condiciones y se compromete a cumplirlos. 
+                    El incumplimiento de estos términos y condiciones puede resultar en la pérdida de la inversión.El fondo de inversión se reserva el derecho de aceptar o rechazar cualquier solicitud de inversión 
+                    sin necesidad de proporcionar una explicación.</p>
+                <p>El inversor debe estar al tanto de las regulaciones fiscales y legales relacionadas con su inversión y ser
+                    responsable de cumplir con ellas.El fondo de inversión no será responsable por las pérdidas sufridas por el inversor debido a su 
+                    falta de información o conocimiento sobre el fondo o los riesgos asociados.
+                </p>
             </p>
-        </h4>
+        </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>

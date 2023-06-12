@@ -1,0 +1,124 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block block %}
+{% if user.is_authenticated %}
+<div class="main-home-columns">
+    <div class="main-home-left">
+        <div class="title-home-login">
+            <h2>FONDO DE INVERSION</h1>
+            <h1>COLECTIVO
+            </h1>
+        </div>
+        <div class="info-home">
+            <h4>Somos un fondo de inversión colectiva, privado por 
+                referencia; si has llegado hasta aquí es porque alguien
+                te a referenciado para que puedas hacer parte de
+                nuestro portafolio, contamos con un equipo de
+                comerciantes experimentados, con el fin de brindarte
+                los retornos más ajustados al riesgo, por lo tanto, el
+                beneficio es el más sostenible que existe en el momento.
+            </h4>
+        </div>
+        <div class="home-simulator">
+            <div class="info-home-simulator">
+                <h4 class="text-home-simulator">Nuestros comerciantes experimentados manejan un
+                    amplio portafolio de inversión como lo son CFD de
+                    divisas y metales, también acciones y commodities.
+                </h4>
+            </div>
+            <div class="button-home-container">
+                {% if user.is_operating %}
+                <button class="button-home-interface" onclick=window.location.href="{% url 'Interface' %}">
+                    <h5 class="button-home-h5">ADMINISTRAR</h5>
+                </button>
+                {% else %}
+                <button class="button-home-interface" onclick=window.location.href="{% url 'Info' %}">
+                    <h5 class="button-home-h5">SOLICITAR</h5>
+                </button>
+                {% endif %}
+                <button class="button-home-interface" onclick=window.location.href="{% url 'Investment' %}">
+                    <h5 class="button-home-h5">SIMULAR</h5>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="main-home-right">
+        <button class="benefits-button" onclick=window.location.href="{% url 'Services' %}">
+            <div class="benefits-home">
+                <h1 class="benefits-home-h1">BENEFICIOS</h1>    
+                <h5 class="text-benefits-h5">Asociándose al fondo de inversión, podrán acceder a múltiples beneficios
+                    además de la diversificación de su cartera de inversiones, acceso a un equipo de expertos en inversiones 
+                    posibilidad de obtener descuentos en diferentes productos servicios asociados.
+                </h5>
+            </div>
+        </button>
+        <div class="plan-container">
+            <div class="plan-title">
+                <h1 class="plan-info-h1">+12%</h1><br>
+                <h4 class="plan-info-h4">EFECTIVO ANUAL</h4><br>
+                <h5 class="plan-info-h5">DURACION</h5>
+                <h6 class="plan-info-h6">3-MESES</h6>
+            </div>
+            <div class="plan-title">
+                <h1 class="plan-info-h1">+24%</h1><br>
+                <h4 class="plan-info-h4">EFECTIVO ANUAL</h4><br>
+                <h5 class="plan-info-h5">DURACION</h5>
+                <h6 class="plan-info-h6">6-MESES</h6>
+            </div>
+            <div class="plan-title">
+                <h1 class="plan-info-h1">+36%</h1><br>
+                <h4 class="plan-info-h4">EFECTIVO ANUAL</h4><br>
+                <h5 class="plan-info-h5">DURACION</h5>
+                <h6 class="plan-info-h6">12-MESES</h6>
+            </div>
+        </div>
+        <div class="plan-final-container">
+            <h4 class="plan-final-info"> interés simple, puedes solicitar tu
+                rentabilidad cada mes si lo deseas, para mayor información lee nuestros términos y condiciones.
+            </h4><br><br>
+        </div>
+    </div>
+</div>
+{% else %}
+<div style="height: 50px"></div>
+<div class="container-home">
+    <div class="main-home">
+        <div class="title-home">
+            <h1>FONDO</h1>
+            <h1>COLECTIVO
+                <button class="link-title" onclick=window.location.href="{% url 'Singup' %}">
+                    <h5>SINGUP <i class="fa-solid fa-user-plus"></i></h5>
+                </button>
+            </h1>
+        </div>
+        <div class="info-home">
+            <h4>¿Sabías qué los Fondos de Inversión Colectiva, son una alternativa de inversión que te permite 
+                diversificar tus recursos para alcanzar tus sueños a corto mediano o largo plazo?
+            </h4>
+        </div>
+    </div>
+    <dialog id="dlog" class="dlog">
+        <div id="video-player">
+            <div class="button-video-container">
+                <button id="back" class="adm-video adm-video-close"><i class="fa-solid fa-x"></i></button>
+            </div>
+            <div class="main-play">
+                <video id="vrt-video" class="video-player" controls width="70%" height="70%" src="{% static '/video/vrt.mp4' %}"></video>
+            </div>
+        </div>
+    </dialog>
+    <div class= "img-play-container" >
+        <span class="img-forex">
+            <span style="background-image: url( {% static 'images/forex.png' %} )"></span>
+        </span>
+        <button id="play" class="play-button">
+            <i><img src="{% static '/images/play-icon.png' %}"></i>
+        </button>
+    </div>
+    <script src="{% static 'js/video.js' %}"></script>
+</div>
+{% endif %}
+{% endblock %}
+

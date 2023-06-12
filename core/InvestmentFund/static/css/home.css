@@ -11,8 +11,11 @@
 a:-webkit-any-link {cursor: pointer;text-decoration: none;}
 button:-webkit-any-link {cursor: pointer;border: none;text-decoration: none;}
 
-body{margin: 0;
-  background: linear-gradient(270deg, #142949, #144150 );
+body{margin: 0; padding: 0;
+    background-color: #212529;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 #loader{
@@ -672,6 +675,7 @@ button.link-title:hover{color: #61CE70;}
   width: 335px;
   height: 155px;
   border-radius: 10px;
+  align-items: center;
   font-weight:lighter;
   background-color: rgba(0, 0, 0, 0.50);
 }
@@ -752,6 +756,13 @@ button.link-title:hover{color: #61CE70;}
 }
 
 /* Payments section end */
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.20);
+  border-radius: 50%;
+}
 
 /* Payments Forms section start */
 

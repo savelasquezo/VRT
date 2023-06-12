@@ -1,0 +1,92 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/cards.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body>
+    <div class="container-flex">
+        <div class="container">
+            {% if ListGift %}
+            {% for Gift in ListGift %}
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{{Gift.pCard.url}}">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+                    <div class="event-info">
+                        <p class="title">{{ Gift.pTitle }}</p>
+                        <div class="separator"></div>
+                        <p class="info-gift">
+                            {{ Gift.pInfo }}
+                        </p>
+                        <p class="info-link"><a href="">{{Gift.pDiscount}}</a></p>
+                        <div class="additional-info">
+                            <p class="info-gift">
+                                <a href="{{Gift.pURL}}" target=”_blank”><h2>{{ Gift.pName }}</h2></a>
+                                <h5>{{ Gift.pInfoAdd }}</h5><br>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="action"><a class="a-blank" href="{{Gift.pURL}}">VISITAR</a></button>
+                    <!--<button class="action" onclick="openform({{ Gift.pName }},{{Gift.pPtsMin}})">SOLICITAR</button>-->
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{% static '/images/comingsoon.png' %}">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+                    <div class="event-info">
+                        <p class="title">COMINGSOON</p>
+                        <div class="separator"></div>
+                        <p class="info-gift">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting Ips, 
+                            Lorem Ipsum has been the industry's standardrys
+                        </p>
+                        <p class="info-link"><a href="">FREE</a></p>
+                        <div class="additional-info">
+                            <p class="info-gift">
+                                <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>ASOCIADO</h2></a><br>
+                                <h5>
+                                    It is a long established fact that a reader will be distracted by the ip<br>
+                                    readable content of a page when looking at its layout. The point of using Lorem Ipsu
+                                </h5><br>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="action"><a class="a-blank" href="{% url 'ComingSoon' %}">VISITAR</a></button>
+                    <!--<button class="action" onclick="openform('ComingSoon',0)">SOLICITAR</button>-->
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="admin-container">
+        <h4>Ademas de recibir automaticamente el interes a su capital, tambien recibira una puntuacion en base a la 
+            antiguedad y capital invertido, esta puntuacion sera redimible en bonos de descuento, sorteos y muchos
+            otros beneficios, unicamente por ser usuario activo de la plataforma</h4>
+        <div>
+            <button class="admin-button" onclick=window.location.href="{% url 'Home' %}"><i class="fa-solid fa-delete-left"></i></button>
+            <button class="admin-button" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>
+            {% if sState %}
+                <button class="admin-button" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

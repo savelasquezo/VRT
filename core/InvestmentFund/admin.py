@@ -1,12 +1,13 @@
-from django.contrib import admin
+from ckeditor.widgets import CKEditorWidget
 
+from django.db import models
+from django.contrib import admin
 from django.conf.locale.es import formats as es_formats
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Usuario, UserRank, Tickets, InvestRequests, Services, Settings, Associate
-
+import InvestmentFund.models as model
 
 class MyAdminSite(admin.AdminSite):
     index_title = 'Panel Administrativo'
@@ -268,7 +269,7 @@ class InvestRequestsAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
             
         if not request.user.is_superuser:
-            return InvestRequests.objects.filter(staff_cod = request.user.codigo)
+            return model.InvestRequests.objects.filter(staff_cod = request.user.codigo)
 
         qs = self.model._default_manager.get_queryset()
 
@@ -387,11 +388,11 @@ class AssociateAdmin(admin.ModelAdmin):
 
 admin.site.register(Group)
 
-admin.site.register(Usuario, UserBaseAdmin)
+admin.site.register(model.Usuario, UserBaseAdmin)
 #admin.site.register(UserRank, UserRankAdmin)
-admin.site.register(Tickets, TicketsAdmin)
+admin.site.register(model.Tickets, TicketsAdmin)
 #admin.site.register(Services, ServicesAdmin)
-admin.site.register(InvestRequests, InvestRequestsAdmin)
-admin.site.register(Associate, AssociateAdmin)
-admin.site.register(Settings, SettingsAdmin)
+admin.site.register(model.InvestRequests, InvestRequestsAdmin)
+admin.site.register(model.Associate, AssociateAdmin)
+admin.site.register(model.Settings, SettingsAdmin)
 

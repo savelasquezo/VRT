@@ -3,75 +3,104 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
-  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+    <!-- Bootstrap + Dorang main styles -->
+    <link rel="stylesheet" href="{% static '/dorang/assets/vendors/themify-icons/css/themify-icons.css' %}">
+	<link rel="stylesheet" href="{% static '/dorang/assets/css/dorang.css' %}">
+    <link rel="stylesheet" href="{% static '/dorang/assets/css/dorang-pages.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
-<body>
-
-{% block block %}
-<div class="info-investment">
-    <h1>SIMULADOR</h1><br>
-    <h3>Con el plazo y el monto que quieres invertir podrás simular el comportamiento aproximado de la inversión
-        Las comisiones y el capital inicial podrán ser retirados en cualquier momento, para mayor información consulte
-        los Términos y condiciones.
-    </h3>
-</div>
-<div class="container-inv">
-    <div class="inv-output">
-        <input class="inv-ammount" type="number" placeholder="¿Cuanto dinero Invertiras?" id="cash" min="0" max="9999999999" step="100000">
-        <div class="inv-results">
-            <h1 class="inv-results-h1" id="ctotal">-</h1>
-        </div>
-        <div class="choices">
-            <input class="button-choices" name="ammount_for" type="button" id="m1" value="3 Meses-1%" required>
-            <input class="button-choices" name="ammount_for" type="button" id="m2" value="6 Meses-2%" required>
-            <input class="button-choices" name="ammount_for" type="button" id="m3" value="12 Meses-3%" required>
-        </div>
-        <div class="inv-details">
-            <span id="title">Capital Inicial:</span><span id="rammount">-</span>
-        </div>
-        <div class="inv-details">
-            <span id="title">Interes:</span><span id="rinterest">-</span>
-        </div>
-        <div class="inv-details">
-            <span id="title">Interes:*</span><span id="daylint">-</span>
-        </div><hr class="inv-hr">
-        <div class="inv-details">
-            <span id="title">Total:</span><span id="rtotal">-</span>
-        </div>
-        <script src="{% static 'js/jinvs.js' %}"></script>
-        <div class="button-investment-container">
-            <button class="button-investment" onclick=window.location.href="{% url 'Home' %}">
-                <h5 class="button-investment-h5"><i class="fa-solid fa-delete-left"></i></h5>
-            </button>
-            <button class="button-investment" onclick=window.location.href="{% url 'Info' %}">
-                <h5 class="button-investment-h5"><i class="fa-solid fa-comments-dollar"></i></h5>
-            </button>
-            <button class="button-investment" onclick=window.location.href="{% url 'Investment' %}">
-                <h5 class="button-investment-h5"><i class="fa-solid fa-arrows-rotate"></i></h5>
-            </button>
-            {% if user.is_staff %}
-                <button class=" button-investment button-premium" onclick=window.location.href="{% url 'InvEspecial' %}">
-                    <h5 class="button-investment-h5"><i class="fa-solid fa-users"></i></h5>
-                </button>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme">
+    <!-- page navbar -->
+    <nav class="page-navbar" data-spy="affix" data-offset-top="10">
+        <ul class="nav-navbar container">
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link">VRTFUND</a></li>
+            {% if user.is_authenticated %}
+                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
             {% endif %}
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_operating %}
+                    <li class="nav-item"><a href="{% url 'Interface' %}" class="nav-link">ADMINISTRAR</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'InfoForm' %}" class="nav-link">SOLICITAR</a></li>
+                {% endif %}
+                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">SALIR</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">INVERSIONES</a></li>
+                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">INGRESAR</a></li>
+            {% endif %}
+            <!--<li class="nav-item search">
+                <a href="javascript:void(0)" class="nav-link search-toggle"><i class="ti-search"></i></a>
+                <div class="search-wrapper">
+                    <form>
+                        <input type="search" class="form-control" name="" placeholder="hit enter to search">
+                    </form>
+                </div>
+            </li>-->
+        </ul>
+    </nav><!-- end of page navbar -->
+    <!-- page container -->
+    {% block block %}
+    <div class="container-inv">
+        <div class="inv-output">
+            <input class="inv-ammount" type="number" placeholder="¿Cuanto dinero Invertiras?" id="cash" min="0" max="9999999999" step="100000">
+            <div class="inv-results">
+                <p class="inv-results-p" id="ctotal">-</p>
+            </div>
+            <div class="choices">
+                <input class="button-choices" name="ammount_for" type="button" id="m1" value="3 Meses-1%" required>
+                <input class="button-choices" name="ammount_for" type="button" id="m2" value="6 Meses-2%" required>
+                <input class="button-choices" name="ammount_for" type="button" id="m3" value="12 Meses-3%" required>
+            </div>
+            <div class="inv-details">
+                <span id="title">Capital Inicial:</span><span id="rammount">-</span>
+            </div>
+            <div class="inv-details">
+                <span id="title">Interes:</span><span id="rinterest">-</span>
+            </div>
+            <div class="inv-details">
+                <span id="title">Interes:*</span><span id="daylint">-</span>
+            </div><hr class="inv-hr">
+            <div class="inv-details">
+                <span id="title">Total:</span><span id="rtotal">-</span>
+            </div>
+            <script src="{% static 'js/jinvs.js' %}"></script>
+            <div class="button-investment-container">
+                <button class="button-investment" onclick=window.location.href="{% url 'Home' %}">
+                    <p class="button-investment-p"><i class="fa-solid fa-delete-left"></i></p>
+                </button>
+                <button class="button-investment" onclick=window.location.href="{% url 'Info' %}">
+                    <p class="button-investment-p"><i class="fa-solid fa-comments-dollar"></i></p>
+                </button>
+                <button class="button-investment" onclick=window.location.href="{% url 'Investment' %}">
+                    <p class="button-investment-p"><i class="fa-solid fa-arrows-rotate"></i></p>
+                </button>
+                {% if user.is_staff %}
+                    <button class=" button-investment button-premium" onclick=window.location.href="{% url 'InvEspecial' %}">
+                        <p class="button-investment-p"><i class="fa-solid fa-users"></i></p>
+                    </button>
+                {% else %}
+                    <button class=" button-investment button-premium" onclick=window.location.href="{% url 'Legal' %}">
+                        <p class="button-investment-p"><i class="fa-solid fa-question"></i></p>
+                    </button>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
-<div class="info-investment investment-bottom">
-    <h3>(Interes*) Comisiones recibidas de intereses diarios que seran agregados a la cuenta del usuarios diariamente
-        VRTFund realiza las operaciones de carga de fondos diariamente a las 0:00 UTC
-    </h3>
-    <a class="invest-legal" href="{% url 'Legal' %}"><h5>TERMINOS & CONDICIONES</h5></a>
-</div>
-{% endblock %}
+    {% endblock %}
+    <!-- end of page container -->
+    <!-- Dorang js -->
+    <script src="{% static '/dorang/assets/vendors/jquery/jquery-3.4.1.js' %}"></script>
+    <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.bundle.js' %}"></script>
+    <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.affix.js' %}"></script>
 </body>
 </html>

@@ -3,20 +3,57 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
-  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/css/cards.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+    <!-- Bootstrap + Dorang main styles -->
+    <link rel="stylesheet" type="text/css" href="{% static '/dorang/assets/vendors/themify-icons/css/themify-icons.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static '/dorang/assets/css/dorang.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/dorang/assets/css/dorang-pages.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/gift.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/cards-gift.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
-<body>
-    <div class="container-flex">
-        <div class="container">
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
+    <!-- page navbar -->
+    <nav class="page-navbar" data-spy="affix" data-offset-top="10">
+        <ul class="nav-navbar container">
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link">VRTFUND</a></li>
+            {% if user.is_authenticated %}
+                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
+            {% endif %}
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_operating %}
+                    <li class="nav-item"><a href="{% url 'Interface' %}" class="nav-link">ADMINISTRAR</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'InfoForm' %}" class="nav-link">SOLICITAR</a></li>
+                {% endif %}
+                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">SALIR</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{% url 'Info' %}" class="nav-link">INVERSIONES</a></li>
+                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">INGRESAR</a></li>
+            {% endif %}
+            <!--<li class="nav-item search">
+                <a href="javascript:void(0)" class="nav-link search-toggle"><i class="ti-search"></i></a>
+                <div class="search-wrapper">
+                    <form>
+                        <input type="search" class="form-control" name="" placeholder="hit enter to search">
+                    </form>
+                </div>
+            </li>-->
+        </ul>
+    </nav><!-- end of page navbar -->
+    <!-- page container -->
+    {% block block %}
+    <div class="container-cards">
+        <div class="section-container">
             {% if ListGift %}
             {% for Gift in ListGift %}
             <div class="item-container">
@@ -31,11 +68,10 @@
                         <p class="info-gift">
                             {{ Gift.pInfo }}
                         </p>
-                        <p class="info-link"><a href="">{{Gift.pDiscount}}</a></p>
                         <div class="additional-info">
                             <p class="info-gift">
                                 <a href="{{Gift.pURL}}" target=”_blank”><h2>{{ Gift.pName }}</h2></a>
-                                <h5>{{ Gift.pInfoAdd }}</h5><br>
+                                <p class="info-gift-resume">{{ Gift.pInfoAdd }}</p><br>
                             </p>
                         </div>
                     </div>
@@ -50,22 +86,22 @@
                     <img src="{% static '/images/comingsoon.png' %}">
                 </div>
                 <div class="body-container">
-                    <div class="overlay"></div>
-                    <div class="event-info">
-                        <p class="title">COMINGSOON</p>
+                    <div class="overlay-cards"></div>
+                    <div class="event-info-cards">
+                        <p class="title-cards">COMINGSOON</p>
                         <div class="separator"></div>
                         <p class="info-gift">
                             Lorem Ipsum is simply dummy text of the printing and typesetting Ips, 
-                            Lorem Ipsum has been the industry's standardrys
+                            Lorem Ipsum has been 
                         </p>
                         <p class="info-link"><a href="">FREE</a></p>
                         <div class="additional-info">
                             <p class="info-gift">
-                                <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>ASOCIADO</h2></a><br>
-                                <h5>
+                                <a href="{% url 'ComingSoon' %}" target=”_blank”><p class="info-gift-brand">ASOCIADO</p></a>
+                                <p class="info-gift-extra">
                                     It is a long established fact that a reader will be distracted by the ip<br>
                                     readable content of a page when looking at its layout. The point of using Lorem Ipsu
-                                </h5><br>
+                                </p>
                             </p>
                         </div>
                     </div>
@@ -76,17 +112,11 @@
             {% endif %}
         </div>
     </div>
-    <div class="admin-container">
-        <h4>Ademas de recibir automaticamente el interes a su capital, tambien recibira una puntuacion en base a la 
-            antiguedad y capital invertido, esta puntuacion sera redimible en bonos de descuento, sorteos y muchos
-            otros beneficios, unicamente por ser usuario activo de la plataforma</h4>
-        <div>
-            <button class="admin-button" onclick=window.location.href="{% url 'Home' %}"><i class="fa-solid fa-delete-left"></i></button>
-            <button class="admin-button" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>
-            {% if sState %}
-                <button class="admin-button" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
-            {% endif %}
-        </div>
-    </div>
+    {% endblock %}
+    <!-- end of page container -->
+    <!-- Dorang js -->
+    <script src="{% static '/dorang/assets/vendors/jquery/jquery-3.4.1.js' %}"></script>
+    <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.bundle.js' %}"></script>
+    <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.affix.js' %}"></script>
 </body>
 </html>

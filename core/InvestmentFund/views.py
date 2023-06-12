@@ -164,7 +164,7 @@ class InvestPremiumView(LoginRequiredMixin, TemplateView):
 class InfoFormView(LoginRequiredMixin, TemplateView):
     template_name='home/info_ticket.html'
 
-class InfoView(LoginRequiredMixin, TemplateView):
+class InfoView(TemplateView):
     template_name='home/info.html'
     
     def post(self, request, *args, **kwargs):
@@ -307,7 +307,7 @@ class InterfaceView(LoginRequiredMixin, TemplateView):
 
         return self.render_to_response(context)
 
-class LegalView(LoginRequiredMixin, TemplateView):
+class LegalView(TemplateView):
     template_name='home/legal.html'
         
 

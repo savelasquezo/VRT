@@ -1,0 +1,68 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body>
+{% block block %}
+<div class="info-investment">
+    <h1>SIMULADOR</h1>
+    <h2>ADMINISTRATIVO</h2><br>
+    <h3>La Informacion suministrada por este simulador solo es en calidad
+        informativo y no esta sujeto a ninguno de los planes de inversion establecidos por VRTFund
+    </h3>
+</div>
+<div class="container-inv">
+    <div class="inv-output">
+        <input class="inv-ammount" type="number" placeholder="¿Cuanto dinero Invertiras?" id="cash" min="0" max="9999999999" step="100000">
+        <div class="inv-results">
+            <h1 class="inv-results-h1" id="ctotal">-</h1>
+        </div>
+        <input class="inv-ammount input-premium" type="number" placeholder="INTERES" id="pinterest" min="0" max="100" step="1">
+        <input class="inv-ammount input-premium" type="number" placeholder="MESES" id="pmonths" min="0" max="1200" step="1">
+        <div class="inv-details">
+            <span id="title">Capital Inicial:</span><span id="rammount">-</span>
+        </div>
+        <div class="inv-details">
+            <span id="title">Ganancias:</span><span id="rinterest">-</span>
+        </div>
+        <div class="inv-details">
+            <span id="title">Interes:*</span><span id="daylint">-</span>
+        </div><hr class="inv-hr">
+        <div class="inv-details">
+            <span id="title">Total:</span><span id="rtotal">-</span>
+        </div>
+        <script src="{% static 'js/jinvsAdmin.js' %}"></script>
+        <div class="button-investment-container">
+            <button class="button-investment" onclick=window.location.href="{% url 'Investment' %}">
+                <h5 class="button-investment-h5"><i class="fa-solid fa-delete-left"></i></h5>
+            </button>
+            <button class="button-investment" onclick=window.location.href="{% url 'Info' %}">
+                <h5 class="button-investment-h5"><i class="fa-solid fa-comments-dollar"></i></h5>
+            </button>
+            <button class="button-investment" onclick=window.location.href="{% url 'InvEspecial' %}">
+                <h5 class="button-investment-h5"><i class="fa-solid fa-arrows-rotate"></i></h5>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="info-investment info-investment-bottom">
+    <h3>(Interes*) Comisiones recibidas de intereses diarios que seran agregados a la cuenta del usuarios diariamente
+        VRTFund realiza las operaciones de carga de fondos diariamente a las 0:00 UTC
+    </h3>
+</div>
+<a class="invest-legal" href="{% url 'Legal' %}"><h5>TERMINOS & CONDICIONES</h5></a>
+{% endblock %}
+</body>
+</html>

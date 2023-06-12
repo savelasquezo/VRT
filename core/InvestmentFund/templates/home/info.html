@@ -1,94 +1,143 @@
-{% extends 'home/base.html' %}
 {% load static %}
 {% load humanize %}
 
-{% block block %}
-{% if messages %}
-<div class="{{ message.tags }}">
-    <ul class="ul-messages">
-    {% for message in messages %}
-        <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
-</div>
-{% else %}
-<div style="height: 49px;"></div>
-{% endif %}
-<div class="payment">
-    <div class="payment_title">
-        <h1>INSCRIPCIONES</h1>
-        <h3>VRTFUND provee los siguientes métodos de pago tome en cuenta que al seleccionar su método de pago, 
-            es necesario que se ponga en contacto con un administrador para validar el mismo antes de completar 
-            la transacción.
-        </h3>
-    </div>
-    <div class="payment_container">
-        <div class="payment_box">
-            <span style="background-image: url( {% static 'images/brands/metamask.png' %} )"></span>
-            <div class="payment_info">
-                <h1>Metamask</h1><br>
-                <h4>Criptomonedas</h4>
-                <h4>BTC/ETH/BNB</h4>
-                <div class="pay_button_container">
-                    <button id="play1" class="tutorial_button">
-                        <i class="fa-solid fa-question"></i>
-                    </button>
-                    <a href="{% url 'InfoForm' %}">
-                        <button type="submit" class="pay_button">SOLICITAR</button>
-                    </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+    <!-- Bootstrap + Dorang main styles -->
+    <link rel="stylesheet" type="text/css" href="{% static '/dorang/assets/vendors/themify-icons/css/themify-icons.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static '/dorang/assets/css/dorang.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/gift.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/new-cards.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
+    <!-- page navbar -->
+    <nav class="page-navbar" data-spy="affix" data-offset-top="10">
+        <ul class="nav-navbar container">
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link">VRTFUND</a></li>
+            {% if user.is_authenticated %}
+                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
+            {% endif %}
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_operating %}
+                    <li class="nav-item"><a href="{% url 'Interface' %}" class="nav-link">ADMINISTRAR</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'InfoForm' %}" class="nav-link">SOLICITAR</a></li>
+                {% endif %}
+                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">SALIR</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{% url 'Info' %}" class="nav-link">INVERSIONES</a></li>
+                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">INGRESAR</a></li>
+            {% endif %}
+            <!--<li class="nav-item search">
+                <a href="javascript:void(0)" class="nav-link search-toggle"><i class="ti-search"></i></a>
+                <div class="search-wrapper">
+                    <form>
+                        <input type="search" class="form-control" name="" placeholder="hit enter to search">
+                    </form>
+                </div>
+            </li>-->
+        </ul>
+    </nav><!-- end of page navbar -->
+    <!-- page container -->
+    {% block block %}
+    <div class="new-cards-container">
+        <div class="grid">
+            <div class="card uppercase">
+                <p class="card-number">+12%</p>
+                <p class="card-title">Efectivo Anual</p>
+                <p class="card-info1">
+                    Acceso Afiliados<br>
+                    1 Retiros Mensual<br>
+                    Depositos Diarios<br>
+                    <br>
+                </p>
+                    <p class="card-info2"> Inversion Minima<br>1.000.000</p>
+                    <br>
+                </p>
+                <p>DURACION<br>3-MESES</p>
+                <div class="shine"></div>
+                <div class="background">
+                    <div class="tiles">
+                        <div class="tile tile-1"></div><div class="tile tile-2"></div><div class="tile tile-3"></div>
+                        <div class="tile tile-4"></div><div class="tile tile-5"></div><div class="tile tile-6"></div>
+                        <div class="tile tile-7"></div><div class="tile tile-8"></div><div class="tile tile-9"></div>
+                        <div class="tile tile-10"></div>
+                    </div>
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </div>
+            </div>
+            <div class="card uppercase">
+                <p class="card-number">+24%</p>
+                <p class="card-title">Efectivo Anual</p>
+                <p class="card-info1">
+                    Acceso Afiliados<br>
+                    5 Retiros Mensuales<br>
+                    Depositos Diarios<br>
+                    <br>
+                </p>
+                    <p class="card-info2"> Inversion Minima<br>3.000.000</p>
+                    <br>
+                </p>
+                <p>DURACION<br>6-MESES</p>
+                <div class="shine"></div>
+                <div class="background">
+                    <div class="tiles">
+                        <div class="tile tile-1"></div><div class="tile tile-2"></div><div class="tile tile-3"></div>
+                        <div class="tile tile-4"></div><div class="tile tile-5"></div><div class="tile tile-6"></div>
+                        <div class="tile tile-7"></div><div class="tile tile-8"></div><div class="tile tile-9"></div>
+                        <div class="tile tile-10"></div>
+                    </div>
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </div>
+            </div>
+            <div class="card uppercase">
+                <p class="card-number">+36%</p>
+                <p class="card-title">Efectivo Anual</p>
+                <p class="card-info1">
+                    Acceso Afiliados<br>
+                    Retiros Ilimitados<br>
+                    Depositos Diarios<br>
+                    <br>
+                </p>
+                    <p class="card-info2"> Inversion Minima<br>5.000.000</p>
+                    <br>
+                </p>
+                <p>DURACION<br>12-MESES</p>
+                <div class="shine"></div>
+                <div class="background">
+                    <div class="tiles">
+                        <div class="tile tile-1"></div><div class="tile tile-2"></div><div class="tile tile-3"></div>
+                        <div class="tile tile-4"></div><div class="tile tile-5"></div><div class="tile tile-6"></div>
+                        <div class="tile tile-7"></div><div class="tile tile-8"></div><div class="tile tile-9"></div>
+                        <div class="tile tile-10"></div>
+                    </div>
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
                 </div>
             </div>
         </div>
-        <div class="payment_box">
-            <span style="background-image: url( {% static 'images/brands/binance.png' %} )"></span>
-            <div class="payment_info">
-                <h1>Binance</h1><br>
-                <h4>Criptomonedas</h4>
-                <h4>USDT/BUSD/USDC</h4>
-                <div class="pay_button_container">
-                    <button id="play2" class="tutorial_button">
-                        <i class="fa-solid fa-question"></i>
-                    </button>
-                    <a href="{% url 'InfoForm' %}">
-                        <button type="submit" class="pay_button">SOLICITAR</button>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="payment_box">
-            <span style="background-image: url( {% static 'images/brands/fiat.png' %} )"></span>
-            <div class="payment_info">
-                <h1>Fiat</h1><br>
-                <h4>Efectivo/Transferencia</h4>
-                <h4>COP/USD/CHF</h4>
-                <div class="pay_button_container">
-                    <button id="play3" class="tutorial_button">
-                        <i class="fa-solid fa-question"></i>
-                    </button>
-                    <a href="{% url 'InfoForm' %}">
-                        <button type="submit" class="pay_button">SOLICITAR</button>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
-    <dialog id="dlog" class="dlog">
-        <div id="video-player">
-            <div class="button-video-container">
-                <button id="back" class="adm-video adm-video-close"><i class="fa-solid fa-x"></i></button>
-            </div>
-            <div class="main-play">
-                <video id="tut1" class="video-player" controls width="70%" height="70%" src="{% static '/video/tut1.mp4' %}"></video>
-                <video id="tut2" class="video-player" controls width="70%" height="70%" src="{% static '/video/tut2.mp4' %}"></video>
-                <video id="tut3" class="video-player" controls width="70%" height="70%" src="{% static '/video/tut3.mp4' %}"></video>
-            </div>
-        </div>
-    </dialog>
-    <div class="payment_coments">
-        <h3>VRTFUND provee los siguientes métodos de pago, la activación del registro se realizará en las próximas 
-            24 horas posteriores a la confirmación del pago, para mayor información contacte con un administrador.
-        </h3><br><br>
-    </div>
-    <script src="{% static 'js/tutorials.js' %}"></script>
-</div>
-{% endblock %}
+    {% endblock %}
+    <!-- end of page container -->
+    <!-- Dorang js -->
+    <script src="{% static '/dorang/assets/vendors/jquery/jquery-3.4.1.js' %}"></script>
+    <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.bundle.js' %}"></script>
+    <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.affix.js' %}"></script>
+</body>
+</html>

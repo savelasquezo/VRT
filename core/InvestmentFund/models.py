@@ -95,7 +95,6 @@ class Usuario(AbstractUser):
     ref_total = models.PositiveBigIntegerField(_("Total"),blank=True,default=0,
                 help_text=_("Capital Generado al Asociado ($COP)"),)
 
-    
     class Meta:
         verbose_name = _("Usuario")
         verbose_name_plural = _("Usuarios")

@@ -4,10 +4,12 @@
 * {-webkit-font-smoothing: antialiased;text-rendering: optimizeLegibility;}
 
 body{
-    margin: 0; 
-    padding: 0;
-    background: linear-gradient(270deg, #142949, #144150 );
+    background-color: #212529;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
+
 .success {
     font-family: 'Work Sans';
     font-size:x-small;
