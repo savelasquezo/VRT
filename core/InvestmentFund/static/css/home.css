@@ -31,6 +31,26 @@ body{margin: 0; padding: 0;
   transition:all .3s ease-in-out 1s;
 }
 
+.buttons-fixed{
+  position: relative;
+  right: 16px;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.chatgpt-button{
+  width: 32px;
+  height: 32px;
+  background-color: #0f708d;
+}
+.whatsapp-button{
+  width: 32px;
+  height: 32px;
+  background-color:#01ff38;
+}
+
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;

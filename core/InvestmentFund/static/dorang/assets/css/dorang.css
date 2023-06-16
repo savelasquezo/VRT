@@ -71,6 +71,27 @@ body {
   background-color: #fff;
 }
 
+.buttons-fixed{
+  position: fixed;
+  z-index: 999;
+  right: 16px;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chatgpt-button{
+  width: 68px;
+  height: 68px;
+}
+.whatsapp-button{
+  width: 68px;
+  height: 68px;
+  border-radius: 10px;
+  background-color:#1ad03f;
+}
+
+
 [tabindex="-1"]:focus {
   outline: 0 !important;
 }
