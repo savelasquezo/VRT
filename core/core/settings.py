@@ -34,6 +34,8 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
+TAILWIND_APP_NAME = 'theme'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +47,9 @@ INSTALLED_APPS = [
     'django_cron',
     'captcha',
     'ckeditor',
+    'tailwind',
+    'theme',
+    'django_browser_reload',
     'InvestmentFund.apps.InvestmentfundConfig',
 ]
 
@@ -53,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

@@ -9,6 +9,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
@@ -24,7 +25,7 @@ from django.contrib.auth.views import LoginView
 
 from .tools import gToken, HashCode
 
-from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate
+from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule
 
 def IsStaff(user):
     return user.is_staff
@@ -36,6 +37,16 @@ class TestView(TemplateView):
 class HomeView(TemplateView):
     template_name='home/home.html'
 
+    def get(self, request, *args, **kwargs):
+        
+        ListGift = Associate.objects.all().order_by("id")
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'ListGift':ListGift,
+        }
+
+        return self.render_to_response(context)
 
 class SingupView(UserPassesTestMixin, TemplateView):
     template_name='registration/singup.html'
@@ -163,6 +174,117 @@ class InvestPremiumView(LoginRequiredMixin, TemplateView):
 
 class InfoFormView(LoginRequiredMixin, TemplateView):
     template_name='home/info_ticket.html'
+
+class AdminServices(LoginRequiredMixin, TemplateView):
+    template_name='driver/admin.html'
+
+    def post(self, request, *args, **kwargs):
+
+        if 'cancel' in request.POST:
+            iUser = Usuario.objects.filter(id=request.user.id)
+            iUser.update(is_driving=False)
+            return redirect(reverse('svAdmin'))
+
+        if 'input' in request.POST:
+            iCode = int(request.POST['iCode'])
+
+            try:
+                InfoUser = Usuario.objects.get(codigo=iCode)
+                UserShedule = Schedule.objects.filter(Q(status="Pendiente") | Q(username=InfoUser)).order_by('-id').first()
+                if UserShedule:
+                    TSchedule = UserShedule
+                else:
+                    TSchedule = Schedule.objects.create(
+                        username = self.request.user,
+                        driver = request.user.codigo,
+                        schedule_joined = timezone.now(),
+                        schedule_out = timezone.datetime(2000, 1, 1),
+                        status = "Pendiente",
+                        )
+
+                    TSchedule.save() 
+
+
+                context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode), TSchedule=TSchedule)
+                return self.render_to_response(context)
+
+            except ObjectDoesNotExist:
+                messages.error(request, '¡Usuario Inexistente!', extra_tags="title")
+                messages.error(request, f'El Usuario ingresado no corresponde a un Afiliado', extra_tags="info")
+                return redirect(reverse('svAdmin'))
+
+        if 'success' in request.POST:
+            iCode = int(request.POST['iCode'])
+            iUser = Usuario.objects.filter(id=request.user.id)
+            iUser.update(is_driving=True)
+            context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode))
+            return self.render_to_response(context)
+
+        if 'fonds' in request.POST:
+            iCode = int(request.POST['iCode'])
+            iValue = int(request.POST['iValue'])
+            CUser = Usuario.objects.get(codigo=iCode)
+
+            try:
+
+                if CUser.available > iValue:
+                    CUser.available -= iValue
+                    CUser.save()
+                    messages.success(request, '¡Servicio Completado!', extra_tags="title")
+                    messages.success(request, f'El pago se ha completado satisfactoriamente', extra_tags="info")
+                    iUser = Usuario.objects.filter(id=request.user.id)
+                    iUser.update(is_driving=False)
+                    return redirect(reverse('svAdmin'))
+
+                else:
+                    messages.error(request, '¡Fondos Insuficientes!', extra_tags="title")
+                    messages.error(request, f'Seleccione otro metodo de pago', extra_tags="info")
+                    return redirect(reverse('svAdmin'))
+
+            except Exception as e:
+                with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
+                    f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
+
+
+
+        if 'points' in request.POST:
+            iCode = int(request.POST['iCode'])
+            CUser = Usuario.objects.get(codigo=iCode)
+
+            try:
+
+                vPoints = Settings.objects.get(Online=True).sDriverPoints
+                if CUser.rank_points > vPoints:
+                    CUser.rank_points -= vPoints
+                    CUser.save()
+                    messages.success(request, '¡Servicio Completado!', extra_tags="title")
+                    messages.success(request, f'El pago se ha completado satisfactoriamente', extra_tags="info")
+                    iUser = Usuario.objects.filter(id=request.user.id)
+                    iUser.update(is_driving=False)
+                    return redirect(reverse('svAdmin'))
+
+                else:
+                    messages.error(request, '¡Puntos Insuficientes!', extra_tags="title")
+                    messages.error(request, f'Seleccione otro metodo de pago', extra_tags="info")
+                    return redirect(reverse('svAdmin'))
+
+            except Exception as e:
+                with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
+                    f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
+
+
+
+        if 'cash' in request.POST:
+            try:
+                messages.success(request, '¡Servicio Completado!', extra_tags="title")
+                messages.success(request, f'El pago se ha confirmado como efectivo', extra_tags="info")
+                iUser = Usuario.objects.filter(id=request.user.id)
+                iUser.update(is_driving=False)
+                return redirect(reverse('svAdmin'))
+            except Exception as e:
+                with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
+                    f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
+
 
 class InfoView(TemplateView):
     template_name='home/info.html'

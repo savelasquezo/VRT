@@ -37,9 +37,31 @@ admin.site = admin_site
 
 admin_site.site_header = "VRTFUND"
 
+class ScheduleInline(admin.StackedInline):
+
+    model = model.Schedule
+
+    fInfo = {"fields": (
+            ("username","driver"),
+            ("addres_from","addres_to"),
+            ("status","paid"),
+            ("schedule_joined","schedule_out"),
+        )}
+
+    fieldsets = (
+        ("Informacion", fInfo),
+        )
+    
+    search_fields = ['username']
+    
+    list_filter = []
+    filter_horizontal = []
+    es_formats.DATETIME_FORMAT = "d M Y H:i"
 
 
 class UserBaseAdmin(UserAdmin):
+
+
 
     list_display = (
         "username",
@@ -54,17 +76,18 @@ class UserBaseAdmin(UserAdmin):
         )
 
     fAutenticationSuperUser = {"fields": (
-        "codigo",
-        ("available_tickets","is_active","is_operating"),
-        "password"
+        ("codigo","available_tickets","is_staff"),
+        ("is_active","is_operating"),
+        ("password"),
+        ("is_dirver","is_driving")
         )}
 
     fAutenticationUser = {"fields": (
         ("codigo","is_active","available_tickets"),
         "password",
-        ("is_operating","is_staff")
+        ("is_operating")
         )}
-    
+
     fInformation = {"fields": (
         ("full_name",
         "country"),
@@ -334,7 +357,8 @@ class SettingsAdmin(admin.ModelAdmin):
     fConfig = {"fields": (
         ("sName","Online","sState"),
         ("sFee","sFeeAmmount"),
-        ("sTickets","sTicketsAmmount")
+        ("sTickets","sTicketsAmmount"),
+        "sDriverPoints"
         )}
 
     fTravel = {"fields": (

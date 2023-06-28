@@ -10,6 +10,8 @@ lst_ranks = (('Silver','Silver'),('Gold','Gold'),('Platinum','Platinum'))
 lst_sts = (('Pendiente','Pendiente'),('Aprobado','Aprobado'),('Denegado','Denegado'),('Error','Error'))
 lst_banks = (('Binance','Binance'),('Metamask','Metamask'),('Fiat','Fiat'))
 
+list_status = (('Completado','Completado'),('Pendiente','Pendiente'),('Cancelado','Cancelado'))
+
 class Usuario(AbstractUser):
     """
     Custom user model inherited from abstractly user.
@@ -29,11 +31,13 @@ class Usuario(AbstractUser):
                 help_text=_("Caracters Max-64, Únicamente letras, dígitos y @/./+/-/_"),
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
 
-    is_active = models.BooleanField(_(" "),default=False)
-    is_staff = models.BooleanField(_("Staff"),default=False,
-                help_text=_("Usuario con facultades Administrativas"),                  )
-    
-    is_operating = models.BooleanField(_("Activo"),default=False,
+    is_active = models.BooleanField(_("¿Activo?"),default=False)
+    is_staff = models.BooleanField(_("Staff"),default=False)
+
+    is_dirver = models.BooleanField(_("¿Conductor?"),default=False)
+    is_driving = models.BooleanField(_("¿Ocupado?"),default=False)
+
+    is_operating = models.BooleanField(_("¿Genera Intereses?"),default=False,
                 help_text=_("El Usuario actualmente genera Intereses ¡Posterior a la Fecha de Expiracion sera desactivado!"),)
 
     available_tickets = models.IntegerField(_("Tickets"),blank=True,default=3,
@@ -235,6 +239,9 @@ class Settings(models.Model):
     sFeeAmmount = models.PositiveIntegerField(_("$Impuestos"),blank=True,default=0,
                 help_text=_("Capital Acumulado en Fee ($COP)"),)
 
+    sDriverPoints = models.PositiveIntegerField(_("Trasporte MinPoints"),default=150,
+                help_text=_("Puntos Requeridos para Servicio de Transporte"),)
+
     sTickets = models.PositiveIntegerField(_("Tickets"),default=3,
                 help_text=_("Tickets/Mensuales"),)
 
@@ -294,3 +301,27 @@ class Associate(models.Model):
 
     def __str__(self):
         return "Asociado: %s" % (self.pk)
+
+class Schedule(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="ID")
+    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,verbose_name="Usuario")
+
+    driver = models.CharField(_("Conductor"),max_length=64 ,unique=True,
+                help_text=_("Codigo del Conductor"))
+
+    schedule_joined = models.DateTimeField(_("Ingreso"), default=timezone.datetime(2000, 1, 1))
+    schedule_out = models.DateTimeField(_("Salida"), default=timezone.datetime(2000, 1, 1))
+
+    status = models.CharField(_("Estado"), choices=list_status, default="", max_length=16)
+
+    addres_from = models.CharField(_("Destino"),max_length=64 ,unique=True,default="N/A",
+                help_text=_("Direccion de Origen"))
+
+    addres_to = models.CharField(_("Origen"),max_length=64 ,unique=True,default="N/A",
+                help_text=_("Direccion de Destino"))
+
+    paid = models.PositiveBigIntegerField(_("Valor"),blank=True,default=0,
+                help_text=_("$Costo del Servicio"),)
+
+    def __str__(self):
+        return "Usuario: %s" % (self.username)

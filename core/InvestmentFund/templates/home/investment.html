@@ -16,15 +16,19 @@
     <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme">
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
     <!-- page navbar -->
     <nav class="page-navbar" data-spy="affix" data-offset-top="10">
         <ul class="nav-navbar container">
             <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link">VRTFUND</a></li>
             {% if user.is_authenticated %}
-                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+                {% if user.is_operating %}
+                    <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+                {% endif %}
             {% else %}
-                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
+                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
             {% endif %}
             <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
             {% if user.is_authenticated %}
@@ -35,7 +39,7 @@
                 {% endif %}
                 <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">SALIR</a></li>
             {% else %}
-                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">INVERSIONES</a></li>
+                <li class="nav-item"><a href="{% url 'Info' %}" class="nav-link">INVERSIONES</a></li>
                 <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">INGRESAR</a></li>
             {% endif %}
             <!--<li class="nav-item search">
@@ -86,7 +90,7 @@
                 </button>
                 {% if user.is_staff %}
                     <button class=" button-investment button-premium" onclick=window.location.href="{% url 'InvEspecial' %}">
-                        <p class="button-investment-p"><i class="fa-solid fa-users"></i></p>
+                        <p class="button-investment-p button-premium-color"><i class="fa-solid fa-users"></i></p>
                     </button>
                 {% else %}
                     <button class=" button-investment button-premium" onclick=window.location.href="{% url 'Legal' %}">
@@ -94,6 +98,9 @@
                     </button>
                 {% endif %}
             </div>
+            <button class="button-investment-add" onclick=window.location.href="{% url 'InfoForm' %}">
+                <p class="button-investment-p">Solicitar</p>
+            </button>
         </div>
     </div>
     {% endblock %}

@@ -91,27 +91,26 @@ class AddFundsToUser(CronJobBase):
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
                         f.write("QueryError Asociados: {}\n".format(str(e)))
                         
-                #try:
-                #    cRankPoints = int(nUser.rank_total-cRankPaid + cValueRank)
-                #    cValueRank = int(5+cAmmount/1000000)
-                #    cRankPaid = nUser.rank_used
-                #    CUser.update(
-                #        rank_points=cRankPoints,
-                #        rank_total=F('rank_total') + cValueRank)
-                #    
-                #    cRankTotal = nUser.rank_total
-                #    
-                #except Exception as e:
-                #    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                #        f.write("QueryError UserRank: {}\n".format(str(e)))    
+                try:
+                    cRankPoints = int(nUser.rank_total-cRankPaid + cValueRank)
+                    cValueRank = int(5+cAmmount/1000000)
+                    cRankPaid = nUser.rank_used
+                    CUser.update(
+                        rank_points=cRankPoints,
+                        rank_total=F('rank_total') + cValueRank)
+                    
+                    cRankTotal = nUser.rank_total
+                    
+                except Exception as e:
+                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                        f.write("QueryError UserRank: {}\n".format(str(e)))    
                         
                 FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ nUser.username + '.xlsx'
                 try:
                     if not os.path.exists(FileName):
                         WB = Workbook()
                         WS = WB.active
-                        WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total"])
-                        #WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
+                        WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
                     else:
                         WB = load_workbook(FileName)
                         WS = WB.active
@@ -119,8 +118,7 @@ class AddFundsToUser(CronJobBase):
                     cTotal = nUser.total
                     cAviableRef = nUser.ref_available
 
-                    FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal]
-                    #FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal,cRankPoints,cRankPaid,cRankTotal]
+                    FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal,cRankPoints,cRankPaid,cRankTotal]
 
                     WS.append(FileData)
                     WB.save(FileName)

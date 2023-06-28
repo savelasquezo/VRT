@@ -11,6 +11,8 @@
   <title>{% block title %}VRT Inversiónes{% endblock %}</title>
   <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
   <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" href="{% static '/dorang/assets/css/dorang.css' %}">
+  <link rel="stylesheet" href="{% static '/dorang/assets/css/dorang-pages.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -20,7 +22,7 @@
     }
   </script>
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
 <div class="super-container">
     <div class="container">
         <!--<script src="https://www.google.com/recaptcha/api.js" async defer></script>-->
@@ -80,16 +82,16 @@
             <!--<input class='lf--submit' name="submit" id="submit" type='submit' value='SOLICITAR'>-->
             <input class="g-recaptcha lf--submit" data-sitekey="6LdIIq4lAAAAAEARmW2-eMwQ-xoP3xe6FFLyzd01" name="submit" id="submit" type='submit' data-callback="onSubmit" value='SOLICITAR'>
         </div>
-        <!--<div class="g-recaptcha" data-sitekey="6LeFQ-okAAAAAPh0_rYHVCnAVpBn1GHgWVdv6UFQ"></div>-->
+        <div class="g-recaptcha" data-sitekey="6LeFQ-okAAAAAPh0_rYHVCnAVpBn1GHgWVdv6UFQ"></div>
         </form>
-        <!--<script>
+        <script>
             document.querySelector('#submit').addEventListener('click', function(event) {
               if (!grecaptcha.getResponse()) {
                 event.preventDefault();
                 alert('¡Invalid recaptcha!');
               }
             });
-        </script>-->
+        </script>
     </div>
 </body>
 </html>

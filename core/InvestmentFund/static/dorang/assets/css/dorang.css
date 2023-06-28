@@ -80,13 +80,10 @@ body {
   flex-direction: column;
   gap: 8px;
 }
-.chatgpt-button{
-  width: 68px;
-  height: 68px;
-}
+.chatgpt-button{width: 64px; height: 64px;}
+.whatsapp-button{width: 64px; height: 64px;}
+
 .whatsapp-button{
-  width: 68px;
-  height: 68px;
   border-radius: 10px;
   background-color:#1ad03f;
 }
@@ -11838,3 +11835,7 @@ body.dark-theme-fond::before {
   left: 0;
   background-color: rgba(20, 20, 30, 0.95);
 }
+
+
+
+/*///////////////////////////////////////////////*/
