@@ -25,10 +25,13 @@ from django.contrib.auth.views import LoginView
 
 from .tools import gToken, HashCode
 
-from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule
+from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule, Messages
 
 def IsStaff(user):
     return user.is_staff
+
+def IsDriver(user):
+    return user.is_dirver
 
 class TestView(TemplateView):
     template_name='100.html'
@@ -47,6 +50,24 @@ class HomeView(TemplateView):
         }
 
         return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+
+        if 'formcontact' in request.POST:
+            full_name = request.POST['fullname']
+            email = request.POST['email']
+            messages = request.POST['messages']
+
+            NewMessages = Messages.objects.create(
+                full_name = full_name,
+                email = email,
+                messages = messages
+            )
+
+            NewMessages.save()
+            return redirect(reverse('Home'))
+
+        return redirect(reverse('Home'))
 
 class SingupView(UserPassesTestMixin, TemplateView):
     template_name='registration/singup.html'
@@ -178,6 +199,76 @@ class InfoFormView(LoginRequiredMixin, TemplateView):
 class AdminServices(LoginRequiredMixin, TemplateView):
     template_name='driver/admin.html'
 
+    @method_decorator(user_passes_test(IsDriver))
+    def dispatch(self, request, *args, **kwargs):
+        """ Only Drivers Can Acces to this View
+        """
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+
+        context = self.get_context_data(**kwargs)
+        Sumbmit = request.GET.get('submit')
+
+
+        if Sumbmit == 'home':
+
+            ITEMS = 3
+
+            iSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=request.user)).order_by('id')
+            cSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
+            
+            ListFix = ITEMS - len(iSchedule)%ITEMS
+
+            if ListFix == ITEMS and len(iSchedule) != 0:
+                ListFix = 0
+
+            context={
+                'cSchedule':cSchedule,
+                'ListFix':range(0,ListFix),
+            }
+            return self.render_to_response(context)
+
+        if Sumbmit == 'history':
+            ITEMS = 5
+
+            iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(username=request.user)).order_by('id')
+            ListSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
+            
+            ListFix = ITEMS - len(iSchedule)%ITEMS
+
+            if ListFix == ITEMS and len(iSchedule) != 0:
+                ListFix = 0
+
+            context={
+                'ListSchedule':ListSchedule,
+                'ListFix':range(0,ListFix),
+            }
+            return self.render_to_response(context)
+
+        if Sumbmit == 'add':
+            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=request.user)).order_by('-id').first()
+            is_driving = Usuario.objects.get(username=request.user).is_driving
+            
+            context = {
+                'ListSchedule': None,
+                'TSchedule': TSchedule,
+                'InfoUser': None if not is_driving else Usuario.objects.get(username=TSchedule.username),
+            }
+            
+            return self.render_to_response(context)
+
+        if Sumbmit == 'clear':
+            context={
+                'ListSchedule':None,
+                'TSchedule':None,
+                'InfoUser':None,
+                }
+            return self.render_to_response(context)
+
+        return self.render_to_response(context)
+
+
     def post(self, request, *args, **kwargs):
 
         if 'cancel' in request.POST:
@@ -190,7 +281,7 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
             try:
                 InfoUser = Usuario.objects.get(codigo=iCode)
-                UserShedule = Schedule.objects.filter(Q(status="Pendiente") | Q(username=InfoUser)).order_by('-id').first()
+                UserShedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=InfoUser)).order_by('-id').first()
                 if UserShedule:
                     TSchedule = UserShedule
                 else:
@@ -205,7 +296,7 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     TSchedule.save() 
 
 
-                context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode), TSchedule=TSchedule)
+                context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode),TSchedule=TSchedule)
                 return self.render_to_response(context)
 
             except ObjectDoesNotExist:
@@ -217,13 +308,19 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             iCode = int(request.POST['iCode'])
             iUser = Usuario.objects.filter(id=request.user.id)
             iUser.update(is_driving=True)
-            context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode))
+
+            InfoUser = Usuario.objects.get(codigo=iCode)
+            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=InfoUser)).order_by('-id').first()
+
+            context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode),TSchedule=TSchedule)
             return self.render_to_response(context)
 
         if 'fonds' in request.POST:
             iCode = int(request.POST['iCode'])
             iValue = int(request.POST['iValue'])
             CUser = Usuario.objects.get(codigo=iCode)
+
+            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
 
             try:
 
@@ -234,6 +331,11 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     messages.success(request, f'El pago se ha completado satisfactoriamente', extra_tags="info")
                     iUser = Usuario.objects.filter(id=request.user.id)
                     iUser.update(is_driving=False)
+
+                    TSchedule.status = "Completado"
+                    TSchedule.paid = iValue
+                    TSchedule.save()
+
                     return redirect(reverse('svAdmin'))
 
                 else:
@@ -251,6 +353,8 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             iCode = int(request.POST['iCode'])
             CUser = Usuario.objects.get(codigo=iCode)
 
+            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
+
             try:
 
                 vPoints = Settings.objects.get(Online=True).sDriverPoints
@@ -261,6 +365,11 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     messages.success(request, f'El pago se ha completado satisfactoriamente', extra_tags="info")
                     iUser = Usuario.objects.filter(id=request.user.id)
                     iUser.update(is_driving=False)
+
+                    TSchedule.status = "Completado"
+                    TSchedule.paid = vPoints
+                    TSchedule.save()
+
                     return redirect(reverse('svAdmin'))
 
                 else:
@@ -275,15 +384,26 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
 
         if 'cash' in request.POST:
+
+            iCode = int(request.POST['iCode'])
+            CUser = Usuario.objects.get(codigo=iCode)
+            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
+
             try:
                 messages.success(request, '¡Servicio Completado!', extra_tags="title")
                 messages.success(request, f'El pago se ha confirmado como efectivo', extra_tags="info")
                 iUser = Usuario.objects.filter(id=request.user.id)
                 iUser.update(is_driving=False)
+
+                TSchedule.status = "Completado"
+                TSchedule.save()
+
                 return redirect(reverse('svAdmin'))
+
             except Exception as e:
                 with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
                     f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
+        
 
 
 class InfoView(TemplateView):

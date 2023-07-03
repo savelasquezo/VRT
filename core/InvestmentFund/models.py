@@ -32,12 +32,12 @@ class Usuario(AbstractUser):
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
 
     is_active = models.BooleanField(_("¿Activo?"),default=False)
-    is_staff = models.BooleanField(_("Staff"),default=False)
+    is_staff = models.BooleanField(_("¿Staff?"),default=False)
 
     is_dirver = models.BooleanField(_("¿Conductor?"),default=False)
     is_driving = models.BooleanField(_("¿Ocupado?"),default=False)
 
-    is_operating = models.BooleanField(_("¿Genera Intereses?"),default=False,
+    is_operating = models.BooleanField(_("¿Estado?"),default=False,
                 help_text=_("El Usuario actualmente genera Intereses ¡Posterior a la Fecha de Expiracion sera desactivado!"),)
 
     available_tickets = models.IntegerField(_("Tickets"),blank=True,default=3,
@@ -306,11 +306,10 @@ class Schedule(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
     username = models.ForeignKey(Usuario, on_delete=models.CASCADE,verbose_name="Usuario")
 
-    driver = models.CharField(_("Conductor"),max_length=64 ,unique=True,
+    driver = models.CharField(_("Conductor"),max_length=64 ,unique=False,
                 help_text=_("Codigo del Conductor"))
 
-    schedule_joined = models.DateTimeField(_("Ingreso"), default=timezone.datetime(2000, 1, 1))
-    schedule_out = models.DateTimeField(_("Salida"), default=timezone.datetime(2000, 1, 1))
+    date = models.DateTimeField(_("Fecha"), default=timezone.now)
 
     status = models.CharField(_("Estado"), choices=list_status, default="", max_length=16)
 
@@ -324,4 +323,24 @@ class Schedule(models.Model):
                 help_text=_("$Costo del Servicio"),)
 
     def __str__(self):
-        return "Usuario: %s" % (self.username)
+        return "Codigo: 1000-%s" % (self.id)
+
+    class Meta:
+        verbose_name = _("")
+        verbose_name_plural = _("Informacion de Servicios de Transporte")
+
+
+class Messages(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name="ID")
+    full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
+    email = models.EmailField(_("E-mail"), blank=True)
+    date = models.DateTimeField(_("Fecha"), default=timezone.now)
+    messages = models.TextField(_("Mensaje"),max_length=256,blank=True,null=True)
+    is_view = models.BooleanField(_("¿Visto?"),default=False)
+
+    class Meta:
+        verbose_name = _("Mensaje")
+        verbose_name_plural = _("Mensajes")
+
+    def __str__(self):
+        return "%s" % (self.full_name)

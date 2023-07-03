@@ -29,7 +29,7 @@
                     <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
                 {% endif %}
             {% else %}
-                <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
+                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
             {% endif %}
             <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
             {% if user.is_authenticated %}

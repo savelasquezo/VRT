@@ -19,7 +19,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Configuraciones": 5,"Grupos": 0}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Mensajes": 5, "Configuraciones": 6,"Grupos": 0}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
@@ -40,16 +40,16 @@ admin_site.site_header = "VRTFUND"
 class ScheduleInline(admin.StackedInline):
 
     model = model.Schedule
+    extra = 0
 
     fInfo = {"fields": (
-            ("username","driver"),
+            ("driver","date"),
             ("addres_from","addres_to"),
-            ("status","paid"),
-            ("schedule_joined","schedule_out"),
+            ("status","paid")
         )}
 
     fieldsets = (
-        ("Informacion", fInfo),
+        (" ", fInfo),
         )
     
     search_fields = ['username']
@@ -61,7 +61,7 @@ class ScheduleInline(admin.StackedInline):
 
 class UserBaseAdmin(UserAdmin):
 
-
+    inlines = [ScheduleInline]
 
     list_display = (
         "username",
@@ -71,15 +71,14 @@ class UserBaseAdmin(UserAdmin):
         "interest",
         "date_joined",
         "date_expire",
-        "ref_id",
+        "available",
         "is_operating",
         )
 
     fAutenticationSuperUser = {"fields": (
-        ("codigo","available_tickets","is_staff"),
+        ("codigo","available_tickets","is_staff","is_dirver"),
         ("is_active","is_operating"),
-        ("password"),
-        ("is_dirver","is_driving")
+        ("password")
         )}
 
     fAutenticationUser = {"fields": (
@@ -197,6 +196,32 @@ class UserRankAdmin(admin.ModelAdmin):
         )
     
     radio_fields = {'rName': admin.HORIZONTAL}
+
+class MessagesAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "id",
+        "full_name",
+        "email",
+        "date",
+        "is_view",
+        )
+
+    list_filter = ["date","is_view"]
+    search_fields = ['full_name']
+  
+    fInfo = {"fields": (
+        ("full_name","is_view"),
+        ("email","date"),
+        "messages",
+        )}
+    
+    fieldsets = (
+        ("Informacion", fInfo),
+        )
+
+    def has_add_permission(self, request, obj=None):
+            return False
 
 class TicketsAdmin(admin.ModelAdmin):
     list_display = (
@@ -418,5 +443,6 @@ admin.site.register(model.Tickets, TicketsAdmin)
 #admin.site.register(Services, ServicesAdmin)
 admin.site.register(model.InvestRequests, InvestRequestsAdmin)
 admin.site.register(model.Associate, AssociateAdmin)
+admin.site.register(model.Messages, MessagesAdmin)
 admin.site.register(model.Settings, SettingsAdmin)
 

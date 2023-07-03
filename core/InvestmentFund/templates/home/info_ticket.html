@@ -25,7 +25,7 @@
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
 <div class="super-container">
     <div class="container">
-        <!--<script src="https://www.google.com/recaptcha/api.js" async defer></script>-->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <form id="info-form" action="{% url 'Info' %}" target="_self" method="POST" class='payment-form'>
             {% csrf_token %}
             <div class="label-payment">
@@ -82,7 +82,7 @@
             <!--<input class='lf--submit' name="submit" id="submit" type='submit' value='SOLICITAR'>-->
             <input class="g-recaptcha lf--submit" data-sitekey="6LdIIq4lAAAAAEARmW2-eMwQ-xoP3xe6FFLyzd01" name="submit" id="submit" type='submit' data-callback="onSubmit" value='SOLICITAR'>
         </div>
-        <div class="g-recaptcha" data-sitekey="6LeFQ-okAAAAAPh0_rYHVCnAVpBn1GHgWVdv6UFQ"></div>
+        <!--<div class="g-recaptcha" data-sitekey="6LeFQ-okAAAAAPh0_rYHVCnAVpBn1GHgWVdv6UFQ"></div>-->
         </form>
         <script>
             document.querySelector('#submit').addEventListener('click', function(event) {

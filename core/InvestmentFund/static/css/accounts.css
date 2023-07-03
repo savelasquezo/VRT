@@ -8,6 +8,7 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    overflow: hidden;
 }
 
 .success {
@@ -32,14 +33,15 @@ body{
     text-align: center;
 }.ul-messages{margin-bottom:20px;padding:0;}.info {margin-top:0px;}
 
-.super-container{display: flex;flex-direction: column;justify-content: center;align-items: center;}
-.container{
+.super-container{
+    position: absolute;
     display: flex;
-    align-items: center;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
     justify-content: center;
-    padding: 50px;
-    padding-bottom: 20px;
-    margin-top: 5%;
+    align-items: center;
+    z-index: 99;
 }
 
 .login-form {
@@ -47,7 +49,7 @@ body{
     padding-bottom: 1em;
     width:365px;
     border-radius: 5px;
-    background: rgba(0, 0, 0, 0.20);
+    background: rgba(10, 10, 20, 0.65);
 }
 
 .flex-row {
@@ -140,12 +142,16 @@ body{
 
 
 .container{
+    position: absolute;
     display: flex;
-    margin: 0;
-    margin-top: 20px;
+    width: 100%;
+    height:100vh;
+    margin: auto;
+    margin-top: -8%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 99;
 }.img-pw1{margin: 0px;margin-left: 10px;padding: 0px;transform: scale(0.8);}
 
 .container-pw{
@@ -208,3 +214,34 @@ body{
   }a{text-decoration: none; color: azure; font-weight: bold;}
   .pw-boton:active,.pw-boton:focus {outline: none;}
   .pw-boton:hover {background-position: -20px -20px; outline: none;}
+
+
+ svg {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   opacity: 0.075;
+   z-index: 0;
+ }
+ 
+
+ .path {
+   animation: draw 20s infinite;
+   animation-timing-function: linear;
+ }
+ 
+ .path-2 {
+   animation: draw 20s infinite;
+   animation-delay: 1s;
+   animation-timing-function: linear;
+ }
+ 
+ @keyframes draw {
+   0% {
+   }
+   100% {
+     stroke-dashoffset: 0;
+     stroke-opacity: 1;
+   }
+ }

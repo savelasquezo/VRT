@@ -103,7 +103,7 @@
         <div class="row mb-4">
             <div class="col-md-4">
                 <a href="javascript:void(0)" class="overlay-img">
-                    <img src="{% static '/dorang/assets/imgs/img-1.jpg' %}" alt="">  
+                    <img src="{% static '/dorang/assets/imgs/img-1.png' %}" alt="">  
                     <div class="overlay"></div> 
                     <div class="des">
                         <h1 class="title">VAORTRADING</h1>
@@ -115,7 +115,7 @@
             </div>
             <div class="col-md-4">
                 <a href="javascript:void(0)" class="overlay-img">
-                    <img src="{% static '/dorang/assets/imgs/img-2.jpg' %}" alt="">  
+                    <img src="{% static '/dorang/assets/imgs/img-2.png' %}" alt="">  
                     <div class="overlay"></div> 
                     <div class="des">
                         <h1 class="title">VRTFUND</h1>
@@ -127,11 +127,11 @@
             </div>
             <div class="col-md-4">
                 <a href="javascript:void(0)" class="overlay-img">
-                    <img src="{% static '/dorang/assets/imgs/img-3.jpg' %}" alt="">  
+                    <img src="{% static '/dorang/assets/imgs/img-3.png' %}" alt="">  
                     <div class="overlay"></div> 
                     <div class="des">
                         <h1 class="title">ASESORIAS</h1>
-                        <h6 class="subtitle">COPYTRADING</p>
+                        <h6 class="subtitle">TRADING</p>
                         <p>Potencia tus habilidades en inversiones y trading con nuestras asesorías personalizadas. 
                             Obtén guía experta, estrategias eficientes y maximiza tus ganancias. 
                             ¡Desarrolla tu potencial y alcanza el éxito financiero!</p>
@@ -183,18 +183,19 @@
             <div class="col-md-10 col-lg-8 m-auto">
                 <h6 class="title mb-2">CONTACTAR</h6>
                 <!--<p class="mb-5"></p>--><br>
-                <form action="" class="form-group">
-                    <input type="text" size="50" class="form-control" placeholder="Nombre" required>
-                    <input type="email" class="form-control" placeholder="Email"requried>
-                    <textarea name="comment" id="comment" rows="6"   class="form-control" placeholder=""></textarea>
-                    <input type="submit" value="ENVIAR" class="form-control">
+                <form target="_self" method="POST" class="form-group">
+                    {% csrf_token %}
+                    <input name="fullname" type="text" size="50" class="form-control" placeholder="Nombre" required>
+                    <input name="email" type="email" class="form-control" placeholder="Email"requried>
+                    <textarea name="messages" id="messages" rows="6" class="form-control" placeholder=""></textarea>
+                    <input name="formcontact" type="submit" value="ENVIAR" class="form-control">
                 </form>
             </div>
             <!-- footer -->
             <footer class="footer">
                     <p class="infos">&copy; <script>document.write(new Date().getFullYear())</script>
                         <a href="{% url 'Legal' %}">VRTFUND</a>
-                    </p>       
+                    </p>
                     <span>|</span>  
                     <div class="links">
                         <a href="#">mail@vrtfund.com</a>

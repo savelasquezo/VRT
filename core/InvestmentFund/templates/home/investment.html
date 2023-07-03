@@ -93,14 +93,11 @@
                         <p class="button-investment-p button-premium-color"><i class="fa-solid fa-users"></i></p>
                     </button>
                 {% else %}
-                    <button class=" button-investment button-premium" onclick=window.location.href="{% url 'Legal' %}">
-                        <p class="button-investment-p"><i class="fa-solid fa-question"></i></p>
+                    <button class=" button-investment button-premium" onclick=window.location.href="{% url 'InfoForm' %}">
+                        <p class="button-investment-p"><i class="fa-solid fa-plus"></i></p>
                     </button>
                 {% endif %}
             </div>
-            <button class="button-investment-add" onclick=window.location.href="{% url 'InfoForm' %}">
-                <p class="button-investment-p">Solicitar</p>
-            </button>
         </div>
     </div>
     {% endblock %}

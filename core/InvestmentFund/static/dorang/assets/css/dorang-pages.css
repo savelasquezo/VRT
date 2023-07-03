@@ -44,7 +44,7 @@ body{overflow: hidden;}
     border-radius: 10px;
     width: 25%;
     min-width: 350px;
-    background: rgba(0, 0, 0, 0.30);
+    background: #212529da;
   }.inv-hr{border-color: #96a5ac31; width: 90%;}
   
   .inv-results{
@@ -231,8 +231,8 @@ body{overflow: hidden;}
 .label-name-payment{
   color:#ccc;
 }
-.name-payment-h5{padding: 0px;margin: 0px;font-weight: lighter}
-.name-payment-h4{padding: 0px;margin: 0px;}
+.name-payment-h5{padding: 0px;margin: 0px;font-weight: lighter; font-size: small;}
+.name-payment-h4{padding: 0px;margin: 0px; font-size: medium;}
 
 .img-payment{
   width: 128px;
