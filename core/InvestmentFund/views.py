@@ -28,10 +28,10 @@ from .tools import gToken, HashCode
 from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule, Messages
 
 def IsStaff(user):
-    return user.is_staff
+    return user.is_authenticated and user.is_staff
 
 def IsDriver(user):
-    return user.is_dirver
+    return user.is_authenticated and user.is_dirver
 
 class TestView(TemplateView):
     template_name='100.html'

@@ -69,9 +69,9 @@ class UserBaseAdmin(UserAdmin):
         "codigo",
         "ammount",
         "interest",
+        "available",
         "date_joined",
         "date_expire",
-        "available",
         "is_operating",
         )
 
