@@ -313,10 +313,10 @@ class Schedule(models.Model):
 
     status = models.CharField(_("Estado"), choices=list_status, default="", max_length=16)
 
-    addres_from = models.CharField(_("Destino"),max_length=64 ,unique=True,default="N/A",
+    addres_from = models.CharField(_("Destino"),max_length=64 ,unique=False,default="N/A",
                 help_text=_("Direccion de Origen"))
 
-    addres_to = models.CharField(_("Origen"),max_length=64 ,unique=True,default="N/A",
+    addres_to = models.CharField(_("Origen"),max_length=64 ,unique=False,default="N/A",
                 help_text=_("Direccion de Destino"))
 
     paid = models.PositiveBigIntegerField(_("Valor"),blank=True,default=0,

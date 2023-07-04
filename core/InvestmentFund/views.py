@@ -258,23 +258,29 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             
             return self.render_to_response(context)
 
-        if Sumbmit == 'clear':
-            context={
-                'ListSchedule':None,
-                'TSchedule':None,
-                'InfoUser':None,
-                }
-            return self.render_to_response(context)
-
         return self.render_to_response(context)
-
 
     def post(self, request, *args, **kwargs):
 
         if 'cancel' in request.POST:
+            iCode = int(request.POST['iCode'])
+            CUser = Usuario.objects.get(codigo=iCode)
+            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
+
+            messages.success(request, '¡Servicio Cancelado!', extra_tags="title")
+            messages.success(request, f'El servicio ha sido marcado como cancelado', extra_tags="info")
             iUser = Usuario.objects.filter(id=request.user.id)
             iUser.update(is_driving=False)
+
+            TSchedule.status = "Cancelado"
+            TSchedule.paid = 0
+            TSchedule.save()
+
             return redirect(reverse('svAdmin'))
+
+        if 'clear' in request.POST:
+            context = self.get_context_data(ListSchedule=None,TSchedule=None,InfoUser=None)
+            return self.render_to_response(context)
 
         if 'input' in request.POST:
             iCode = int(request.POST['iCode'])
@@ -288,8 +294,7 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     TSchedule = Schedule.objects.create(
                         username = self.request.user,
                         driver = request.user.codigo,
-                        schedule_joined = timezone.now(),
-                        schedule_out = timezone.datetime(2000, 1, 1),
+                        date = timezone.now(),
                         status = "Pendiente",
                         )
 
