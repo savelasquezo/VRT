@@ -521,7 +521,7 @@ class ServicesView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         
-        ListGift = Associate.objects.all().order_by("id")
+        ListGift = Associate.objects.filter(IsActive=True).order_by("id")
 
         context = self.get_context_data(**kwargs)
         context={
@@ -808,7 +808,7 @@ class GiftTicketView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         
-        ListGift = Associate.objects.all().order_by("id")
+        ListGift = Associate.objects.filter(IsActive=True).order_by("id")
 
         context = self.get_context_data(**kwargs)
         context={
