@@ -76,6 +76,7 @@ textarea::placeholder {
 .container-cards{
     margin: auto; 
     padding-top: 120px;
+    margin-left: 32px;
     display: flex;
     justify-content: center;
     align-items: center;

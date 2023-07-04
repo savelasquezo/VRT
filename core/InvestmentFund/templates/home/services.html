@@ -17,6 +17,11 @@
     <link rel="stylesheet" type="text/css" href="{% static '/css/cards-gift.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+    <!-- OwlCarousel ============================================================== -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
     <!-- page navbar -->
@@ -58,68 +63,72 @@
     {% block block %}
     <div class="container-cards">
         <div class="section-container">
-            {% if ListGift %}
-            {% for Gift in ListGift %}
-            <div class="item-container">
-                <div class="img-container">
-                    <img src="{{Gift.pCard.url}}">
-                </div>
-                <div class="body-container">
-                    <div class="overlay"></div>
-                    <div class="event-info">
-                        <p class="title">{{ Gift.pTitle }}</p>
-                        <div class="separator"></div>
-                        <p class="info-gift">
-                            {{ Gift.pInfo }}
-                        </p>
-                        <div class="additional-info">
-                            <p class="info-gift">
-                                <a href="{{Gift.pURL}}" target=”_blank”><h2>{{ Gift.pName }}</h2></a>
-                                <p class="info-gift-resume">{{ Gift.pInfoAdd }}</p><br>
-                            </p>
-                        </div>
+            <div class="owl-carousel">
+                {% if ListGift %}
+                {% for Gift in ListGift %}
+                <div class="item-container">
+                    <div class="img-container">
+                        <img src="{{Gift.pCard.url}}">
                     </div>
-                    <button class="action"><a class="a-blank" href="{{Gift.pURL}}">VISITAR</a></button>
-                    <!--<button class="action" onclick="openform({{ Gift.pName }},{{Gift.pPtsMin}})">SOLICITAR</button>-->
-                </div>
-            </div>
-            {% endfor %}
-            {% else %}
-            <div class="item-container">
-                <div class="img-container">
-                    <img src="{% static '/images/comingsoon.png' %}">
-                </div>
-                <div class="body-container">
-                    <div class="overlay-cards"></div>
-                    <div class="event-info-cards">
-                        <p class="title-cards">COMINGSOON</p>
-                        <div class="separator"></div>
-                        <p class="info-gift">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting Ips, 
-                            Lorem Ipsum has been 
-                        </p>
-                        <p class="info-link"><a href="">FREE</a></p>
-                        <div class="additional-info">
+                    <div class="body-container">
+                        <div class="overlay"></div>
+                        <div class="event-info">
+                            <p class="title">{{ Gift.pTitle }}</p>
+                            <div class="separator"></div>
                             <p class="info-gift">
-                                <a href="{% url 'ComingSoon' %}" target=”_blank”><p class="info-gift-brand">ASOCIADO</p></a>
-                                <p class="info-gift-extra">
-                                    It is a long established fact that a reader will be distracted by the ip<br>
-                                    readable content of a page when looking at its layout. The point of using Lorem Ipsu
+                                {{ Gift.pInfo }}
+                            </p>
+                            <div class="additional-info">
+                                <p class="info-gift">
+                                    <a href="{{Gift.pURL}}" target=”_blank”><h2>{{ Gift.pName }}</h2></a>
+                                    <p class="info-gift-resume">{{ Gift.pInfoAdd }}</p><br>
                                 </p>
-                            </p>
+                            </div>
                         </div>
+                        <button class="action"><a class="a-blank" href="{{Gift.pURL}}">VISITAR</a></button>
+                        <!--<button class="action" onclick="openform({{ Gift.pName }},{{Gift.pPtsMin}})">SOLICITAR</button>-->
                     </div>
-                    <button class="action"><a class="a-blank" href="{% url 'ComingSoon' %}">VISITAR</a></button>
-                    <!--<button class="action" onclick="openform('ComingSoon',0)">SOLICITAR</button>-->
                 </div>
+                {% endfor %}
+                {% else %}
+                {% for _ in '123456789' %}
+                <div class="item-container">
+                    <div class="img-container">
+                        <img src="{% static '/images/comingsoon.png' %}">
+                    </div>
+                    <div class="body-container">
+                        <div class="overlay-cards"></div>
+                        <div class="event-info-cards">
+                            <p class="title-cards">COMINGSOON</p>
+                            <div class="separator"></div>
+                            <p class="info-gift">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting Ips, 
+                                Lorem Ipsum has been 
+                            </p>
+                            <p class="info-link"><a href="">FREE</a></p>
+                            <div class="additional-info">
+                                <p class="info-gift">
+                                    <a href="{% url 'ComingSoon' %}" target=”_blank”><p class="info-gift-brand">ASOCIADO</p></a>
+                                    <p class="info-gift-extra">
+                                        It is a long established fact that a reader will be distracted by the ip<br>
+                                        readable content of a page when looking at its layout. The point of using Lorem Ipsu
+                                    </p>
+                                </p>
+                            </div>
+                        </div>
+                        <button class="action"><a class="a-blank" href="{% url 'ComingSoon' %}">VISITAR</a></button>
+                        <!--<button class="action" onclick="openform('ComingSoon',0)">SOLICITAR</button>-->
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
     {% endblock %}
     <!-- end of page container -->
     <!-- Dorang js -->
-    <script src="{% static '/dorang/assets/vendors/jquery/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.js' %}"></script>
     <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.bundle.js' %}"></script>
     <script src="{% static '/dorang/assets/vendors/bootstrap/bootstrap.affix.js' %}"></script>
 </body>
