@@ -310,7 +310,7 @@ textarea::placeholder {
 
   .admin-button-big {
     align-items: center;
-    margin: 15px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
     appearance: none;
     background-image: linear-gradient(1deg, #0f273f, #184d5f 99%);
     background-size: calc(100% + 20px) calc(100% + 20px);
