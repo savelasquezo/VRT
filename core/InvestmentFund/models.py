@@ -31,6 +31,8 @@ class Usuario(AbstractUser):
                 help_text=_("Caracters Max-64, Únicamente letras, dígitos y @/./+/-/_"),
                 error_messages={"unique": _("¡Usuario Actualmente en Uso!"),},)
 
+    avatar = models.ImageField(_("Avatar/Foto"), upload_to="InvestmentFund/uploads/avatars/", height_field=None, width_field=None, max_length=128, blank=True, null=True)
+
     is_active = models.BooleanField(_("¿Activo?"),default=False)
     is_staff = models.BooleanField(_("¿Staff?"),default=False)
 

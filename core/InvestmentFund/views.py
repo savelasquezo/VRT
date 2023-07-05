@@ -229,10 +229,12 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             }
             return self.render_to_response(context)
 
+
         if Sumbmit == 'history':
             ITEMS = 5
+            MAXPAGES = 5
 
-            iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(username=request.user)).order_by('id')
+            iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(username=request.user)).order_by('id')[:ITEMS*MAXPAGES]
             ListSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
             
             ListFix = ITEMS - len(iSchedule)%ITEMS

@@ -26,7 +26,11 @@
                 <div class="flex flex-row bg-gray-200 shadow-lg w-full h-full rounded-b-md p-1 gap-x-1">
                     <div class="w-1/4 h-full flex flex-col bg-white rounded-b-md justify-start items-center">
                         <div class="flex w-1/2">
-                            <span class="w-44 h-40 bg-fond01 bg-cover bg-center rounded-full my-2"></span>
+                            {% if user.avatar.url %}
+                                <img class="w-44 h-42 bg-cover bg-center rounded-lg my-2" src="{{user.avatar.url}}" alt="">
+                            {% else %}
+                                <span class="w-44 h-40 bg-fond01 bg-cover bg-center rounded-full my-2"></span>
+                            {% endif %}  
                         </div>
                         <p class="uppercase font-semibold text-blue-800 text-sm mt-2">{{user.codigo}}</p>
                         <hr class="h-0.5 w-4/5 bg-slate-300 my-2">
@@ -172,26 +176,26 @@
                         <nav class="flex items-center justify-center w-full text-center my-4">
                             <ul class="">
                                 {% if ListSchedule.has_previous %}
-                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-3xl" 
+                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-lg" 
                                     href="?page={{ ListSchedule.previous_page_number }}">&laquo;</a></li>
                                 {% else %}
-                                <li class="inline-block mx-2 w-4"><a class="block border-none  font-normal text-3xl"
+                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-lg"
                                     href="">&laquo;</a></li>
                                 {% endif %}
                                 {% for page in ListSchedule.paginator.page_range %}
                                 {% if page == ListSchedule.number %}
-                                <li class="inline-block mx-2 w-4 text-gray-600">
+                                <li class="inline-block mx-2 w-4 text-gray-600 font-normal">
                                     <a class="block border-none font-normal"href="">{{ page }}</a></li>
                                 {% else %}
-                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-3xl"
+                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-lg"
                                         href="?page={{ page }}">{{ page }}</a></li>
                                 {% endif %}
                                 {% endfor %}
                                 {% if ListSchedule.has_next %}
-                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-3xl"
+                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-lg"
                                     href="?page={{ ListSchedule.next_page_number }}">&raquo;</a></li>
                                 {% else %}
-                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-3xl"
+                                <li class="inline-block mx-2 w-4"><a class="block border-none font-normal text-lg"
                                     href="">&raquo;</a></li>
                                 {% endif %}
                             </ul>
