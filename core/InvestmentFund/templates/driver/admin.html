@@ -1,9 +1,8 @@
 {% load static %}
-{% load static tailwind_tags %}
 {% load humanize %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8">
@@ -11,8 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}VRT Inversiónes{% endblock %}</title>
   <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
-  {% tailwind_css %}
   <link rel="stylesheet" type="text/css" href="{% static '/css/messages.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/tailwind/styles.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
 </head>
