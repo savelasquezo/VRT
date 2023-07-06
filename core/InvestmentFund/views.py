@@ -230,11 +230,11 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             return self.render_to_response(context)
 
 
-        if Sumbmit == 'history':
+        if Sumbmit == 'history' or request.GET.get('page'):
             ITEMS = 5
             MAXPAGES = 5
 
-            iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(username=request.user)).order_by('id')[:ITEMS*MAXPAGES]
+            iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(username=request.user)).order_by('-id')[:ITEMS*MAXPAGES]
             ListSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
             
             ListFix = ITEMS - len(iSchedule)%ITEMS
@@ -327,6 +327,10 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             iValue = int(request.POST['iValue'])
             CUser = Usuario.objects.get(codigo=iCode)
 
+            ifrom = request.POST['ifrom']
+            ito = request.POST['ito']
+            idistance = int(request.POST['idistance'])
+
             TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
 
             try:
@@ -341,6 +345,9 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
                     TSchedule.status = "Completado"
                     TSchedule.paid = iValue
+                    TSchedule.addres_from = ifrom
+                    TSchedule.addres_to = ito
+                    TSchedule.distance = idistance
                     TSchedule.save()
 
                     return redirect(reverse('svAdmin'))
@@ -360,6 +367,10 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             iCode = int(request.POST['iCode'])
             CUser = Usuario.objects.get(codigo=iCode)
 
+            ifrom = request.POST['ifrom']
+            ito = request.POST['ito']
+            idistance = int(request.POST['idistance'])
+
             TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
 
             try:
@@ -375,6 +386,9 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
                     TSchedule.status = "Completado"
                     TSchedule.paid = vPoints
+                    TSchedule.addres_from = ifrom
+                    TSchedule.addres_to = ito
+                    TSchedule.distance = idistance
                     TSchedule.save()
 
                     return redirect(reverse('svAdmin'))
@@ -394,6 +408,11 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
             iCode = int(request.POST['iCode'])
             CUser = Usuario.objects.get(codigo=iCode)
+
+            ifrom = request.POST['ifrom']
+            ito = request.POST['ito']
+            idistance = int(request.POST['idistance'])
+
             TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
 
             try:
@@ -403,6 +422,9 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                 iUser.update(is_driving=False)
 
                 TSchedule.status = "Completado"
+                TSchedule.addres_from = ifrom
+                TSchedule.addres_to = ito
+                TSchedule.distance = idistance
                 TSchedule.save()
 
                 return redirect(reverse('svAdmin'))

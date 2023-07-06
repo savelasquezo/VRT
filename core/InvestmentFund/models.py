@@ -320,6 +320,8 @@ class Schedule(models.Model):
 
     addres_to = models.CharField(_("Origen"),max_length=64 ,unique=False,default="N/A",
                 help_text=_("Direccion de Destino"))
+    
+    distance = models.FloatField(_("Kilometraje"), null=True, blank=True)
 
     paid = models.PositiveBigIntegerField(_("Valor"),blank=True,default=0,
                 help_text=_("$Costo del Servicio"),)

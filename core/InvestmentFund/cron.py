@@ -92,9 +92,9 @@ class AddFundsToUser(CronJobBase):
                         f.write("QueryError Asociados: {}\n".format(str(e)))
                         
                 try:
+                    cRankPaid = nUser.rank_used
                     cRankPoints = int(nUser.rank_total-cRankPaid + cValueRank)
                     cValueRank = int(5+cAmmount/1000000)
-                    cRankPaid = nUser.rank_used
                     CUser.update(
                         rank_points=cRankPoints,
                         rank_total=F('rank_total') + cValueRank)
