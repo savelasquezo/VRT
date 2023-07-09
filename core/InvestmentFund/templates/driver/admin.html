@@ -275,29 +275,29 @@
                                                 <div class="flex flex-row w-full">
                                                     <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
                                                         <p class="w-20">Nombre</p>
-                                                        <p id="username" class="text-gray-500">{{InfoUser.full_name}}</p>
+                                                        <p id="username" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.full_name}}</p>
                                                     </div>
                                                     <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
                                                         <p class="w-20">Ciudad</p>
-                                                        <p id="code" class="text-gray-500">{{InfoUser.country}}</p>
+                                                        <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.country}}</p>
                                                     </div>
                                                     <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
                                                         <p class="w-20">Codigo</p>
-                                                        <p id="code" class="text-gray-500">{{InfoUser.codigo}}</p>
+                                                        <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.codigo}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex flex-row w-full">
                                                     <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
                                                         <p class="w-20">Origen</p>
-                                                        <input type="text" name="origin" id="origin" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{TSchedule.addres_from}}" required/>
+                                                        <input type="text" name="origin" id="origin" class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap" value="{{TSchedule.addres_from}}" required/>
                                                     </div>
                                                     <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
                                                         <p class="w-20">Destino</p>
-                                                        <input type="text" name="origin" id="origin" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{TSchedule.addres_to}}" required/>
+                                                        <input type="text" name="origin" id="origin" class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap" value="{{TSchedule.addres_to}}" required/>
                                                     </div>
                                                     <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
                                                         <p class="w-20">Fecha</p>
-                                                        <p id="date" class="text-gray-500">{{TSchedule.date|date:'d M H:s'}}</p>
+                                                        <p id="date" class="text-gray-500 overflow-hidden whitespace-nowrap">{{TSchedule.date|date:'d M H:s'}}</p>
                                                     </div>
                                                 </div>
                                             </div>
