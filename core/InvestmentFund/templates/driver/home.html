@@ -4,83 +4,87 @@
 {% load static tailwind_tags %}
 
 {% block block %}
-    <!----------------------------------------------------------------------------------------->
-    <!----------------------------------------------------------------------------------------->
-    <table class="w-full text-sm text-gray-500 dark:text-gray-600 text-center">
-        <thead class="text-xs text-gray-200 uppercase bg-vrt2">
-            <tr>
-            <th class="w-32 px-6 py-3 text-center">Usuario</th>
-            <th class="w-32 px-6 py-3 text-center">Codigo</th>
-            <th class="w-32 px-6 py-3 text-center">Origen</th>
-            <th class="w-32 px-6 py-3 text-center">Destino</th>
-            <th class="w-32 px-6 py-3 text-center">Fecha</th>
-            <th class="w-32 px-6 py-3 text-center">Hora</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if cSchedule %}  
-                {% for i in cSchedule %}
-                <tr class="w-full h-12 bg-yellow-100 border-b text-center">
-                    <th class="px-6 py-4 w-32 overflow-hidden text-center whitespace-nowrap font-medium text-gray-900">{{i.username.full_name}}</th>
-                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.username.codigo|slice:"-5:" }}</td>
-                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.addres_from}}</td>
-                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.addres_to}}</td>
-                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.date|date:'d M'}}</td>
-                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.date|date:'H s'}}</td>
+    <div class="w-3/4 flex flex-col h-full bg-white rounded-b-md justify-between pt-4 pb-8 px-14">
+        <div class="w-full flex flex-row justify-between items-center text-center uppercase font-semibold text-2xl text-vrt2">
+            <div class="w-full flex flex-row gap-x-4 justify-between">
+                <a href="{% url 'svAdmin' %}" class="hover:text-vrt1"><i class="fa-solid fa-house"></i></a>
+                <div class="block">
+                    <a href="{% url 'svAdminUser' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-tag"></i></a>
+                    <a href="{% url 'svAdminAdd' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-clock"></i></a>
+                    <a href="{% url 'svAdminHistory' %}" class="hover:text-vrt1"><i class="fa-solid fa-clipboard-list"></i></a>
+                </div>
+            </div>
+        </div>
+        <table class="w-full text-sm text-gray-500 text-center mt-0">
+            <thead class="text-xs text-gray-200 uppercase bg-vrt2 h-12">
+                <tr>
+                <th class="w-32 px-6 py-3 text-center">Usuario</th>
+                <th class="w-32 px-6 py-3 text-center">Codigo</th>
+                <th class="w-32 px-6 py-3 text-center">Origen</th>
+                <th class="w-32 px-6 py-3 text-center">Destino</th>
+                <th class="w-32 px-6 py-3 text-center">Fecha</th>
+                <th class="w-32 px-6 py-3 text-center">Hora</th>
                 </tr>
+            </thead>
+            <tbody>
+                {% if cSchedule %}  
+                    {% for i in cSchedule %}
+                    <tr class="w-full h-12 bg-yellow-100 border-b text-center">
+                        <th class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap font-medium text-gray-900">{{i.username.full_name}}</th>
+                        <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.username.codigo|slice:"-5:" }}</td>
+                        <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.addres_from}}</td>
+                        <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.addres_to}}</td>
+                        <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.date|date:'d M'}}</td>
+                        <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.date|date:'H:i'}}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if not cSchedule.has_next %}
+                    {% for i in ListFix %}
+                    <tr class="h-12 bg-white border-b">
+                        {% for _ in '123456' %}
+                        <td class="w-32 px-6 py-1"></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                {% elif not cSchedule.has_other_pages %}
+                    {% for i in ListFix %}
+                    <tr class="h-12 bg-white border-b">
+                        {% for _ in '123456' %}
+                        <td class="w-32 px-6 py-1"></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}           
+                {% endif %}
+            </tbody>
+        </table>
+        <nav class="flex items-center justify-center w-full text-center my-4">
+            <ul class="">
+                {% if cSchedule.has_previous %}
+                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg" 
+                    href="?page={{ cSchedule.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
+                    href="">&laquo;</a></li>
+                {% endif %}
+                {% for page in cSchedule.paginator.page_range %}
+                {% if page == cSchedule.number %}
+                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
+                    href="">{{ page }}</a></li>
+                {% else %}
+                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
+                    href="?page={{ page }}">{{ page }}</a></li>
+                {% endif %}
                 {% endfor %}
-            {% else %}
-                <tr class="w-full h-12 border-b text-center">
-                    {% for _ in '123456' %}
-                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap"></td>
-                    {% endfor %}
-                </tr>
-            {% endif %}
-            {% if not cSchedule.has_next %}
-                {% for i in ListFix %}
-                <tr class="h-12 bg-white border-b">
-                    {% for _ in '123456' %}
-                    <td class="w-32 px-6 py-1"></td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            {% elif not cSchedule.has_other_pages %}
-                {% for i in ListFix %}
-                <tr class="h-12 bg-white border-b">
-                    {% for _ in '123456' %}
-                    <td class="w-32 px-6 py-1"></td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}           
-            {% endif %}
-        </tbody>
-    </table>
-    <nav class="flex items-center justify-center w-full text-center my-4">
-        <ul class="">
-            {% if cSchedule.has_previous %}
-            <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg" 
-                href="?page={{ cSchedule.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                href="">&laquo;</a></li>
-            {% endif %}
-            {% for page in cSchedule.paginator.page_range %}
-            {% if page == cSchedule.number %}
-            <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                href="">{{ page }}</a></li>
-            {% else %}
-            <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                href="?page={{ page }}">{{ page }}</a></li>
-            {% endif %}
-            {% endfor %}
-            {% if cSchedule.has_next %}
-            <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                href="?page={{ cSchedule.next_page_number }}">&raquo;</a></li>
-            {% else %}
-            <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                href="">&raquo;</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+                {% if cSchedule.has_next %}
+                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
+                    href="?page={{ cSchedule.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
+                    href="">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
 

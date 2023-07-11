@@ -44,20 +44,8 @@
                             <a class="w-2/5 h-8 flex items-center justify-center mb-2 bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-sm" href="{% url 'logout' %}">Salir</a>
                         </div>
                     </div>
-                    <div class="w-3/4 flex flex-col h-full bg-white rounded-b-md justify-between pt-4 pb-8 px-14">
-                        <div class="w-full flex flex-row justify-between items-center text-center uppercase font-semibold text-2xl text-vrt2">
-                            <div class="w-full flex flex-row gap-x-4 justify-between">
-                                <a href="{% url 'svAdmin' %}" class="hover:text-vrt1"><i class="fa-solid fa-house"></i></a>
-                                <div class="block">
-                                    <a href="{% url 'svAdminUser' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-tag"></i></a>
-                                    <a href="{% url 'svAdminAdd' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-clock"></i></a>
-                                    <a href="{% url 'svAdminHistory' %}" class="hover:text-vrt1"><i class="fa-solid fa-clipboard-list"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        {% block block %}
-                        {% endblock %}
-                    </div>
+                    {% block block %}
+                    {% endblock %}
                 </div>
             </div>
         </div>

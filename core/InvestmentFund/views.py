@@ -1,4 +1,5 @@
 import os, re
+
 from openpyxl import Workbook, load_workbook
 from datetime import datetime, timedelta
 
@@ -478,16 +479,16 @@ class AdminServicesAdd(LoginRequiredMixin, TemplateView):
             
         if 'add' in request.POST: 
             iCode = request.POST['iCode']
-            iFrom = request.POST['iFrom']
-            iTo = request.POST['iTo']
-            iDate = request.POST['iDate']
+            iFrom = request.POST['ifrom']
+            iTo = request.POST['ito']
+            iDate = request.POST['idate']
 
             try:
                 InfoUser = Usuario.objects.get(codigo=iCode)
                 TSchedule = Schedule.objects.create(
                     username = InfoUser,
                     driver = request.user.codigo,
-                    date = iDate,
+                    date = timezone.make_aware(datetime.strptime(iDate, "%Y-%m-%dT%H:%M"), timezone.get_current_timezone()),
                     addres_from = iFrom,
                     addres_to = iTo,
                     status = "Pendiente",

@@ -4,110 +4,88 @@
 {% load static tailwind_tags %}
 
 {% block block %}
-    {% if AddUser %}
-    <form target="_self" method="POST" class="flex flex-row w-full justify-between gap-x-4">
-        {% csrf_token %}
-        <div class="w-full h-full flex flex-col gap-y-4">
-            <div class="flex flex-row gap-x-12 relative -top-48">
-                <span class="w-32 h-38 bg-vrt2 rounded-md text-center flex items-center justify-center text-7xl text-gray-300"><i class="fa-solid fa-user"></i></span>
-                <div class="flex flex-col py-6 gap-y-3 font-semibold uppercase text-sm w-full items-center">
-                    <div class="flex flex-row w-full">
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Nombre</p>
-                            <p id="username" class="text-gray-500">{{InfoUser.full_name}}</p>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Ciudad</p>
-                            <p id="code" class="text-gray-500">{{InfoUser.country}}</p>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Codigo</p>
-                            <p id="code" class="text-gray-500">{{InfoUser.codigo}}</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row w-full">
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Origen</p>
-                            <input type="text" name="ifrom" id="ifrom" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{ TSchedule.addres_from|default_if_none:'' }}" required/>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Destino</p>
-                            <input type="text" name="ito" id="ito" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{ TSchedule.addres_to|default_if_none:'' }}" required/>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Distancia</p>
-                            <input type="text" name="idistance" id="idistance" class="w-full px-4 text-gray-500 border-none p-0 m-0" required/>
-                        </div>
-                    </div>
+    <div class="w-3/4 flex flex-col h-full bg-white rounded-b-md justify-between pt-4 pb-8 px-14">
+        <div class="w-full flex flex-row justify-between items-center text-center uppercase font-semibold text-2xl text-vrt2">
+            <div class="w-full flex flex-row gap-x-4 justify-between">
+                <a href="{% url 'svAdmin' %}" class="hover:text-vrt1"><i class="fa-solid fa-house"></i></a>
+                <div class="block">
+                    <a href="{% url 'svAdminUser' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-tag"></i></a>
+                    <a href="{% url 'svAdminAdd' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-clock"></i></a>
+                    <a href="{% url 'svAdminHistory' %}" class="hover:text-vrt1"><i class="fa-solid fa-clipboard-list"></i></a>
                 </div>
-            </div>
-            <div class="flex flex-row gap-x-1 h-full">
-                <input type="hidden" name="iCode" id="iCode" value="{{InfoUser.codigo}}"/>
-                <input type="number" name="iValue" id="iValue" class="w-full h-12 text-center bg-gray-200 border-gray-400 rounded-lg" value="10000" step="1000" required/>
-                <button name="fonds" type="submit" class="flex w-full h-12 justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-wallet"></i></button>
-                <button name="points" type="submit" class="flex w-full h-12 justify-center items-center bg-yellow-500 hover:bg-yellow-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-coins"></i></button>
-                <button name="cash" type="submit" class="flex w-full h-12 justify-center items-center bg-blue-700 hover:bg-blue-800 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-money-bills"></i></button>
-                <button name= "cancel" type="submit" class="flex w-12 h-12 justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
-    </form>
-    {% else %}
-        {% if InfoUser %}
-        <div class="w-full h-full flex flex-col gap-y-4 justify-between">
-            <div class="flex flex-row gap-x-12 mt-12">
-                <span class="w-32 h-38 bg-vrt2 rounded-md text-center flex items-center justify-center text-7xl text-gray-300"><i class="fa-solid fa-user"></i></span>
-                <div class="flex flex-col py-6 gap-y-3 font-semibold uppercase text-sm w-full items-center">
-                    <div class="flex flex-row w-full">
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                            <p class="w-20">Nombre</p>
-                            <p id="username" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.full_name}}</p>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                            <p class="w-20">Ciudad</p>
-                            <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.country}}</p>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Codigo</p>
-                            <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.codigo}}</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-row w-full">
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                            <p class="w-20">Origen</p>
-                            <p class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap">
-                                {% if TSchedule.addres_from %}{{ TSchedule.addres_from }}{% else %}&nbsp;{% endif %}
-                            </p>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                            <p class="w-20">Destino</p>
-                            <p class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap">
-                                {% if TSchedule.addres_to %}{{ TSchedule.addres_to }}{% else %}&nbsp;{% endif %}
-                            </p>
-                        </div>
-                        <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                            <p class="w-20">Fecha</p>
-                            <p id="date" class="text-gray-500 overflow-hidden whitespace-nowrap">{{TSchedule.date|date:'d M H:s'}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <form target="_self" method="POST" class="flex flex-row gap-x-1">
-                {% csrf_token %}
-                <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" value="{{InfoUser.codigo}}" readonly/>
-                <button name="success" type="submit" class="flex h-full justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-check"></i></button>
-                <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
-            </form>
+        {% if messages %}
+        <div class="{{ message.tags }}">
+            <ul class="flex flex-col relative h-2/3 w-full text-center justify-end items-center my-4 font-bold">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }} text-2xl uppercase"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="flex px-24 justify-start h-1/3 mx-auto">
+            {% if user.is_driving %}
+                <a href="#" onclick="history.back();" class="flex w-32 h-8 px-4 py-6 justify-center items-center shadow-lg bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg uppercase text-2xl"><i class="fa-solid fa-bolt"></i></a>
+            {% else %}
+                <a href="{% url 'svAdmin' %}" class="flex w-32 h-8 px-4 py-6 justify-center items-center shadow-lg bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg uppercase text-2xl"><i class="fa-solid fa-bolt"></i></a>
+            {% endif %}
         </div>
         {% else %}
-        <form target="_self" method="POST">
-            {% csrf_token %}
-            <div class="flex flex-row gap-x-1 h-full">
-                <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="231161921" required/>
-                <button name="input" type="submit" class="flex h-full justify-center items-center bg-green-500 hover:bg-green-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-plus"></i></button>
-                <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
+            {% if InfoUser %}
+            <div class="flex flex-row w-full">
+                <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
+                    <p class="w-20">Nombre</p>
+                    <p id="username" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.full_name}}</p>
+                </div>
+                <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
+                    <p class="w-20">Ciudad</p>
+                    <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.country}}</p>
+                </div>
+                <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                    <p class="w-20">Codigo</p>
+                    <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.codigo}}</p>
+                </div>
             </div>
-        </form>
+            <form target="_self" method="POST">
+                {% csrf_token %}
+                <div class="w-full h-full flex flex-col gap-y-4 mt-32">
+                    <div class="flex flex-row gap-x-12">
+                        <div class="flex flex-col py-2 gap-y-3 font-semibold uppercase text-sm w-full items-center">
+                            <div class="flex flex-row w-full">
+                                <div class="flex flex-row w-1/3 h-12 border border-gray-300 py-1 px-4 items-center">
+                                    <p class="w-20">Origen</p>
+                                    <input type="text" name="ifrom" id="ifrom" class="w-full px-4 text-gray-500 border-none p-0 m-0" required/>
+                                </div>
+                                <div class="flex flex-row w-1/3 h-12 border border-gray-300 py-1 px-4 items-center">
+                                    <p class="w-20">Destino</p>
+                                    <input type="text" name="ito" id="ito" class="w-full px-4 text-gray-500 border-none p-0 m-0" required/>
+                                </div>
+                                <div class="flex flex-row w-1/3 h-12 border border-gray-300 py-1 px-2 items-center">
+                                    <p class="w-20">Fecha</p>
+                                    <input  type="datetime-local" name="idate" id="idate" class="text-gray-500 border-none overflow-hidden whitespace-nowrap" required/>
+                                </div>
+                            </div>
+                            <div class="flex flex-row w-full gap-x-2">
+                                <input type="hidden" name="iCode" id="iCode" value="{{InfoUser.codigo}}"/>
+                                <button name="add" type="submit" class="flex h-full w-full justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-lg"><i class="fa-solid fa-user-plus"></i></button>
+                                <a href="{% url 'svAdminAdd' %}" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+            <form target="_self" method="POST">
+                {% csrf_token %}
+                <div class="flex flex-row gap-x-1 h-full">
+                    <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="231161921" required/>
+                    <button name="input" type="submit" class="flex h-full justify-center items-center bg-green-500 hover:bg-green-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-plus"></i></button>
+                    <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
+                </div>
+            </form>
+            {% endif %}
         {% endif %}
-    {% endif %}
+    </div>
 {% endblock %}
+
 

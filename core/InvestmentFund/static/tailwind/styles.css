@@ -1332,6 +1332,10 @@ select {
   padding-bottom: 2rem;
 }
 
+.pb-64 {
+  padding-bottom: 16rem;
+}
+
 .pt-4 {
   padding-top: 1rem;
 }
