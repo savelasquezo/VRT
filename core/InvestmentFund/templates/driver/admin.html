@@ -1,333 +1,130 @@
+{% extends 'driver/index.html' %}
 {% load static %}
 {% load humanize %}
+{% load static tailwind_tags %}
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
-  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/css/messages.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/tailwind/styles.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
-</head>
-<body>
-    <div class="flex flex-col w-screen h-screen justify-center items-center bg-gray-300 p-10">
-        <div class="flex flex-col w-full h-full rounded-md shadow-lg">
-            <div class="w-full flex justify-center items-center bg-gradient-to-r from-vrt2 to-vrt1 h-12 rounded-t-md">
-                <p class="text-center font-semibold font-2xl text-gray-100">VRTFUND-SERVICES</p>
-            </div>
-            <div class="w-full h-full flex justify-center items-center bg-gray-400 rounded-b-md px-1 pb-1">
-                <div class="flex flex-row bg-gray-200 shadow-lg w-full h-full rounded-b-md p-1 gap-x-1">
-                    <div class="w-1/4 h-full flex flex-col bg-white rounded-b-md justify-start items-center">
-                        <div class="flex w-1/2">
-                            {% if user.avatar.url %}
-                                <img class="w-44 h-42 bg-cover bg-center rounded-lg my-2" src="{{user.avatar.url}}" alt="">
-                            {% else %}
-                                <span class="w-44 h-40 bg-fond01 bg-cover bg-center rounded-full my-2"></span>
-                            {% endif %}  
-                        </div>
-                        <p class="uppercase font-semibold text-blue-800 text-sm mt-2">{{user.codigo}}</p>
-                        <hr class="h-0.5 w-4/5 bg-slate-300 my-2">
-                        <div class="flex flex-col justify-between items-center w-full h-full py-8">
-                            <div class="flex flex-col justify-start items-center">
-                                <p class="font-semibold text-sm text-gray-100 uppercase px-4 py-1 bg-slate-500 rounded-md">{{user.full_name}}</p><br>
-                                <p class="font-semibold text-sm text-gray-500">{{user.email | default:"driver@vrtfund.com"}}</p>
-                                <p class="font-semibold text-sm text-gray-500">{{ user.phone | default:"3001001010" }}</p>
+{% block block %}
+    {% if messages %}
+    <div class="{{ message.tags }}">
+        <ul class="flex flex-col relative h-2/3 w-full text-center justify-end items-center my-4 font-bold">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }} text-2xl uppercase"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="flex px-24 justify-start h-1/3 mx-auto">
+        {% if user.is_driving %}
+            <a href="#" onclick="history.back();" class="flex w-32 h-8 px-4 py-6 justify-center items-center shadow-lg bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg uppercase text-2xl"><i class="fa-solid fa-bolt"></i></a>
+        {% else %}
+            <a href="{% url 'svAdmin' %}" class="flex w-32 h-8 px-4 py-6 justify-center items-center shadow-lg bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg uppercase text-2xl"><i class="fa-solid fa-bolt"></i></a>
+        {% endif %}
+    </div>
+    {% else %}
+        {% if IsDriving %}
+        <form target="_self" method="POST" class="flex flex-row w-full justify-between gap-x-4">
+            {% csrf_token %}
+            <div class="w-full h-full flex flex-col gap-y-4">
+                <div class="flex flex-row gap-x-12 relative -top-48">
+                    <span class="w-32 h-38 bg-vrt2 rounded-md text-center flex items-center justify-center text-7xl text-gray-300"><i class="fa-solid fa-user"></i></span>
+                    <div class="flex flex-col py-6 gap-y-3 font-semibold uppercase text-sm w-full items-center">
+                        <div class="flex flex-row w-full">
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Nombre</p>
+                                <p id="username" class="text-gray-500">{{InfoUser.full_name}}</p>
                             </div>
-                            <a class="w-2/5 h-8 flex items-center justify-center mb-2 bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-sm" href="{% url 'logout' %}">Salir</a>
-                        </div>
-                    </div>
-                    <div class="w-3/4 flex flex-col h-full bg-white rounded-b-md justify-between pt-4 pb-8 px-14">
-                        <div class="w-full flex flex-row justify-between items-center text-center uppercase font-semibold text-2xl text-vrt2">
-                            <form target="_self" method="GET" class="w-full flex flex-row gap-x-4 justify-between">
-                                {% csrf_token %}
-                                <button type="submit" name="submit" value="home" class="hover:text-vrt1"><i class="fa-solid fa-house"></i></button>
-                                <div >
-                                    <!--<a href="" class="hover:text-vrt1"><i class="fa-solid fa-user-plus"></i></a>-->
-                                    <button type="submit" name="submit" value="add" class="hover:text-vrt1"><i class="fa-solid fa-user-tag"></i></button>
-                                    <button type="submit" name="submit" value="history" class="hover:text-vrt1"><i class="fa-solid fa-clipboard-list"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                        <!----------------------------------------------------------------------------------------->
-                        <!----------------------------------------------------------------------------------------->
-                        {% if cSchedule %}
-                        <table class="w-full text-sm text-gray-500 dark:text-gray-600 text-center -mt-32">
-                            <thead class="text-xs text-gray-200 uppercase bg-vrt2">
-                              <tr>
-                                <th class="w-32 px-6 py-3 text-center">Usuario</th>
-                                <th class="w-32 px-6 py-3 text-center">Codigo</th>
-                                <th class="w-32 px-6 py-3 text-center">Origen</th>
-                                <th class="w-32 px-6 py-3 text-center">Destino</th>
-                                <th class="w-32 px-6 py-3 text-center">Fecha</th>
-                                <th class="w-32 px-6 py-3 text-center">Hora</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {% if cSchedule %}  
-                                {% for i in cSchedule %}
-                                <tr class="w-full h-12 bg-yellow-100 border-b text-center">
-                                    <th class="px-6 py-4 w-32 overflow-hidden text-center whitespace-nowrap font-medium text-gray-900">{{i.username.full_name}}</th>
-                                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.username.codigo|slice:"-5:" }}</td>
-                                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.addres_from}}</td>
-                                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.addres_to}}</td>
-                                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.date|date:'d M'}}</td>
-                                    <td class="px-6 py-1 w-32 overflow-hidden text-center whitespace-nowrap">{{ i.date|date:'H s'}}</td>
-                                </tr>
-                                {% endfor %}
-                                {% if not cSchedule.has_next %}
-                                {% for i in ListFix %}
-                                <tr class="h-12 bg-white border-b">
-                                    {% for _ in '12345' %}
-                                    <td class="w-32 px-6 py-1"></td>
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}
-                                {% elif not cSchedule.has_other_pages %}
-                                {% for i in ListFix %}
-                                <tr class="h-12 bg-white border-b">
-                                    {% for _ in '12345' %}
-                                    <td class="w-32 px-6 py-1"></td>
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}           
-                                {% endif %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                        <div class="w-full flex flex-row gap-x-1">
-                            <form target="_self" method="POST" class="flex flex-col w-full h-full justify-center items-center">
-                                {% csrf_token %}
-                                <div class="flex flex-row justify-center items-center w-full gap-x-1">
-                                    {% if InfoUser %}
-                                    <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="{{InfoUser.codigo}}" readonly/>
-                                    <button name="success" type="submit" class="flex h-full justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl" name="submit"><i class="fa-solid fa-check"></i></button>
-                                    {% else %}
-                                    <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="231161921" required/>
-                                    <button name="input" type="submit" class="flex h-full justify-center items-center bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl" name="submit"><i class="fa-solid fa-arrow-right"></i></button>
-                                    {% endif %}
-                                </div>
-                            </form>
-                            <form target="_self" method="GET">
-                                {% csrf_token %}
-                                <button type="submit" name="submit" value="clear" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
-                            </form>
-                        </div>
-                        {% elif ListSchedule %}
-                        <table class="w-full text-sm text-gray-500 dark:text-gray-600 text-center mt-0">
-                            <thead class="text-xs text-gray-200 uppercase bg-vrt2">
-                              <tr>
-                                <th scope="col" class="w-16 px-6 py-3">Usuario</th>
-                                <th scope="col" class="w-16 px-6 py-3">Codigo</th>
-                                <th scope="col" class="w-16 px-6 py-3">Origen</th>
-                                <th scope="col" class="w-20 px-6 py-3">Destino</th>
-                                <th scope="col" class="w-20 px-2 py-3">Valor</th>
-                                <th scope="col" class="w-16 px-6 py-3">KMs</th>
-                                <th scope="col" class="w-16 px-6 py-3">Fecha</th>
-                                <th scope="col" class="w-20 px-2 py-3">Estado</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {% if ListSchedule %}  
-                                {% for i in ListSchedule %}
-                                <tr class="w-full h-12 bg-white border-b">
-                                    <th class="px-6 py-1 w-16 overflow-hidden whitespace-nowrap text-center font-medium text-gray-900">{{i.username.full_name}}</th>
-                                    <td class="px-6 py-1 w-16 overflow-hidden whitespace-nowrap text-center">{{ i.username.codigo|slice:"-5:" }}</p></td>
-                                    <td class="px-6 py-1 w-16 overflow-hidden whitespace-nowrap text-center">{{ i.addres_from}}</p></td>
-                                    <td class="px-6 py-1 w-20 overflow-hidden whitespace-nowrap text-center">{{ i.addres_to}}</p></td>
-                                    <td class="px-6 py-1 w-20 overflow-hidden whitespace-nowrap text-center">${{ i.paid|intcomma}}</p></td>
-                                    <td class="px-6 py-1 w-16 overflow-hidden whitespace-nowrap text-center">{{ i.distance }}</p></td>
-                                    <td class="px-6 py-1 w-16 overflow-hidden whitespace-nowrap text-center">{{ i.date|date:'d M'}}</p></td>
-                                    <td class="px-6 py-1 w-16 overflow-hidden whitespace-nowrap text-center">
-                                    {% if not i.status %}
-                                        <i class="fa-solid fa-triangle-exclamation text-yellow-600"></i>
-                                        {% elif i.status == 'Completado' %}
-                                        <i class="fa-solid fa-square-check text-green-600 text-lg"></i>
-                                        {% elif i.status == 'Cancelado' %}
-                                        <i class="fa-solid fa-square-xmark text-red-600 text-lg"></i>
-                                    {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                {% if not ListSchedule.has_next %}
-                                {% for i in ListFix %}
-                                <tr class="h-12 bg-white border-b">
-                                    {% for _ in '1234567' %}
-                                    <td class="w-10 px-6 py-1"></td>
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}
-                                {% elif not ListSchedule.has_other_pages %}
-                                {% for i in ListFix %}
-                                <tr class="h-12 bg-white border-b">
-                                    {% for _ in '1234567' %}
-                                    <td class="w-10 px-6 py-1"></td>
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}           
-                                {% endif %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                        <nav class="flex items-center justify-center w-full text-center my-4">
-                            <ul class="">
-                                {% if ListSchedule.has_previous %}
-                                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg" 
-                                    href="?page={{ ListSchedule.previous_page_number }}">&laquo;</a></li>
-                                {% else %}
-                                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                                    href="">&laquo;</a></li>
-                                {% endif %}
-                                {% for page in ListSchedule.paginator.page_range %}
-                                {% if page == ListSchedule.number %}
-                                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                                    href="">{{ page }}</a></li>
-                                {% else %}
-                                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                                    href="?page={{ page }}">{{ page }}</a></li>
-                                {% endif %}
-                                {% endfor %}
-                                {% if ListSchedule.has_next %}
-                                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                                    href="?page={{ ListSchedule.next_page_number }}">&raquo;</a></li>
-                                {% else %}
-                                <li class="inline-block mx-2 w-4 text-lg"><a class="block border-none font-normal text-lg"
-                                    href="">&raquo;</a></li>
-                                {% endif %}
-                            </ul>
-                        </nav>
-                        {% else %}
-                            {% if messages %}
-                            <div class="{{ message.tags }}">
-                                <ul class="flex flex-col relative h-2/3 w-full text-center justify-end items-center my-4 font-bold">
-                                {% for message in messages %}
-                                    <li {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }} text-2xl uppercase"{% endif %}>{{ message }}</li>
-                                {% endfor %}
-                                </ul>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Ciudad</p>
+                                <p id="code" class="text-gray-500">{{InfoUser.country}}</p>
                             </div>
-                            <div class="flex px-24 justify-start h-1/3 mx-auto">
-                                <form target="_self" method="GET">
-                                    {% csrf_token %}
-                                    <button type="submit" name="submit" value="add" class="flex w-32 h-8 px-4 py-6 justify-center items-center shadow-lg bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg uppercase text-2xl" name="submit"><i class="fa-solid fa-bolt"></i></button>
-                                </form>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Codigo</p>
+                                <p id="code" class="text-gray-500">{{InfoUser.codigo}}</p>
                             </div>
-                            {% else %}
-                                {% if InfoUser.is_driving %}
-                                <form target="_self" method="POST" class="flex flex-row w-full justify-between gap-x-4">
-                                    {% csrf_token %}
-                                    <div class="w-full h-full flex flex-col gap-y-4">
-                                        <div class="flex flex-row gap-x-12 relative -top-48">
-                                            <span class="w-32 h-38 bg-vrt2 rounded-md text-center flex items-center justify-center text-7xl text-gray-300"><i class="fa-solid fa-user"></i></span>
-                                            <div class="flex flex-col py-6 gap-y-3 font-semibold uppercase text-sm w-full items-center">
-                                                <div class="flex flex-row w-full">
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Nombre</p>
-                                                        <p id="username" class="text-gray-500">{{InfoUser.full_name}}</p>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Ciudad</p>
-                                                        <p id="code" class="text-gray-500">{{InfoUser.country}}</p>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Codigo</p>
-                                                        <p id="code" class="text-gray-500">{{InfoUser.codigo}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex flex-row w-full">
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Origen</p>
-                                                        <input type="text" name="ifrom" id="ifrom" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{TSchedule.addres_from}}" required/>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Destino</p>
-                                                        <input type="text" name="ito" id="ito" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{TSchedule.addres_to}}" required/>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Distancia</p>
-                                                        <input type="text" name="idistance" id="idistance" class="w-full px-4 text-gray-500 border-none p-0 m-0" required/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-x-1 h-full">
-                                            <input type="hidden" name="iCode" id="iCode" value="{{InfoUser.codigo}}"/>
-                                            <input type="number" name="iValue" id="iValue" class="w-full h-12 text-center bg-gray-200 border-gray-400 rounded-lg" value="10000" step="1000" required/>
-                                            <button name="fonds" type="submit" class="flex w-full h-12 justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-wallet"></i></button>
-                                            <button name="points" type="submit" class="flex w-full h-12 justify-center items-center bg-yellow-500 hover:bg-yellow-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-coins"></i></button>
-                                            <button name="cash" type="submit" class="flex w-full h-12 justify-center items-center bg-blue-700 hover:bg-blue-800 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-money-bills"></i></button>
-                                            <button name= "cancel" type="submit" class="flex w-12 h-12 justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-xmark"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
-                                {% else %}
-                                <form target="_self" method="POST">
-                                    {% csrf_token %}
-                                    {% if InfoUser %}
-                                    <div class="w-full h-full flex flex-col gap-y-4">
-                                        <div class="flex flex-row gap-x-12 relative -top-48">
-                                            <span class="w-32 h-38 bg-vrt2 rounded-md text-center flex items-center justify-center text-7xl text-gray-300"><i class="fa-solid fa-user"></i></span>
-                                            <div class="flex flex-col py-6 gap-y-3 font-semibold uppercase text-sm w-full items-center">
-                                                <div class="flex flex-row w-full">
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                                                        <p class="w-20">Nombre</p>
-                                                        <p id="username" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.full_name}}</p>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                                                        <p class="w-20">Ciudad</p>
-                                                        <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.country}}</p>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Codigo</p>
-                                                        <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.codigo}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex flex-row w-full">
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                                                        <p class="w-20">Origen</p>
-                                                        <input type="text" name="origin" id="origin" class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap" value="{{TSchedule.addres_from}}" required/>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
-                                                        <p class="w-20">Destino</p>
-                                                        <input type="text" name="origin" id="origin" class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap" value="{{TSchedule.addres_to}}" required/>
-                                                    </div>
-                                                    <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
-                                                        <p class="w-20">Fecha</p>
-                                                        <p id="date" class="text-gray-500 overflow-hidden whitespace-nowrap">{{TSchedule.date|date:'d M H:s'}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-x-1 h-full">
-                                            <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="{{InfoUser.codigo}}" readonly/>
-                                            <button name="success" type="submit" class="flex h-full justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-check"></i></button>
-                                            <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    <div class="flex flex-row gap-x-1 h-full">
-                                        <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="231161921" required/>
-                                        <button name="input" type="submit" class="flex h-full justify-center items-center bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-arrow-right"></i></button>
-                                        <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
-                                    </div>
-                                    {% endif %}
-                                </form>
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
-                        <!----------------------------------------------------------------------------------------->
-                        <!----------------------------------------------------------------------------------------->
+                        </div>
+                        <div class="flex flex-row w-full">
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Origen</p>
+                                <input type="text" name="ifrom" id="ifrom" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{ TSchedule.addres_from|default_if_none:'' }}" required/>
+                            </div>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Destino</p>
+                                <input type="text" name="ito" id="ito" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{ TSchedule.addres_to|default_if_none:'' }}" required/>
+                            </div>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Distancia</p>
+                                <input type="text" name="idistance" id="idistance" class="w-full px-4 text-gray-500 border-none p-0 m-0" required/>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="flex flex-row gap-x-1 h-full">
+                    <input type="hidden" name="iCode" id="iCode" value="{{InfoUser.codigo}}"/>
+                    <input type="number" name="iValue" id="iValue" class="w-full h-12 text-center bg-gray-200 border-gray-400 rounded-lg" value="10000" step="1000" required/>
+                    <button name="fonds" type="submit" class="flex w-full h-12 justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-wallet"></i></button>
+                    <button name="points" type="submit" class="flex w-full h-12 justify-center items-center bg-yellow-500 hover:bg-yellow-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-coins"></i></button>
+                    <button name="cash" type="submit" class="flex w-full h-12 justify-center items-center bg-blue-700 hover:bg-blue-800 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-money-bills"></i></button>
+                    <button name= "cancel" type="submit" class="flex w-12 h-12 justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
             </div>
-        </div>
-    </div>
-</body>
-</html>
-
-
+        </form>
+        {% else %}
+            {% if InfoUser %}
+            <div class="w-full h-full flex flex-col gap-y-4 justify-between">
+                <div class="flex flex-row gap-x-12 mt-12">
+                    <span class="w-32 h-38 bg-vrt2 rounded-md text-center flex items-center justify-center text-7xl text-gray-300"><i class="fa-solid fa-user"></i></span>
+                    <div class="flex flex-col py-6 gap-y-3 font-semibold uppercase text-sm w-full items-center">
+                        <div class="flex flex-row w-full">
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
+                                <p class="w-20">Nombre</p>
+                                <p id="username" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.full_name}}</p>
+                            </div>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
+                                <p class="w-20">Ciudad</p>
+                                <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.country}}</p>
+                            </div>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Codigo</p>
+                                <p id="code" class="text-gray-500 overflow-hidden whitespace-nowrap">{{InfoUser.codigo}}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-row w-full">
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
+                                <p class="w-20">Origen</p>
+                                <p class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap">
+                                    {% if TSchedule.addres_from %}{{ TSchedule.addres_from }}{% else %}&nbsp;{% endif %}
+                                </p>
+                            </div>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-4">
+                                <p class="w-20">Destino</p>
+                                <p class="w-full px-4 text-gray-500 border-none p-0 m-0 overflow-hidden whitespace-nowrap">
+                                    {% if TSchedule.addres_to %}{{ TSchedule.addres_to }}{% else %}&nbsp;{% endif %}
+                                </p>
+                            </div>
+                            <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
+                                <p class="w-20">Fecha</p>
+                                <p id="date" class="text-gray-500 overflow-hidden whitespace-nowrap">{{TSchedule.date|date:'d M H:s'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form target="_self" method="POST" class="flex flex-row gap-x-1">
+                    {% csrf_token %}
+                    <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" value="{{InfoUser.codigo}}" readonly/>
+                    <button name="success" type="submit" class="flex h-full justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-check"></i></button>
+                    <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
+                </form>
+            </div>
+            {% else %}
+            <form target="_self" method="POST">
+                {% csrf_token %}
+                <div class="flex flex-row gap-x-1 h-full">
+                    <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="231161921" required/>
+                    <button name="input" type="submit" class="flex h-full justify-center items-center bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-arrow-right"></i></button>
+                    <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
+                </div>
+            </form>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
 

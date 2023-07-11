@@ -39,6 +39,9 @@ urlpatterns = [
     path('accounts/admin/gift/history/', views.GiftHistoryView.as_view(), name='GiftHistory'),
 
     path('services/admin/', views.AdminServices.as_view(), name='svAdmin'),
+    path('services/admin/add', views.AdminServicesAdd.as_view(), name='svAdminAdd'),
+    path('services/admin/user', views.AdminServicesUser.as_view(), name='svAdminUser'),
+    path('services/admin/history', views.AdminServicesHistory.as_view(), name='svAdminHistory'),
 
     path('test/', views.TestView.as_view(), name='test'),
 

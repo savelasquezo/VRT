@@ -196,8 +196,9 @@ class InvestPremiumView(LoginRequiredMixin, TemplateView):
 class InfoFormView(LoginRequiredMixin, TemplateView):
     template_name='home/info_ticket.html'
 
-class AdminServices(LoginRequiredMixin, TemplateView):
-    template_name='driver/admin.html'
+
+class AdminServicesHistory(LoginRequiredMixin, TemplateView):
+    template_name='driver/history.html'
 
     @method_decorator(user_passes_test(IsDriver))
     def dispatch(self, request, *args, **kwargs):
@@ -207,65 +208,38 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
 
+        ITEMS = 5
+        MAXPAGES = 5
+
+        iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(driver=request.user.codigo)).order_by('-id')[:ITEMS*MAXPAGES]
+        ListSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
+        
+        ListFix = ITEMS - len(iSchedule)%ITEMS
+
+        if ListFix == ITEMS and len(iSchedule) != 0:
+            ListFix = 0
+
         context = self.get_context_data(**kwargs)
-        Sumbmit = request.GET.get('submit')
-
-
-        if Sumbmit == 'home':
-
-            ITEMS = 3
-
-            iSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=request.user)).order_by('id')
-            cSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
-            
-            ListFix = ITEMS - len(iSchedule)%ITEMS
-
-            if ListFix == ITEMS and len(iSchedule) != 0:
-                ListFix = 0
-
-            context={
-                'cSchedule':cSchedule,
-                'ListFix':range(0,ListFix),
-            }
-            return self.render_to_response(context)
-
-
-        if Sumbmit == 'history' or request.GET.get('page'):
-            ITEMS = 5
-            MAXPAGES = 5
-
-            iSchedule = Schedule.objects.filter(~Q(status="Pendiente") & Q(username=request.user)).order_by('-id')[:ITEMS*MAXPAGES]
-            ListSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
-            
-            ListFix = ITEMS - len(iSchedule)%ITEMS
-
-            if ListFix == ITEMS and len(iSchedule) != 0:
-                ListFix = 0
-
-            context={
-                'ListSchedule':ListSchedule,
-                'ListFix':range(0,ListFix),
-            }
-            return self.render_to_response(context)
-
-        if Sumbmit == 'add':
-            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=request.user)).order_by('-id').first()
-            is_driving = Usuario.objects.get(username=request.user).is_driving
-            
-            context = {
-                'ListSchedule': None,
-                'TSchedule': TSchedule,
-                'InfoUser': None if not is_driving else Usuario.objects.get(username=TSchedule.username),
-            }
-            
-            return self.render_to_response(context)
-
+        context={
+            'ListSchedule':ListSchedule,
+            'ListFix':range(0,ListFix),
+        }
         return self.render_to_response(context)
+
+
+class AdminServicesUser(LoginRequiredMixin, TemplateView):
+    template_name='driver/admin.html'
+
+    @method_decorator(user_passes_test(IsDriver))
+    def dispatch(self, request, *args, **kwargs):
+        """ Only Drivers Can Acces to this View
+        """
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
 
         if 'cancel' in request.POST:
-            iCode = int(request.POST['iCode'])
+            iCode = request.POST['iCode']
             CUser = Usuario.objects.get(codigo=iCode)
             TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
 
@@ -278,14 +252,10 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             TSchedule.paid = 0
             TSchedule.save()
 
-            return redirect(reverse('svAdmin'))
-
-        if 'clear' in request.POST:
-            context = self.get_context_data(ListSchedule=None,TSchedule=None,InfoUser=None)
-            return self.render_to_response(context)
+            return redirect(reverse('svAdminUser'))
 
         if 'input' in request.POST:
-            iCode = int(request.POST['iCode'])
+            iCode = request.POST['iCode']
 
             try:
                 InfoUser = Usuario.objects.get(codigo=iCode)
@@ -294,7 +264,7 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     TSchedule = UserShedule
                 else:
                     TSchedule = Schedule.objects.create(
-                        username = self.request.user,
+                        username = InfoUser,
                         driver = request.user.codigo,
                         date = timezone.now(),
                         status = "Pendiente",
@@ -309,21 +279,23 @@ class AdminServices(LoginRequiredMixin, TemplateView):
             except ObjectDoesNotExist:
                 messages.error(request, '¡Usuario Inexistente!', extra_tags="title")
                 messages.error(request, f'El Usuario ingresado no corresponde a un Afiliado', extra_tags="info")
-                return redirect(reverse('svAdmin'))
+                return redirect(reverse('svAdminUser'))
 
         if 'success' in request.POST:
-            iCode = int(request.POST['iCode'])
-            iUser = Usuario.objects.filter(id=request.user.id)
-            iUser.update(is_driving=True)
+            iCode = request.POST['iCode']
+            iUser = Usuario.objects.get(id=request.user.id)
+            iUser.is_driving = True
+            iUser.save()
 
             InfoUser = Usuario.objects.get(codigo=iCode)
             TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=InfoUser)).order_by('-id').first()
 
-            context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode),TSchedule=TSchedule)
+            context = self.get_context_data(InfoUser=InfoUser,TSchedule=TSchedule,IsDriving=True)
             return self.render_to_response(context)
 
+
         if 'fonds' in request.POST:
-            iCode = int(request.POST['iCode'])
+            iCode = request.POST['iCode']
             iValue = int(request.POST['iValue'])
             CUser = Usuario.objects.get(codigo=iCode)
 
@@ -350,12 +322,12 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     TSchedule.distance = idistance
                     TSchedule.save()
 
-                    return redirect(reverse('svAdmin'))
+                    return redirect(reverse('svAdminUser'))
 
                 else:
                     messages.error(request, '¡Fondos Insuficientes!', extra_tags="title")
                     messages.error(request, f'Seleccione otro metodo de pago', extra_tags="info")
-                    return redirect(reverse('svAdmin'))
+                    return redirect(reverse('svAdminUser'))
 
             except Exception as e:
                 with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
@@ -364,20 +336,24 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
 
         if 'points' in request.POST:
-            iCode = int(request.POST['iCode'])
+            iCode = request.POST['iCode']
             CUser = Usuario.objects.get(codigo=iCode)
+            iValue = int(request.POST['iValue'])
 
             ifrom = request.POST['ifrom']
             ito = request.POST['ito']
             idistance = int(request.POST['idistance'])
 
-            TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
+            
 
             try:
-
+                TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
                 vPoints = Settings.objects.get(Online=True).sDriverPoints
-                if CUser.rank_points > vPoints:
-                    CUser.rank_points -= vPoints
+
+                nPoints = int(iValue/vPoints)
+
+                if CUser.rank_points >= nPoints:
+                    CUser.rank_points -= nPoints
                     CUser.save()
                     messages.success(request, '¡Servicio Completado!', extra_tags="title")
                     messages.success(request, f'El pago se ha completado satisfactoriamente', extra_tags="info")
@@ -391,12 +367,12 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                     TSchedule.distance = idistance
                     TSchedule.save()
 
-                    return redirect(reverse('svAdmin'))
+                    return redirect(reverse('svAdminUser'))
 
                 else:
                     messages.error(request, '¡Puntos Insuficientes!', extra_tags="title")
                     messages.error(request, f'Seleccione otro metodo de pago', extra_tags="info")
-                    return redirect(reverse('svAdmin'))
+                    return redirect(reverse('svAdminUser'))
 
             except Exception as e:
                 with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
@@ -406,7 +382,7 @@ class AdminServices(LoginRequiredMixin, TemplateView):
 
         if 'cash' in request.POST:
 
-            iCode = int(request.POST['iCode'])
+            iCode = request.POST['iCode']
             CUser = Usuario.objects.get(codigo=iCode)
 
             ifrom = request.POST['ifrom']
@@ -427,13 +403,108 @@ class AdminServices(LoginRequiredMixin, TemplateView):
                 TSchedule.distance = idistance
                 TSchedule.save()
 
-                return redirect(reverse('svAdmin'))
+                return redirect(reverse('svAdminUser'))
 
             except Exception as e:
                 with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
                     f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
-        
 
+        return redirect(reverse('svAdminUser'))
+
+    def get(self, request, *args, **kwargs):
+
+        Sumbmit = request.GET.get('submit')
+        context = self.get_context_data(**kwargs)
+
+
+        if Sumbmit == 'clear':
+            iUser = Usuario.objects.filter(id=request.user.id)
+            iUser.update(is_driving=False)
+            context = {
+                'ListSchedule': None,
+                'TSchedule': None,
+                'InfoUser': None,
+            }
+            return self.render_to_response(context)
+
+        return self.render_to_response(context)
+
+class AdminServices(LoginRequiredMixin, TemplateView):
+    template_name='driver/home.html'
+
+    @method_decorator(user_passes_test(IsDriver))
+    def dispatch(self, request, *args, **kwargs):
+        """ Only Drivers Can Acces to this View
+        """
+        return super().dispatch(request, *args, **kwargs)
+
+
+    def get(self, request, *args, **kwargs):
+
+        ITEMS = 5
+        MAXPAGES = 5
+
+        iSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(driver=request.user.codigo)).order_by('id')[:ITEMS*MAXPAGES]
+        cSchedule = Paginator(iSchedule,ITEMS).get_page(request.GET.get('page')) if iSchedule else []
+        
+        ListFix = ITEMS - len(iSchedule)%ITEMS
+
+        if ListFix == ITEMS and len(iSchedule) != 0:
+            ListFix = 0
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'cSchedule':cSchedule,
+            'ListFix':range(0,ListFix),
+        }
+        return self.render_to_response(context)
+
+class AdminServicesAdd(LoginRequiredMixin, TemplateView):
+    template_name='driver/add.html'
+
+    def post(self, request, *args, **kwargs):
+
+        if 'input' in request.POST:
+            iCode = request.POST['iCode']
+
+            try:
+                context = self.get_context_data(InfoUser=Usuario.objects.get(codigo=iCode))
+                return self.render_to_response(context)
+
+            except ObjectDoesNotExist:
+                messages.error(request, '¡Usuario Inexistente!', extra_tags="title")
+                messages.error(request, f'El Usuario ingresado no corresponde a un Afiliado', extra_tags="info")
+                return redirect(reverse('svAdminUserAdd'))
+            
+        if 'add' in request.POST: 
+            iCode = request.POST['iCode']
+            iFrom = request.POST['iFrom']
+            iTo = request.POST['iTo']
+            iDate = request.POST['iDate']
+
+            try:
+                InfoUser = Usuario.objects.get(codigo=iCode)
+                TSchedule = Schedule.objects.create(
+                    username = InfoUser,
+                    driver = request.user.codigo,
+                    date = iDate,
+                    addres_from = iFrom,
+                    addres_to = iTo,
+                    status = "Pendiente",
+                    )
+
+                TSchedule.save() 
+
+                messages.success(request, 'Solicitud Registrada', extra_tags="title")
+                messages.success(request, f'Agendamiento Exitoso, El Registro se ha completado', extra_tags="info")
+                return redirect(reverse('svAdminAdd'))
+
+            except ObjectDoesNotExist:
+                messages.error(request, '¡Usuario Inexistente!', extra_tags="title")
+                messages.error(request, f'El Usuario ingresado no corresponde a un Afiliado', extra_tags="info")
+                return redirect(reverse('svAdminAdd'))
+            
+        return redirect(reverse('svAdminAdd'))
 
 class InfoView(TemplateView):
     template_name='home/info.html'

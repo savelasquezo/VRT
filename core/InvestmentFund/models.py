@@ -33,7 +33,7 @@ class Usuario(AbstractUser):
 
     avatar = models.ImageField(_("Avatar/Foto"), upload_to="InvestmentFund/uploads/avatars/", height_field=None, width_field=None, max_length=128, blank=True, null=True)
 
-    is_active = models.BooleanField(_("¿Activo?"),default=False)
+    is_active = models.BooleanField(_("¿Activo?"),default=True)
     is_staff = models.BooleanField(_("¿Staff?"),default=False)
 
     is_dirver = models.BooleanField(_("¿Conductor?"),default=False)
@@ -241,8 +241,8 @@ class Settings(models.Model):
     sFeeAmmount = models.PositiveIntegerField(_("$Impuestos"),blank=True,default=0,
                 help_text=_("Capital Acumulado en Fee ($COP)"),)
 
-    sDriverPoints = models.PositiveIntegerField(_("Trasporte MinPoints"),default=150,
-                help_text=_("Puntos Requeridos para Servicio de Transporte"),)
+    sDriverPoints = models.PositiveIntegerField(_("Trasporte MinPoints"),default=100,
+                help_text=_("$Valor/Punto"),)
 
     sTickets = models.PositiveIntegerField(_("Tickets"),default=3,
                 help_text=_("Tickets/Mensuales"),)
@@ -315,10 +315,10 @@ class Schedule(models.Model):
 
     status = models.CharField(_("Estado"), choices=list_status, default="", max_length=16)
 
-    addres_from = models.CharField(_("Destino"),max_length=64 ,unique=False,default="N/A",
+    addres_from = models.CharField(_("Destino"),max_length=64 ,unique=False,null=True,
                 help_text=_("Direccion de Origen"))
 
-    addres_to = models.CharField(_("Origen"),max_length=64 ,unique=False,default="N/A",
+    addres_to = models.CharField(_("Origen"),max_length=64 ,unique=False,null=True,
                 help_text=_("Direccion de Destino"))
     
     distance = models.FloatField(_("Kilometraje"), null=True, blank=True)
@@ -326,8 +326,6 @@ class Schedule(models.Model):
     paid = models.PositiveBigIntegerField(_("Valor"),blank=True,default=0,
                 help_text=_("$Costo del Servicio"),)
 
-    def __str__(self):
-        return "Codigo: 1000-%s" % (self.id)
 
     class Meta:
         verbose_name = _("")

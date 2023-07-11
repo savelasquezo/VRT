@@ -1,0 +1,69 @@
+{% load static %}
+{% load humanize %}
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  {% tailwind_css %}
+  <link rel="stylesheet" type="text/css" href="{% static '/css/messages.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/tailwind/styles.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+</head>
+<body>
+    <div class="flex flex-col w-screen h-screen justify-center items-center bg-gray-300 p-10">
+        <div class="flex flex-col w-full h-full rounded-md shadow-lg">
+            <div class="w-full flex justify-center items-center bg-gradient-to-r from-vrt2 to-vrt1 h-12 rounded-t-md">
+                <p class="text-center font-semibold font-2xl text-gray-100">VRTFUND-SERVICES</p>
+            </div>
+            <div class="w-full h-full flex justify-center items-center bg-gray-400 rounded-b-md px-1 pb-1">
+                <div class="flex flex-row bg-gray-200 shadow-lg w-full h-full rounded-b-md p-1 gap-x-1">
+                    <div class="w-1/4 h-full flex flex-col bg-white rounded-b-md justify-start items-center">
+                        <div class="flex w-1/2">
+                            {% if user.avatar.url %}
+                                <img class="w-44 h-42 bg-cover bg-center rounded-lg my-2" src="{{user.avatar.url}}" alt="">
+                            {% else %}
+                                <span class="w-44 h-40 bg-fond01 bg-cover bg-center rounded-full my-2"></span>
+                            {% endif %}  
+                        </div>
+                        <p class="uppercase font-semibold text-blue-800 text-sm mt-2">{{user.codigo}}</p>
+                        <hr class="h-0.5 w-4/5 bg-slate-300 my-2">
+                        <div class="flex flex-col justify-between items-center w-full h-full py-8">
+                            <div class="flex flex-col justify-start items-center">
+                                <p class="font-semibold text-sm text-gray-100 uppercase px-4 py-1 bg-slate-500 rounded-md">{{user.full_name}}</p><br>
+                                <p class="font-semibold text-sm text-gray-500">{{user.email | default:"driver@vrtfund.com"}}</p>
+                                <p class="font-semibold text-sm text-gray-500">{{ user.phone | default:"3001001010" }}</p>
+                            </div>
+                            <a class="w-2/5 h-8 flex items-center justify-center mb-2 bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-sm" href="{% url 'logout' %}">Salir</a>
+                        </div>
+                    </div>
+                    <div class="w-3/4 flex flex-col h-full bg-white rounded-b-md justify-between pt-4 pb-8 px-14">
+                        <div class="w-full flex flex-row justify-between items-center text-center uppercase font-semibold text-2xl text-vrt2">
+                            <div class="w-full flex flex-row gap-x-4 justify-between">
+                                <a href="{% url 'svAdmin' %}" class="hover:text-vrt1"><i class="fa-solid fa-house"></i></a>
+                                <div class="block">
+                                    <a href="{% url 'svAdminUser' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-tag"></i></a>
+                                    <a href="{% url 'svAdminAdd' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-clock"></i></a>
+                                    <a href="{% url 'svAdminHistory' %}" class="hover:text-vrt1"><i class="fa-solid fa-clipboard-list"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% block block %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

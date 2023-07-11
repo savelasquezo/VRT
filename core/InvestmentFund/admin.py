@@ -76,13 +76,13 @@ class UserBaseAdmin(UserAdmin):
         )
 
     fAutenticationSuperUser = {"fields": (
-        ("codigo","available_tickets","is_staff"),
+        ("codigo","available_tickets","is_staff","is_dirver","is_driving"),
         ("is_active","is_operating"),
         ("password")
         )}
 
     fAutenticationUser = {"fields": (
-        ("codigo","is_active","available_tickets"),
+        ("codigo","is_active","available_tickets","is_driving"),
         "password",
         ("is_operating","is_dirver")
         )}
