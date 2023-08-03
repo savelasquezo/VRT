@@ -5,7 +5,7 @@
 {% block block %}
 <div class="super-container">
     <div class="container">
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!--<script src="https://www.google.com/recaptcha/api.js" async defer></script>-->
         <form action="{% url 'Singup' %}" target="_self" method="POST" class='login-form'>
         {% if messages %}
         <div class="{{ message.tags }}">
@@ -40,19 +40,20 @@
             <input type="password" class='lf--input' placeholder='Contraseña' name="password" required id="password" autocomplete="off">
             <div toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></div>
         </div>
-        <input class="g-recaptcha lf--submit" data-sitekey="6LdIIq4lAAAAAEARmW2-eMwQ-xoP3xe6FFLyzd01" name="submit" id="submit" type='submit' data-callback="onSubmit" value='REGISTRAR'>
+        <input class="lf--submit" name="submit" id="submit" type='submit' value='REGISTRAR'>
+        <!--<input class="g-recaptcha lf--submit" data-sitekey="6LdIIq4lAAAAAEARmW2-eMwQ-xoP3xe6FFLyzd01" name="submit" id="submit" type='submit' data-callback="onSubmit" value='REGISTRAR'>-->
         <a href="{% url 'login' %}" class='lf--allready'>¿Eres Miembro? Inicia Sesión</a>
     </div>
     <!--<div class="g-recaptcha" data-sitekey="6LeFQ-okAAAAAPh0_rYHVCnAVpBn1GHgWVdv6UFQ"></div>-->
     </form>
-    <script>
+    <!--<script>
         document.querySelector('#submit').addEventListener('click', function(event) {
             if (!grecaptcha.getResponse()) {
             event.preventDefault();
             alert('¡Invalid recaptcha!');
             }
         });
-    </script>
+    </script>-->
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/toggle-password.js' %}"></script>
 </div>
