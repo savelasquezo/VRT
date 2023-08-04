@@ -20,27 +20,73 @@
     <!-- page navbar -->
     <nav class="page-navbar" data-spy="affix" data-offset-top="10">
         <ul class="nav-navbar container">
-            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link">VRTFUND</a></li>
+            <li class="nav-item">
+                <a href="{% url 'Home' %}" class="nav-link">
+                    <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                    <span class="nav-text">VRTFUND</span>
+                </a>
+            </li>
             {% if user.is_authenticated %}
                 {% if user.is_operating %}
-                    <li class="nav-item"><a href="{% url 'Services' %}" class="nav-link">ASOCIADOS</a></li>
+                    <li class="nav-item">
+                        <a href="{% url 'Services' %}" class="nav-link">
+                            <span class="nav-icon"><i class="fas fa-users"></i></span>
+                            <span class="nav-text">ASOCIADOS</span>
+                        </a>
+                    </li>
                 {% else %}
-                    <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+                    <li class="nav-item">
+                        <a href="{% url 'Investment' %}" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-calculator"></i></span>
+                            <span class="nav-text">SIMULADOR</span>
+                        </a>
+                    </li>
                 {% endif %}
             {% else %}
-                <li class="nav-item"><a href="{% url 'Investment' %}" class="nav-link">SIMULADOR</a></li>
+                <li class="nav-item">
+                    <a href="{% url 'Investment' %}" class="nav-link">
+                        <span class="nav-icon"><i class="fa-solid fa-calculator"></i></span>
+                        <span class="nav-text">SIMULADOR</span>
+                    </a>
+                </li>
             {% endif %}
             <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
             {% if user.is_authenticated %}
                 {% if user.is_operating %}
-                    <li class="nav-item"><a href="{% url 'Interface' %}" class="nav-link">ADMINISTRAR</a></li>
+                    <li class="nav-item">
+                        <a href="{% url 'Interface' %}" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                            <span class="nav-text">ADMINISTRAR</span>
+                        </a>
+                    </li>
                 {% else %}
-                    <li class="nav-item"><a href="{% url 'InfoForm' %}" class="nav-link">SOLICITAR</a></li>
+                    <li class="nav-item">
+                        <a href="{% url 'InfoForm' %}" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-comment"></i></span>
+                            <span class="nav-text">SOLICITAR</span>
+                        </a>
+                    </li>
                 {% endif %}
-                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">SALIR</a></li>
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">
+                        <span class="nav-icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="nav-text">SALIR</span>
+                    </a>
+                </li>
+                <li class="nav-item"><a href= class="nav-link"></a></li>
             {% else %}
-                <li class="nav-item"><a href="{% url 'Info' %}" class="nav-link">INVERSIONES</a></li>
-                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">INGRESAR</a></li>
+                <li class="nav-item">
+                    <a href="{% url 'Info' %}" class="nav-link">
+                        <span class="nav-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+                        <span class="nav-text">INVERSIONES</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="nav-link">
+                        <span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                        <span class="nav-text">INGRESAR</span>
+                    </a>
+                </li>
             {% endif %}
             <!--<li class="nav-item search">
                 <a href="javascript:void(0)" class="nav-link search-toggle"><i class="ti-search"></i></a>

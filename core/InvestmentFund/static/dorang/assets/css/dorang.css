@@ -11836,6 +11836,25 @@ body.dark-theme-fond::before {
   background-color: rgba(20, 20, 30, 0.95);
 }
 
-
+.font-size-xl{
+  font-size: xx-large;
+}
 
 /*///////////////////////////////////////////////*/
+@media (max-width: 767px) {
+  .nav-text {
+    display: none;
+  }
+  .nav-icon i {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .nav-text {
+    display: block;
+  }
+  .nav-icon{
+    display: none;
+  }
+}

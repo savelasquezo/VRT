@@ -474,10 +474,26 @@ body {
   }
   
 .new-cards-container{
+    position: absolute;
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding-top: 20px;
+}
+
+/*///////////////////////////////////////////////*/
+@media (max-width: 767px) {
+  .grid {
+    margin-top: 15%;
+    grid-template-columns: repeat(3, 200px);
+    grid-gap: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .new-cards-container{
+    margin-top: 10%;
+    overflow: hidden;
+  }
 }
