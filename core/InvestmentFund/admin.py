@@ -294,15 +294,16 @@ class InvestRequestsAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ("Informacion", fInvestRequestsStaff),
+        ("Autorizacion",fInvestRequestsSuperUser),
         )
 
-    def get_fieldsets(self, request, obj=None):
+    """def get_fieldsets(self, request, obj=None):
         if request.user.is_superuser:
             return (
                 ("Informacion", self.fInvestRequestsStaff),
                 ("Autorizacion", self.fInvestRequestsSuperUser),
             )
-        return super().get_fieldsets(request, obj)
+        return super().get_fieldsets(request, obj)"""
 
     def save_model(self, request, obj, form, change):
         if not request.user.is_superuser:
@@ -326,12 +327,12 @@ class InvestRequestsAdmin(admin.ModelAdmin):
                 
         return qs
 
-    def get_list_filter(self, request):
+    """def get_list_filter(self, request):
 
         if not request.user.is_superuser:
             return self.list_filter
         
-        return self.superlist_filter
+        return self.superlist_filter"""
 
 
 class ServicesAdmin(admin.ModelAdmin):
