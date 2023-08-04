@@ -359,7 +359,7 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
 
             iCode = request.POST['iCode']
             CUser = Usuario.objects.get(codigo=iCode)
-
+            iValue = int(request.POST['iValue'])
             ifrom = request.POST['ifrom']
             ito = request.POST['ito']
             idistance = int(request.POST['idistance'])
@@ -373,6 +373,7 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
                 iUser.update(is_driving=False)
 
                 TSchedule.status = "Completado"
+                TSchedule.paid = iValue
                 TSchedule.addres_from = ifrom
                 TSchedule.addres_to = ito
                 TSchedule.distance = idistance

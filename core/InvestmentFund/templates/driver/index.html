@@ -27,7 +27,7 @@
                 <div class="flex flex-row bg-gray-200 shadow-lg w-full h-full rounded-b-md p-1 gap-x-1">
                     <div class="w-1/4 h-full flex flex-col bg-white rounded-b-md justify-start items-center">
                         <div class="flex w-1/2">
-                            {% if user.avatar.url %}
+                            {% if user.avatar %}
                                 <img class="w-44 h-42 bg-cover bg-center rounded-lg my-2" src="{{user.avatar.url}}" alt="">
                             {% else %}
                                 <span class="w-44 h-40 bg-fond01 bg-cover bg-center rounded-full my-2"></span>

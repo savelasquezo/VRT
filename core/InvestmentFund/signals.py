@@ -6,7 +6,7 @@ from django.db.models.query_utils import Q
 
 from .models import Usuario, InvestRequests, Tickets, Settings, Services, Schedule
 
-@receiver(post_save, sender=Schedule)
+"""@receiver(post_save, sender=Schedule)
 def tickets_add_record(sender, instance, **kwargs):
 
     iSchedule = Schedule.objects.filter(Q(status="Pendiente")).order_by('-id').first()
@@ -26,7 +26,7 @@ def tickets_add_record(sender, instance, **kwargs):
         send_mail(subject, email, 'noreply@vrtfund.com' , ['driver@vrtfund.com'], fail_silently=False)
     except Exception as e:
         with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
-            f.write("SignalError Services: {}\n".format(str(e)))
+            f.write("SignalError Services: {}\n".format(str(e)))"""
 
 
 @receiver(post_save, sender=Services)
