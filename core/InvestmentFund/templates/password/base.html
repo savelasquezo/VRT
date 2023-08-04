@@ -12,6 +12,12 @@
   <link rel="stylesheet" type="text/css" href="{% static '/css/password.css' %}"><!---->
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+    function onSubmit(token) {
+      document.getElementById("password-reset").submit();
+    }
+  </script>
 </head>
 <body>
   <svg class="svg-class" width="2400px" height="1600px" viewBox="0 0 2400 1600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

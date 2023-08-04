@@ -11848,6 +11848,9 @@ body.dark-theme-fond::before {
   .nav-icon i {
     display: block;
   }
+  .buttons-fixed{
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -11858,3 +11861,4 @@ body.dark-theme-fond::before {
     display: none;
   }
 }
+

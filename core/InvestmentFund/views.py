@@ -35,7 +35,7 @@ def IsDriver(user):
     return user.is_authenticated and user.is_dirver
 
 class TestView(TemplateView):
-    template_name='100.html'
+    template_name='000.html'
 
 
 class HomeView(TemplateView):
@@ -124,42 +124,16 @@ class SingupView(UserPassesTestMixin, TemplateView):
             nUser.save()
 
             #login(request, nUser) -->Email ServiceAutenticate
-            
+                        
+
+
             messages.success(request, '¡Registro Exitoso!', extra_tags="title")
             messages.success(request, f'Hemos enviado un Email para verificar su cuenta', extra_tags="info")
             
-            try:
-                cUser = Usuario.objects.get(username=iUsername)
-                
-                subject = "Activacion - VRTFund"
-                email_template_name = "registration/email/email_confirm.txt"
-                c = {
-                'username': iUsername,
-                "uid": urlsafe_base64_encode(force_bytes(cUser.pk)),
-                "user": cUser,
-                'token': gToken.make_token(cUser),
-                'site_name': 'VRT-Fund',
-                'protocol': 'https',# http
-                'domain':'vrtfund.com',# 127.0.0.1:8000
-                }
-                email = render_to_string(email_template_name, c)
-                try:
-                    send_mail(subject, email, 'noreply@vrtfund.com' , [iEmail], fail_silently=False)
-                except BadHeaderError:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
-                        eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
-                        f.write("EmailError SingupEmail--> {} Error: {}\n".format(eDate, str(e)))
-                    return HttpResponse('Invalid Header Found')
-                
-            except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
-                    eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
-                    f.write("EmailError SingupConfig--> {} Error: {}\n".format(eDate, str(e)))
-
         except Exception as e:
             messages.error(request, '¡Registro Incompleto!', extra_tags="title")
-            messages.error(request, f'Ha ocurrido un error durante el registro', extra_tags="info")         
-        
+            messages.error(request, f'Ha ocurrido un error durante el registro', extra_tags="info")    
+
         return redirect(reverse('Singup'))
 
 class UserLoginView(UserPassesTestMixin, LoginView):
