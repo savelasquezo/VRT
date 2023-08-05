@@ -19,31 +19,31 @@
         <div style="height: 30px;"></div>
         {% endif %}
         {% csrf_token %}
-        <div class="flex-row">
-            <div class="login__field"><i class="login__icon fa-solid fa-circle-user"></i></div>
+        <div class="flex-row input-container">
+            <i class="login__icon fa-solid fa-circle-user"></i>
             <label class="lf--label" for="username"></label>
             <input type="text" class='lf--input' placeholder='Usuario' name="username" autofocus="" autocapitalize="none"  maxlength="64" required id="username">
         </div>
-        <div class="flex-row">
-            <div class="login__field"><i class="login__icon fa-solid fa-address-card"></i></i></div>
+        <div class="flex-row input-container">
+            <i class="login__icon fa-solid fa-address-card"></i>
             <label class="lf--label" for="name"></label>
             <input type="text" class='lf--input' placeholder='Nombre' name="name" autofocus="" autocapitalize="none"  maxlength="64" required id="name">
         </div>
-        <div class="flex-row">
-            <div class="login__field"><i class="login__icon fa-solid fa-envelope-open-text"></i></div>
+        <div class="flex-row input-container">
+            <i class="login__icon fa-solid fa-envelope-open-text"></i>
             <label class="lf--label" for="email"></label>
             <input type="email" class='lf--input' placeholder='Email' name="email"  required id="email">
         </div>
-        <div class="flex-row">
-            <div class="login__field"><i class="login__icon fas fa-lock"></i></div>
+        <div class="flex-row input-container">
+            <i class="login__icon fas fa-lock"></i>
             <label class="lf--label" for="password"></label>
             <input type="password" class='lf--input' placeholder='Contraseña' name="password" required id="password" autocomplete="off">
             <div toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></div>
         </div>
-        <button class="g-recaptcha lf--submit" data-sitekey="6LdIIq4lAAAAAEARmW2-eMwQ-xoP3xe6FFLyzd01" data-callback="onSubmit">REGISTRAR</button>
+        <button class="g-recaptcha lf--submit input-container" data-sitekey="6LdIIq4lAAAAAEARmW2-eMwQ-xoP3xe6FFLyzd01" data-callback="onSubmit">REGISTRAR</button>
         <a href="{% url 'login' %}" class='lf--allready'>¿Eres Miembro? Inicia Sesión</a>
-    </div>
     </form>
+    </div>
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/toggle-password.js' %}"></script>
 </div>

@@ -11851,6 +11851,22 @@ body.dark-theme-fond::before {
   .buttons-fixed{
     display: none;
   }
+  .header{
+    height: 50%;
+    min-height: 550px;
+  }
+  .header-subtitle {
+    padding: 12px;
+  }
+  .img-header{
+    transform: scale(0.75);
+  }
+  .contact-section{
+    padding-top: 0px;
+  }
+  .page-container{
+    padding-top: 0px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -11862,3 +11878,9 @@ body.dark-theme-fond::before {
   }
 }
 
+
+
+.header .header-content .header-subtitle {
+  opacity: 1;
+  margin-bottom: 30px;
+}

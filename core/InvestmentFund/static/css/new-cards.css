@@ -482,12 +482,21 @@ body {
     align-items: center;
 }
 
+
 /*///////////////////////////////////////////////*/
 @media (max-width: 767px) {
   .grid {
-    margin-top: 15%;
-    grid-template-columns: repeat(3, 200px);
-    grid-gap: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-left: -5%;
+    margin-top: 28%;
+    width: 70%;
+  }
+  .card1{
+    display: none;
+  }
+  .card2{
+    display: none;
   }
 }
 

@@ -23,7 +23,7 @@
       <div class="date date-travel"><h4><span id="seconds"></span></h4><h1 class="cm cm-travel">SEGUNDOS</h1></div>
     {% endif %}
   </div>
-  <script> let bar_percent = {{ TimeGValue }};</script>
+  <script> let bar_percent = TimeGValue;</script>
   <div class="progress-bar-container progress-bar-container-travel">
     <div class="progress-bar" id="progress-bar"></div>
   </div>
@@ -43,7 +43,7 @@
               {% if ListGift %}
                 {% for Gift in ListGift %}
                     <div class="carousel__elemento">
-                      <img class="travel-banner" src="{{Gift.pBanner.url}}">
+                      <img class="gift-banner-md" src="{{Gift.pBanner.url}}">
                     </div>
                 {% endfor %}
               {% else %}

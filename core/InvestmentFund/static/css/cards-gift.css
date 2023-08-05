@@ -76,7 +76,6 @@ textarea::placeholder {
 .container-cards{
     margin: auto; 
     padding-top: 120px;
-    margin-left: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -371,3 +370,16 @@ textarea::placeholder {
     margin-bottom: 0px;
     background-image: linear-gradient(1deg, #3f0f0f, #5f1818 100%);
   }
+
+  @media (max-width: 767px) {
+    .container-cards {
+        margin-left: 13%;;
+    }
+    .container-flex {
+        margin-left: 13%;;
+    }
+    .admin-button-big {
+        display: none;
+    }
+  }
+  

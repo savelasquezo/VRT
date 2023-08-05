@@ -62,6 +62,7 @@ body{margin: 0;background: #ccc;}
     flex-direction: column;
     justify-content: center;
     margin:30px auto;
+    width: 90%;
     max-width: 520px;
     text-align: center;
 }
@@ -100,7 +101,8 @@ body{margin: 0;background: #ccc;}
     color: #36363b;
     font-family: 'Work Sans', sans-serif;
   }.date h1{width: 100px;}
-  
+
+
 .cm {
     line-height: 0px;
     font-size: 13px;
@@ -123,7 +125,7 @@ body{margin: 0;background: #ccc;}
 .travel-banner{
   max-width: 100%;
   height: auto;
-  justify-content: space-around;
+  justify-content: center;
   margin-top: 10px;
   border-radius: 5px;
 }
@@ -145,7 +147,8 @@ body{margin: 0;background: #ccc;}
 
 .contenedor-carousel-gift{margin-top: 10px;}
 .carousel__lista-gift{
-  width: 480px;
+  width: 90%;
+  max-width: 480px;
   height: 120px;
   margin: 10px;
   margin-top: 10px;
@@ -488,4 +491,9 @@ h2 small {
   /*Normals*/
   @media only screen and (min-width: 1280px) {
       /* Estilos para escritorio */
+  }
+
+
+  @media (max-width: 767px) {
+    .date h1{width: 70px;}
   }

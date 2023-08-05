@@ -3,82 +3,82 @@
 {% load humanize %}
 
 {% block block %}
-<!-- TimeTrial section start-->
-<script src="{% static 'js/jquery.js' %}"></script>
-<script src="{% static 'js/simplyCountdown.min.js' %}"></script>
-<script> var date_string = '{{ TimeExpire }}';</script>
+  <!-- TimeTrial section start-->
+  <script src="{% static 'js/jquery.js' %}"></script>
+  <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
+  <script> var date_string = '{{ TimeExpire }}';</script>
 
-<!--<div id="loader"></div>
-<script type="text/javascript">     
-  window.onload = function(){$("#loader").fadeOut(1200);}     
-</script>-->
-<div class="time-ammount">
-  <div class="time_trial">
-    <div class="date"><h1><span id="days"></span></h1><h1 class="cm">DIAS</h1></div>
-    <div class="date"><h1><span id="hours"></span></h1><h1 class="cm">HORAS</h1></div>
-    <div class="date"><h1><span id="minutes"></span></h1><h1 class="cm">MINUTOS</h1></div>
-    <div class="date"><h1><span id="seconds"></span></h1><h1 class="cm">SEGUNDOS</h1></div>
+  <!--<div id="loader"></div>
+  <script type="text/javascript">     
+    window.onload = function(){$("#loader").fadeOut(1200);}     
+  </script>-->
+  <div class="time-ammount">
+    <div class="time_trial">
+      <div class="date"><h1><span id="days"></span></h1><h1 class="cm">DIAS</h1></div>
+      <div class="date"><h1><span id="hours"></span></h1><h1 class="cm">HORAS</h1></div>
+      <div class="date"><h1><span id="minutes"></span></h1><h1 class="cm">MINUTOS</h1></div>
+      <div class="date"><h1><span id="seconds"></span></h1><h1 class="cm">SEGUNDOS</h1></div>
+    </div>
+
+    <script> let bar_percent =TimeKValue;</script>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <script src="{% static 'js/progressbar.js' %}"></script>
+    <script src="{% static 'js/progressbar_bar.js' %}"></script>
+
+    <div class="ammount">
+      <h1 class="ammount_value">{{user.ammount|intcomma}}</h1>
+      <h6 class="help_text_a">Actualmente genera intereses al {{user.interest|intcomma}}% Mensual</h6>
+      <h6 class="help_text_b">Máximo beneficio al finalizar la suscripción ${{MaxAmmount|intcomma}}</h6>
+    </div>
   </div>
+  <!-- TimeTrial section end-->
 
-  <script> let bar_percent = {{ TimeKValue }};</script>
-  <div class="progress-bar-container">
-    <div class="progress-bar" id="progress-bar"></div>
+  <!-- Knobbar section end -->
+  <script src="{% static 'js/jquery.knob.js' %}"></script>
+  <script src="{% static 'js/jquery_bar.js' %}"></script>
+  <div class="trial_bar"><input type="text" value="{{ KnobValue }}" class="dial"></div>
+  <div class="dial-value" for="text-dial">
+      <h1>{{ KnobText }}</h1>
+      <!--<h2>{{ InteretTotal }}% E.A</h2>-->
   </div>
-  <script src="{% static 'js/progressbar.js' %}"></script>
-  <script src="{% static 'js/progressbar_bar.js' %}"></script>
-
-  <div class="ammount">
-    <h1 class="ammount_value">{{user.ammount|intcomma}}</h1>
-    <h6 class="help_text_a">Actualmente genera intereses al {{user.interest|intcomma}}% Mensual</h6>
-    <h6 class="help_text_b">Máximo beneficio al finalizar la suscripción ${{MaxAmmount|intcomma}}</h6>
-  </div>
-</div>
-<!-- TimeTrial section end-->
-
-<!-- Knobbar section end -->
-<script src="{% static 'js/jquery.knob.js' %}"></script>
-<script src="{% static 'js/jquery_bar.js' %}"></script>
-<div class="trial_bar"><input type="text" value="{{ KnobValue }}" class="dial"></div>
-<div class="dial-value" for="text-dial">
-    <h1>{{ KnobText }}</h1>
-    <!--<h2>{{ InteretTotal }}% E.A</h2>-->
-</div>
-<!-- Knobbar section end-->
-<div class="contect-container">
-  <div class="contect">
-    {% if user.is_staff %}
-      <div class="name n3">COMISIONES
-        <h6 class="help_text">$Ingresos x Asociados</h6>
-        <h1 class="valor">{{user.ref_available|intcomma}}</h1>
+  <!-- Knobbar section end-->
+  <div class="contect-container">
+    <div class="contect">
+      {% if user.is_staff %}
+        <div class="name n3">COMISIONES
+          <h6 class="help_text">$Ingresos x Asociados</h6>
+          <h1 class="valor">{{user.ref_available|intcomma}}</h1>
+        </div>
+      {% else %}
+      <div class="name n3">INTERESES
+        <h6 class="help_text">$Interes Diario</h6>
+        <h1 class="valor">{{TotalDayli|intcomma}}</h1>
       </div>
-    {% else %}
-    <div class="name n3">INTERESES
-      <h6 class="help_text">$Interes Diario</h6>
-      <h1 class="valor">{{TotalDayli|intcomma}}</h1>
-    </div>
-    {% endif %}
-    <div class="name n2">ACUMULADO
-      <h6 class="help_text">$Intereses Acumulado</h6>
-      <h1 class="valor">{{user.available|intcomma}}</h1>
-    </div>
-    <div class="name n1">ABONADO
-      <h6 class="help_text">$Pagado o en proceso</h6>
-      <h1 class="valor">{{TotalPaid|intcomma}}</h1>
-    </div>
-    <div class="name n4">TOTAL
-      <h6 class="help_text">$Total Historico</h6>
-      <h1 class="valor">{{TotalCash|intcomma}}</h1>
+      {% endif %}
+      <div class="name n2">ACUMULADO
+        <h6 class="help_text">$Intereses Acumulado</h6>
+        <h1 class="valor">{{user.available|intcomma}}</h1>
+      </div>
+      <div class="name n1">ABONADO
+        <h6 class="help_text">$Pagado o en proceso</h6>
+        <h1 class="valor">{{TotalPaid|intcomma}}</h1>
+      </div>
+      <div class="name n4">TOTAL
+        <h6 class="help_text">$Total Historico</h6>
+        <h1 class="valor">{{TotalCash|intcomma}}</h1>
+      </div>
     </div>
   </div>
-</div>
-<div class="adm">
-  <button class="adm-boton" onclick=window.location.href="{% url 'Home' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
-  <button class="adm-boton" onclick=window.location.href="{% url 'Tickets' %}"><i class="fa-solid fa-money-bill-transfer"></i></button>
-  <button class="adm-boton" onclick=window.location.href="{% url 'History' %}"><i class="fa-solid fa-receipt"></i></button>
-  {% if sState %}
-    <button class="adm-boton" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
-  {% endif %}
-</div>
+  <div class="adm">
+    <button class="adm-boton" onclick=window.location.href="{% url 'Home' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'Tickets' %}"><i class="fa-solid fa-money-bill-transfer"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'History' %}"><i class="fa-solid fa-receipt"></i></button>
+    {% if sState %}
+      <button class="adm-boton" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
+    {% endif %}
+  </div>
 {% endblock %}
 
 
