@@ -497,3 +497,10 @@ h2 small {
   @media (max-width: 767px) {
     .date h1{width: 70px;}
   }
+
+  
+@media (max-width: 767px) {
+  .travel-banner-info h6{
+    font-size: 6px;
+  }
+}

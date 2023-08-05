@@ -2,6 +2,7 @@ body {
     margin: 0; 
     padding: 0;
     padding-bottom: 100px;
+    overflow: hidden;
 }
 .container-dlog{
 	width:320px;
@@ -373,10 +374,10 @@ textarea::placeholder {
 
   @media (max-width: 767px) {
     .container-cards {
-        margin-left: 13%;;
+        margin-left: 15%;
     }
     .container-flex {
-        margin-left: 13%;;
+        margin-left: 15%;;
     }
     .admin-button-big {
         display: none;
