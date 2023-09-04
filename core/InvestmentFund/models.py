@@ -12,6 +12,9 @@ lst_banks = (('Binance','Binance'),('Metamask','Metamask'),('Fiat','Fiat'))
 
 list_status = (('Completado','Completado'),('Pendiente','Pendiente'),('Cancelado','Cancelado'))
 
+def CustomUpload(instance, filename):
+    return f"media/news/{filename}"
+
 class Usuario(AbstractUser):
     """
     Custom user model inherited from abstractly user.
@@ -273,6 +276,25 @@ class Settings(models.Model):
     def __str__(self):
         return "Configuracion: %s" % (self.pk)
     
+class News(models.Model):
+        
+    id = models.AutoField(primary_key=True, verbose_name="ID")
+    name = models.CharField(_("Titulo"), max_length=128,blank=True)
+
+    image = models.ImageField(_("Imagen"), upload_to=CustomUpload, height_field=None, width_field=None, max_length=64,
+        help_text="Ancho[640px]-Alto[480px]")
+    
+    description = models.TextField(_("Informacion"),max_length=256,blank=True,null=True)
+    date = models.DateTimeField(_("Fecha"), default=timezone.now)
+
+
+    class Meta:
+        verbose_name = _("Noticia")
+        verbose_name_plural = _("Noticias")
+
+    def __str__(self):
+        return "Noticia: %s" % (self.name)
+
     
 class Associate(models.Model):
     

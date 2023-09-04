@@ -191,30 +191,23 @@
                 garantizar beneficios constantes con una minima variacion.</p>
         </div>
         <!-- row -->
+        {{ListNews}}
+        {% if ListNews %}
         <div class="row mb-5">
-            <div class="col-md-6">
-                <a href="javascript:void(0)" class="card">
-                    <img src="{% static '/dorang/assets/imgs/blog-1.jpg' %}" class="card-img" alt="">
-                    <div class="card-body">
-                        <h6 class="card-subtitle">30 Abril, 2023</h6>
-                        <h3 class="card-title">VRT Apoya el Futbol Colombiano</h3>
-                        <p>Vaort respalda el fútbol colombiano, impulsando el éxito de nuestro equipo. Juntos, 
-                            alcanzamos nuevas metas en el deporte</p>
-                    </div>                  
-                </a>
-            </div>  
-            <div class="col-md-6">
-                <a href="javascript:void(0)" class="card">
-                    <img src="{% static '/dorang/assets/imgs/blog-2.jpg' %}" class="card-img" alt="">
-                    <div class="card-body">
-                        <h6 class="card-subtitle">15 Marzo, 2023</h6>
-                        <h3 class="card-title">Entrenando los Traders del Mañana</h3>
-                        <p>Prepara a los futuros traders con nuestro programa de formación
-                            ¡Descubre el éxito en el mundo del trading!</p>
-                    </div>                  
-                </a>
-            </div> 
+            {% for i in ListNews %}
+                <div class="col-md-6">
+                    <a href="javascript:void(0)" class="card">
+                        <img src="{{i.image.url}}" class="card-img" alt="">
+                        <div class="card-body">
+                            <h6 class="card-subtitle">{{i.date}}</h6>
+                            <h3 class="card-title">{{i.name}}</h3>
+                            <p>{{i.description}}</p>
+                        </div>                  
+                    </a>
+                </div>  
+            {% endfor %}
         </div><!-- end of row -->
+        {% endif %}
     </div> <!-- end of page container -->
     <div class="buttons-fixed">
         <a class="chatgpt-button" href="https://wa.me/34613288116"><img src="{% static '/images/brands/chatgpt.png' %}" class="card-img" alt=""></a>

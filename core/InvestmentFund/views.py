@@ -26,7 +26,7 @@ from django.contrib.auth.views import LoginView
 
 from .tools import gToken, HashCode
 
-from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule, Messages
+from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule, Messages, News
 
 def IsStaff(user):
     return user.is_authenticated and user.is_staff
@@ -43,11 +43,14 @@ class HomeView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         
-        ListGift = Associate.objects.all().order_by("id")
+        try:
+            ListNews = News.objects.all().order_by("-id")[:2]
+        except:
+            ListNews = None
 
         context = self.get_context_data(**kwargs)
         context={
-            'ListGift':ListGift,
+            'ListNews':ListNews,
         }
 
         return self.render_to_response(context)
