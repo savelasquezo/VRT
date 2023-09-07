@@ -5173,6 +5173,11 @@ input[type="button"].btn-block {
   border-radius: calc(0.25rem - 1px);
 }
 
+.card-img-buttons {
+  width: 100%;
+  border-radius: calc(0.25rem - 1px);
+}
+
 .card-img-top {
   width: 100%;
   border-top-left-radius: calc(0.25rem - 1px);
