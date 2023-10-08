@@ -387,7 +387,7 @@ class SettingsAdmin(admin.ModelAdmin):
         ("sFee","sFeeAmmount"),
         ("sTickets","sTicketsAmmount"),
         "sDriverPoints",
-        "usdConvert",
+        "usd_convert",
         )}
 
     fTravel = {"fields": (
