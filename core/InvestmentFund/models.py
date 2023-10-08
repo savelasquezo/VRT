@@ -1,4 +1,5 @@
 from datetime import datetime
+import uuid
 
 from django.utils import timezone
 from django.db import models
@@ -14,6 +15,10 @@ list_status = (('Completado','Completado'),('Pendiente','Pendiente'),('Cancelado
 
 def CustomUpload(instance, filename):
     return f"media/news/{filename}"
+
+def uuidMake(length=12):
+    uuidInvoice = str(uuid.uuid4())
+    return uuidInvoice[:length]
 
 class Usuario(AbstractUser):
     """
@@ -148,7 +153,7 @@ class InvestRequests(models.Model):
     codigo = models.CharField(_("Codigo"),max_length=64 ,unique=True,
             help_text=_("Codigo Impreso en las Credenciales"))
 
-    invoice = models.CharField(_("Factura"),max_length=64 ,unique=True, default="N/A", blank=False, null=False,
+    invoice = models.CharField(_("Factura"),max_length=64 ,unique=True, default=uuidMake(12), blank=False, null=False,
             help_text=_("Facturacion Electronica"))
 
     full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
