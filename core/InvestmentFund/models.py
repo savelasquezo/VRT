@@ -1,5 +1,4 @@
 from datetime import datetime
-import uuid
 
 from django.utils import timezone
 from django.db import models
@@ -15,10 +14,6 @@ list_status = (('Completado','Completado'),('Pendiente','Pendiente'),('Cancelado
 
 def CustomUpload(instance, filename):
     return f"media/news/{filename}"
-
-def uuidMake(length=12):
-    uuidInvoice = str(uuid.uuid4())
-    return uuidInvoice[:length]
 
 class Usuario(AbstractUser):
     """
@@ -242,6 +237,9 @@ class Settings(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
     Online = models.BooleanField(_("Status"),default=True,unique=True)
 
+    usdConvert = models.PositiveIntegerField(_("USD"),default=5000,
+                help_text=_("Tasa de Cambio ($COP)"),)
+
     sState = models.BooleanField(_("VRTs"),default=False)
 
     sName = models.CharField(_("Configuracion"), max_length=64,blank=False,null=False)
@@ -275,10 +273,7 @@ class Settings(models.Model):
     
     gWinnerName = models.CharField(_("Ganador"), max_length=32,blank=True)
 
-    IsActive = models.BooleanField(_("¿Finalizado?"),default=False)
-
-    usd_convert_value = models.PositiveIntegerField(_("$USD"), default=4200, blank=True, null=True,
-        help_text=_("USD --> COP Aceptable"),)
+    IsActive = models.BooleanField(_("Activo"),default=False)
 
 
     class Meta:
