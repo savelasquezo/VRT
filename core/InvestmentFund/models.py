@@ -153,7 +153,7 @@ class InvestRequests(models.Model):
     codigo = models.CharField(_("Codigo"),max_length=64 ,unique=True,
             help_text=_("Codigo Impreso en las Credenciales"))
 
-    invoice = models.CharField(_("Factura"),max_length=64 ,unique=True, default=uuidMake(12), blank=False, null=False,
+    invoice = models.CharField(_("Factura"),max_length=64 ,unique=False, default="N/A", blank=False, null=False,
             help_text=_("Facturacion Electronica"))
 
     full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
