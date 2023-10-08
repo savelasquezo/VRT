@@ -1,0 +1,60 @@
+{% load static %}
+{% load humanize %}
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+  <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+  <link rel="stylesheet" href="{% static '/dorang/assets/css/dorang.css' %}">
+  <link rel="stylesheet" href="{% static '/dorang/assets/css/dorang-pages.css' %}">
+  {% tailwind_css %}
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/all.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/assets/fontawesome/css/v4-shims.css' %}">
+  <script type="text/javascript" src="../dist/confirmo.js"></script> 
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme-fond">
+    <div class="flex items-center justify-center w-full h-full p-8">
+        <div class="relative w-full max-w-2xl rounded-lg bg-opacity-20 bg-black p-8">
+            <div class="w-full block sm:flex sm:flex-row sm:justify-between sm:items-start text-center">
+                <div class="flex flex-col sm:text-left">
+                    <p class="uppercase">{{user.full_name}}</p>
+                    <p class="lowercase">{{user.email}}</p>
+                </div>
+                <button class="hidden sm:block sm:-mr-3" onclick=window.location.href="{% url 'Home' %}">
+                    <img class="h-12 -mt-2" src="{% static '/images/logo/vrt-logo1.png' %}" name="logo">
+                </button>
+            </div>
+            <div class="text-white flex flex-col sm:justify-between items-start mt-2">
+                <div class="w-full flex flex-row sm:items-start sm:flex-col gap-y-2">
+                    <div class="w-full flex flex-col items-center sm:items-start sm:justify-start leading-none">
+                        <p class="flex flex-row w-full justify-center items-center text-center sm:text-left">
+                            <span class="hidden sm:block"><i class="fa-solid fa-earth-americas text-gray-500 mr-2 mt-1"></i></span>
+                            Inversion: ${{InvRequest.ammount|intcomma}} (Interes: {{InvRequest.interest}}%)
+                        </p>
+                        <p class="sm:ml-12">Finaliza: {{InvRequest.date_expire|date:"d M Y"}}</p>
+                    </div>
+                    <div class="hidden sm:flex sm:flex-col w-full">
+                        <p class="text-right">Interes Mensual: ${{Monthly|intcomma}} (Aprox)</p>
+                        <p class="text-right">Maximo Benficio: ${{MaxAmount|intcomma}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-start text-center pb-12 pt-4 my-4">
+                <div class="w-full max-w-sm p-2 bg-gray-50 text-2xl my-4">{{InvRequest.invoice}}</div>
+                <div class="flex flex-row gap-x-4">
+                    <a target="_blank" href="https://confirmo.net/public/invoice/{{InvRequest.invoice}}"><img src="{% static '/images/payment/pymt-bitcoin.jpg' %}" alt="" class="h-16 rounded-lg"></a>
+                    <a target="_self" href="{% url 'PaymentsBanks' %}"><img src="{% static '/images/payment/pymt-banktransfer.jpg' %}" alt="" class="h-16 rounded-lg"></a>
+                </div>        
+            </div>
+            <p class="absolute px-6 hidden sm:block bottom-6 text-center text-xs font-thin text-gray-400">El tiempo de confirmacion de pago puede tardar hasta 36 horas despues de la confirmacion de pago, si desea conocer el estado actual de la activacion puede conmicarse con nuestro soprte tecnico</p>
+        </div>
+    </div>
+</body>
+</html>

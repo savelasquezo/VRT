@@ -29,24 +29,12 @@
         </div>
         <div class="right">
             {% if user.is_authenticated %}
-                <!--<button class="link link-right" onclick=window.location.href="{% url 'Investment' %}">
-                    <h5 class="h5-links"><i class="fa-solid fa-calculator"></i> SIMULADOR</h5>
-                </button>
-                <button class="link link-right" onclick=window.location.href="{% url 'Content' %}">
-                    <h5 class="h5-links"><i class="fa-solid fa-sack-dollar"></i> SERVICIOS</h5>
-                </button>
-                <button class="link link-right" onclick=window.location.href="{% url 'Services' %}">
-                    <h5 class="h5-links"><i class="fa-solid fa-file-circle-plus"></i> BENEFICIOS</h5>
-                </button>
-                <button class="link link-right" onclick=window.location.href="{% url 'Info' %}">
-                    <h5 class="h5-links"><i class="fa-solid fa-screwdriver-wrench"></i> PAGOS</h5>
-                </button>-->
                 <button class="link link-right" onclick=window.location.href="{% url 'logout' %}">
-                    <h5 class="h5-links">LOGOUT <i class="fa-solid fa-right-from-bracket"></i></h5>
+                    <p class="h5-links">LOGOUT <i class="fa-solid fa-right-from-bracket"></i></p>
                 </button>
             {% else %}
                 <button class="link link-right" onclick=window.location.href="{% url 'login' %}">
-                    <h5 class="h5-links">LOGIN <i class="fa-solid fa-right-from-bracket"></i></h5>
+                    <p class="h5-links">LOGIN <i class="fa-solid fa-right-from-bracket"></i></p>
                 </button>
             {% endif %}
         </div>

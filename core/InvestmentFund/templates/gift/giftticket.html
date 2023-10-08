@@ -25,8 +25,8 @@
                             <p class="info-link"><a href="">{{Gift.pDiscount}}</a></p>
                             <div class="additional-info">
                                 <p class="info-gift">
-                                    <a href="{{Gift.pURL}}" target=”_blank”><h2>{{ Gift.pName }}</h2></a>
-                                    <h5>{{ Gift.pInfoAdd }}</h5><br>
+                                    <a href="{{Gift.pURL}}" target=”_blank”><p class="additional-info-p">{{ Gift.pName }}</p></a>
+                                    <p>{{ Gift.pInfoAdd }}</p><br>
                                 </p>
                             </div>
                         </div>
@@ -52,11 +52,11 @@
                             <p class="info-link"><a href="">FREE</a></p>
                             <div class="additional-info">
                                 <p class="info-gift">
-                                    <a href="{% url 'ComingSoon' %}" target=”_blank”><h2>ASOCIADO</h2></a><br>
-                                    <h5>
+                                    <a href="{% url 'ComingSoon' %}" target=”_blank”><p class="additional-info-p">ASOCIADO</p></a><br>
+                                    <p>
                                         It is a long established fact that a reader will be distracted by the ip<br>
                                         readable content of a page when looking at its layout. The point of using Lorem Ipsu
-                                    </h5><br>
+                                    </p><br>
                                 </p>
                             </div>
                         </div>
@@ -80,13 +80,13 @@
                     {% csrf_token %}
                     <div class="label">
                         <div class="label label-name">
-                            <h4>{{user.full_name}}</h4>
+                            <p>{{user.full_name}}</p>
                             <span>{{ user.rank_points|intcomma }} VRTs</span>
                         </div>
                         <img src="{% static '/images/logo/vrt-logo2.png' %}" name="logo" width="52">
                     </div>
                     <div class="label label-Gift">
-                        <h4 id="tGift" name="tGift">SERVICIO</h4><h4 id="vGift" name="vGift">VALOR</h4>
+                        <p id="tGift" name="tGift">SERVICIO</p><p id="vGift" name="vGift">VALOR</p>
                     </div>
                     <textarea class="textarea" name="message" for="message" id="message" maxlength="256" ></textarea><p></p>
                     <input id="ivGift" name="ivGift" type="hidden" value="N/A">

@@ -147,7 +147,10 @@ class InvestRequests(models.Model):
 
     codigo = models.CharField(_("Codigo"),max_length=64 ,unique=True,
             help_text=_("Codigo Impreso en las Credenciales"))
-   
+
+    invoice = models.CharField(_("Factura"),max_length=64 ,unique=True, default="N/A", blank=False, null=False,
+            help_text=_("Facturacion Electronica"))
+
     full_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
     email = models.EmailField(_("E-mail"), blank=True)
     country = models.CharField(_("Ubicacíon"),max_length=64,blank=True)
@@ -268,6 +271,10 @@ class Settings(models.Model):
     gWinnerName = models.CharField(_("Ganador"), max_length=32,blank=True)
 
     IsActive = models.BooleanField(_("¿Finalizado?"),default=False)
+
+    usd_convert_value = models.PositiveIntegerField(_("$USD"),default=4200,
+        help_text=_("USD --> COP Aceptable"),)
+
 
     class Meta:
         verbose_name = _("Configuracion")

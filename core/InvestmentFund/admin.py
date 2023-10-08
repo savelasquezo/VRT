@@ -19,7 +19,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Mensajes": 5, "Noticias": 6, "Configuraciones": 7,"Grupos": 0}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Mensajes": 5, "Noticias": 6, "Configuraciones": 7,"Groups": 0}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
@@ -259,6 +259,7 @@ class InvestRequestsAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "username",
+        "invoice",
         "full_name",
         "ammount",
         "interest",
@@ -269,7 +270,8 @@ class InvestRequestsAdmin(admin.ModelAdmin):
 
 
     fInvestRequestsStaff = {"fields": (
-        ("username","codigo"),
+        ("username"),
+        ("invoice","codigo"),
         ("full_name","country"),
         ("ammount","interest"),
         ("email","phone"),
@@ -383,7 +385,8 @@ class SettingsAdmin(admin.ModelAdmin):
         ("sName","Online","sState"),
         ("sFee","sFeeAmmount"),
         ("sTickets","sTicketsAmmount"),
-        "sDriverPoints"
+        "sDriverPoints",
+        "usd_convert_value",
         )}
 
     fTravel = {"fields": (

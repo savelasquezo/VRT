@@ -200,15 +200,14 @@ textarea::placeholder {
     font-size:0.6em;
     color: #1e1e1e;
     text-align: center;
-    text-transform: uppercase;
     padding-bottom: 0;
 }
-.additional-info h2{
+.additional-info-p{
     font-size: medium;
     margin: auto;
 }
-.additional-info h2 a{color: rgb(10, 100, 10);transition: 0.5s all;}
-.additional-info h2 a:hover{color: #52177a;}
+.additional-info-p a{color: rgb(10, 100, 10);transition: 0.5s all;}
+.additional-info-p a:hover{color: #52177a;}
 
 .additional-info h5{
     font-weight: lighter;

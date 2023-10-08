@@ -28,6 +28,9 @@ urlpatterns = [
     path('info/', views.InfoView.as_view(), name='Info'),
     path('info/form/', views.InfoFormView.as_view(), name='InfoForm'),
 
+    path('info/payment/', views.PaymentsView.as_view(), name='Payments'),
+    path('info/payment/banktransfer/', views.PaymentsBanks.as_view(), name='PaymentsBanks'),
+
     path('@', views.ComingSoonView, name='ComingSoon'),
 
     path('accounts/admin/', views.InterfaceView.as_view(), name='Interface'),

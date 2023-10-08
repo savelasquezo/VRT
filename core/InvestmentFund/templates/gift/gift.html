@@ -10,17 +10,17 @@
 <div class="time-ammount">
   <img class="travel-banner" src="{{Setting.gTravelBanner.url}}">
   <div class="travel-banner-info">
-    <h6 class="help_text_a">Sorteo anual viaje para dos personas de 3 días y 2 noches, con vuelos y hotel incluidos</h6>
-    <h6 class="help_text_b">Unicamente debes tener una suscripcion activa en VRTFund</h6>
+    <p class="help_text_a">Sorteo anual viaje para dos personas de 3 días y 2 noches, con vuelos y hotel incluidos</p>
+    <p class="help_text_b">Unicamente debes tener una suscripcion activa en VRTFund</p>
   </div>
   <div class="time_trial">
     {% if TravelState %}
-      <h4><span>{{ WinnerName }}</span></h4>
+      <p>{{ WinnerName }}</p>
     {% else %}
-      <div class="date date-travel"><h4><span id="days"></span></h4><h1 class="cm cm-travel">DIAS</h1></div>
-      <div class="date date-travel"><h4><span id="hours"></span></h4><h1 class="cm cm-travel">HORAS</h1></div>
-      <div class="date date-travel"><h4><span id="minutes"></span></h4><h1 class="cm cm-travel">MINUTOS</h1></div>
-      <div class="date date-travel"><h4><span id="seconds"></span></h4><h1 class="cm cm-travel">SEGUNDOS</h1></div>
+      <div class="date date-travel"><span id="days"></span><p class="cm cm-travel">DIAS</p></div>
+      <div class="date date-travel"><span id="hours"></span><p class="cm cm-travel">HORAS</p></div>
+      <div class="date date-travel"><span id="minutes"></span><p class="cm cm-travel">MINUTOS</p></div>
+      <div class="date date-travel"><span id="seconds"></span><p class="cm cm-travel">SEGUNDOS</p></div>
     {% endif %}
   </div>
   <script> let bar_percent = TimeGValue;</script>
@@ -62,27 +62,11 @@
 		<script src="{% static 'js/glider.min.js' %}"></script>
 		<script src="{% static 'js/glider_bar-gift.js' %}"></script>
 	</div>
-<!--<div class="contect-container">
-  <div class="contect">
-    <div class="name n2">DISPONIBLES
-      <h6 class="help_text">VRTs ACUMULADOS</h6>
-      <h1 class="valor">{{user.rank_points|intcomma}}</h1>
-    </div>
-    <div class="name n1">USADOS
-      <h6 class="help_text">VRTs REDIMIDOS</h6>
-      <h1 class="valor">{{user.rank_used|intcomma}}</h1>
-    </div>
-    <div class="name n4">TOTAL
-      <h6 class="help_text">VRTs TOTALES</h6>
-      <h1 class="valor">{{user.rank_total|intcomma}}</h1>
-    </div>
+  <div class="adm">
+    <button class="adm-boton" onclick=window.location.href="{% url 'Interface' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'GiftTicket' %}"><i class="fa-solid fa-gifts"></i></button>
+    <button class="adm-boton" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>
+    <!--<button class="adm-boton" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>-->
   </div>
-</div>-->
-<div class="adm">
-  <button class="adm-boton" onclick=window.location.href="{% url 'Interface' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
-  <button class="adm-boton" onclick=window.location.href="{% url 'GiftTicket' %}"><i class="fa-solid fa-gifts"></i></button>
-  <button class="adm-boton" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>
-  <!--<button class="adm-boton" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>-->
-</div>
 {% endblock %}
 

@@ -1,7 +1,12 @@
 import os, re
+import requests
+
+from django.http import JsonResponse, HttpResponseRedirect
+from django.views import View
 
 from openpyxl import Workbook, load_workbook
 from datetime import datetime, timedelta
+from django.conf import settings
 
 from django.utils import timezone
 from django.views.generic.base import TemplateView
@@ -34,6 +39,7 @@ def IsStaff(user):
 def IsDriver(user):
     return user.is_authenticated and user.is_dirver
 
+
 class TestView(TemplateView):
     template_name='000.html'
 
@@ -42,7 +48,9 @@ class HomeView(TemplateView):
     template_name='home/home.html'
 
     def get(self, request, *args, **kwargs):
-        
+
+
+
         try:
             ListNews = News.objects.all().order_by("-id")[:2]
         except:
@@ -51,6 +59,7 @@ class HomeView(TemplateView):
         context = self.get_context_data(**kwargs)
         context={
             'ListNews':ListNews,
+
         }
 
         return self.render_to_response(context)
@@ -308,7 +317,7 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
                     return redirect(reverse('svAdminUser'))
 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/logdriver.txt'), 'a') as f:
                     f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
 
 
@@ -353,7 +362,7 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
                     return redirect(reverse('svAdminUser'))
 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/logdriver.txt'), 'a') as f:
                     f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
 
 
@@ -385,7 +394,7 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
                 return redirect(reverse('svAdminUser'))
 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/logdriver.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/logdriver.txt'), 'a') as f:
                     f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
 
         return redirect(reverse('svAdminUser'))
@@ -489,7 +498,21 @@ class InfoView(TemplateView):
     template_name='home/info.html'
     
     def post(self, request, *args, **kwargs):
-        
+
+        base_currency = 'USD'
+        target_currency = 'COP'
+
+        APILAYER = settings.APILAYER_KEY
+        url = f'https://api.exchangeratesapi.io/v1/convert?access_key={APILAYER}&from={base_currency}&to={target_currency}&amount={1}'
+
+        try:
+            response = requests.get(url)
+            data = response.json()
+            usd_to_cop = data['result'] if 'result' in data else Settings.objects.get(Online=True).usd_convert_value
+            
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({'Error': 'Conversion Fallida'}, status=500)
+
         InfoUser = Usuario.objects.get(id=request.user.id)
         iUsername = InfoUser.username
 
@@ -500,20 +523,21 @@ class InfoView(TemplateView):
 
         rInstanceUser = Usuario.objects.get(username=iUsername)
         
-        try:
-            iCode = InvestRequests.objects.last().pk
-        except TypeError:
-            iCode = 0
-        
+        latest_invest_request = InvestRequests.objects.last()
+        iCode = latest_invest_request.pk if latest_invest_request is not None else 0
+
+
         iName = InfoUser.full_name
         iEmail = InfoUser.email
         iCountry = request.POST['country']
         iPhone = request.POST['phone']
-        iAmmount = int(request.POST['ammount'])
+        iCurrency = str(request.POST['currency'])
+
+        iAmount = int(request.POST['amount'])
+        iAmount_to_cop = iAmount if iCurrency == "COP" else iAmount*usd_to_cop
 
         iBank = str(request.POST['bank'])
         iBankAccount = request.POST['bank_account']
-        iCommentText = request.POST['comment_text']
         
         rtimedelta = request.POST['rtimedelta']
     
@@ -530,67 +554,159 @@ class InfoView(TemplateView):
             iDateExpire = timezone.now() + timedelta(days=365)
 
         iDateString = iDateExpire.isoformat()
-        iDateObject = datetime.fromisoformat(iDateString) 
+        iDateObject = datetime.fromisoformat(iDateString)
+
 
         try:
-            InvestRequests.objects.create(
-                username = rInstanceUser,
-                codigo = iCode,
-                full_name = iName,
-                email = iEmail,
-                country = iCountry,
-                phone = iPhone,
-                ammount = iAmmount,
-                bank = iBank,
-                bank_account = iBankAccount,
-                CommentText = iCommentText,
-                staff = "Anonimo",
-                staff_cod = 0,
-                date_joined = timezone.now(),
-                interest = Interest,
-                date_expire = iDateObject,
-                rState = "Pendiente"
-                ) 
+            data = {
+                'codigo': iCode,
+                'full_name': iName,
+                'email': iEmail,
+                'country': iCountry,
+                'phone': iPhone,
+                'ammount': iAmount_to_cop,
+                'bank': iBank,
+                'bank_account': iBankAccount,
+                'staff': "Anonimo",
+                'staff_cod': 0,
+                'date_joined': timezone.now(),
+                'interest': Interest,
+                'date_expire': iDateObject,
+                'rState': "Pendiente"
+            }
+
+            obj, created = InvestRequests.objects.update_or_create(username=rInstanceUser,defaults=data)
 
             subject = "Solicitud - Información Inversión"        
             email_template_name = "home/email/info_email.txt"
 
             c = {
-            'tU': iUsername,
-            'tName':iName,
-            'tAmmountFrom':iAmmount,
-            'tBank':iBank,   
-            'site_name': 'VRT-Fund',
-            'protocol': 'https',# http
-            'domain':'vrtfund.com',# 127.0.0.1:8000
+                'iUsername': iUsername,
+                'iName':iName,
+                'iAmount':iAmount_to_cop,
+                'iBank':iBank,   
+                'site_name': 'VRT-Fund',
+                'protocol': 'https',# http
+                'domain':'vrtfund.com',# 127.0.0.1:8000
             }
             email = render_to_string(email_template_name, c)
 
             try:
                 send_mail(subject, email, 'noreply@vrtfund.com' , [email], fail_silently=False)
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
                     eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                     f.write("EmailError InfoEmail--> {} Error: {}\n".format(eDate, str(e)))
             
             messages.success(request, 'Solicitud Registrada', extra_tags="title")
             messages.success(request, f'Hemos enviado un correo con información del proceso de Inscripción', extra_tags="info")
-            return redirect(reverse('Info'))
 
+            APIAmount = str("{:.2f}".format(iAmount)) if iCurrency == "USD" else str("{:.2f}".format(iAmount/usd_to_cop))
+
+            body = {
+                "product": {
+                    "description": "VRTFund",
+                    "name": "Investment"
+                },
+                "invoice": {
+                    "amount": APIAmount,
+                    "currencyFrom": "USD"
+                },
+                "settlement": {
+                    "currency": "USD"
+                },
+                "notifyEmail": "noreply@vrtfund.com",
+                "notifyUrl": "https://vrtfund.com/",
+                "returnUrl": "https://vrtfund.com/",
+                "reference": "anything"
+            }
+
+            CONFIRMO = settings.CONFIRMO_KEY
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {CONFIRMO}'
+
+            }
+
+            try:
+                response = requests.post('https://confirmo.net/api/v3/invoices', json=body, headers=headers)
+                if response.status_code == 201:
+                    Invoice = response.json().get('id')
+
+                    if Invoice:
+                        InvRequest = InvestRequests.objects.get(username=self.request.user)
+                        InvRequest.invoice = Invoice
+                        InvRequest.save()
+                        return redirect(reverse('Payments'))
+                    else:
+                        return JsonResponse({'Error': 'Facturacion Incorrecta'}, status=500)
+
+                else:
+                    return JsonResponse({'Error': 'Solicitud Denegada'}, status=500)
+                
+            except Exception as e:
+                return JsonResponse({'Error': str(e)}, status=500)
+            
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/log_err.txt", "a") as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("QueryError InfoForm--> {} Error: {}\n".format(eDate, str(e)))
             
             messages.error(request, 'ERROR', extra_tags="title")
-            messages.error(request, 'La solicitud no se ha podido procesar', extra_tags="info")
-            return redirect(reverse('Info')) 
+            messages.error(request, f'La solicitud no se ha podido procesar {data}', extra_tags="info")
+            return redirect(reverse('InfoForm')) 
+
+
+
+class PaymentsView(LoginRequiredMixin, TemplateView):
+    template_name='home/payment.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        InvRequest = InvestRequests.objects.get(username=self.request.user)
+        
+        IntsDayli = InvRequest.interest/(100*30)
+        TimeDelta = (InvRequest.date_expire - InvRequest.date_joined).days
+
+        Monthly = int(InvRequest.ammount*IntsDayli*30)
+        MaxAmount = int(InvRequest.ammount * TimeDelta * IntsDayli)
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'Monthly':Monthly,
+            'MaxAmount':MaxAmount,
+            'InvRequest':InvRequest,
+        }
+
+        return self.render_to_response(context)
+
+
+class PaymentsBanks(LoginRequiredMixin, TemplateView):
+    template_name='home/payment-info.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        InvRequest = InvestRequests.objects.get(username=self.request.user)
+        
+        IntsDayli = InvRequest.interest/(100*30)
+        TimeDelta = (InvRequest.date_expire - InvRequest.date_joined).days
+
+        Monthly = int(InvRequest.ammount*IntsDayli*30)
+        MaxAmount = int(InvRequest.ammount * TimeDelta * IntsDayli)
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'Monthly':Monthly,
+            'MaxAmount':MaxAmount,
+            'InvRequest':InvRequest,
+        }
+
+        return self.render_to_response(context)
 
 #LoginRequiredMixin
 class ContentView(TemplateView):
     template_name='home/content.html'
     
-
 #LoginRequiredMixin
 class BenefitView(TemplateView):
     template_name='home/benefit.html'
@@ -769,12 +885,12 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         try:
             send_mail(subject, message=None, from_email='noreply@vrtfund.com', recipient_list=[InfoUser.email], fail_silently=False, html_message=email)
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailTicket Notification--> {} Error: {}\n".format(eDate, str(e)))
 
 
-        FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
+        FileName = os.path.join(settings.BASE_DIR, 'logs/users/') + InfoUser.username + '.xlsx'
 
         try:
             if not os.path.exists(FileName):
@@ -793,7 +909,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
             WB.save(FileName)
             
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/workbook.txt'), 'a') as f:
                 f.write("HistoryList WorkbookError: {}\n".format(str(e)))
 
 
@@ -858,14 +974,14 @@ def EmailConfirmView(request, uidb64, token):
             
         except Exception as e:
             nUser = None
-            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailConfirm--> {} Error: {}\n".format(eDate, str(e)))
 
         return render(request, 'registration/email_confirm-failed.html', {"user": nUser})
 
 def ComingSoonView(request):
-    return render(request, '000.html')
+    return render(request, '404.html')
 
 
 class GiftView(LoginRequiredMixin, TemplateView):
@@ -967,12 +1083,11 @@ class GiftHistoryView(LoginRequiredMixin, TemplateView):
         try:
             send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailGift Notification--> {} Error: {}\n".format(eDate, str(e)))
 
-
-        FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ InfoUser.username + '.xlsx'
+        FileName = os.path.join(settings.BASE_DIR, 'logs/users/') + InfoUser.username + '.xlsx'
 
         try:
             if not os.path.exists(FileName):
@@ -994,7 +1109,7 @@ class GiftHistoryView(LoginRequiredMixin, TemplateView):
             WB.save(FileName)
             
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/workbook.txt'), 'a') as f:
                 f.write("HistoryList WorkbookError: {}\n".format(str(e)))
 
 
@@ -1002,4 +1117,3 @@ class GiftHistoryView(LoginRequiredMixin, TemplateView):
         messages.success(request, f'¡EL tiempo de espera aproximado será de 3 días Hábiles!', extra_tags="info")
         return redirect(reverse('GiftHistory'))
     
-

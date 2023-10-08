@@ -12,7 +12,7 @@
       <form action="{% url 'History' %}" target="_self" method="POST" name="ticket" id="ticket">
         {% csrf_token %}
         <div class="label">
-          <h4>{{user.full_name}}</h4>
+          <p class="font-h3">{{user.full_name}}</p>
           <img src="{% static '/images/logo/vrt-logo2.png' %}" name="logo" width="52">
         </div>
         <div class="label">
@@ -32,10 +32,6 @@
           <label for="name">Valor:</label>
           <input type="number" class="label_input" name="ammount" id="ammount" min="0" required/>
         </div>
-        <!--<div class="label">
-          <label for="name">Banco:</label>
-          <input type="text" class="label_input" name="bank" id="bank" value="{{bank}}" required/>
-        </div>-->
         <div class="choices">
           <input class="radio-choices" name="bank" type="radio" id="choice1" value="Binance" required>
           <label for="choice1">Binance</label>

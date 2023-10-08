@@ -9,7 +9,7 @@
       <div class="{{ message.tags }}">
           <ul class="ul-messages">
           {% for message in messages %}
-              <h5 {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</h5>
+              <p {% if message.tags %} class="{{ message.tags }} {{ message.extra_tags }}"{% endif %}>{{ message }}</p>
           {% endfor %}
           </ul>
       </div>
