@@ -25,7 +25,7 @@ def tickets_add_record(sender, instance, **kwargs):
     try:
         send_mail(subject, email, 'noreply@vrtfund.com' , ['driver@vrtfund.com'], fail_silently=False)
     except Exception as e:
-        with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+        with open("/home/savelasquezo/apps/vrt/core/logs/email.log", "a") as f:
             f.write("SignalError Services: {}\n".format(str(e)))"""
 
 
@@ -56,7 +56,7 @@ def tickets_add_record(sender, instance, **kwargs):
         try:
             send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+            with open("/home/savelasquezo/apps/vrt/core/logs/email.log", "a") as f:
                 f.write("SignalError Services: {}\n".format(str(e)))
         
 @receiver(post_save, sender=Tickets)
@@ -88,7 +88,7 @@ def tickets_add_record(sender, instance, **kwargs):
         try:
             send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/email_err.txt", "a") as f:
+            with open("/home/savelasquezo/apps/vrt/core/logs/email.log", "a") as f:
                 f.write("SignalError Tickets: {}\n".format(str(e)))
 
 

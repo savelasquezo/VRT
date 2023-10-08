@@ -594,7 +594,7 @@ class InfoView(TemplateView):
             try:
                 send_mail(subject, email, 'noreply@vrtfund.com' , [email], fail_silently=False)
             except Exception as e:
-                with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/email.log.txt'), 'a') as f:
                     eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                     f.write("EmailError InfoEmail--> {} Error: {}\n".format(eDate, str(e)))
             
@@ -648,7 +648,7 @@ class InfoView(TemplateView):
                 return JsonResponse({'Error': str(e)}, status=500)
             
         except Exception as e:
-            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email.log'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("QueryError InfoForm--> {} Error: {}\n".format(eDate, str(e)))
             
@@ -885,7 +885,7 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
         try:
             send_mail(subject, message=None, from_email='noreply@vrtfund.com', recipient_list=[InfoUser.email], fail_silently=False, html_message=email)
         except Exception as e:
-            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email.log'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailTicket Notification--> {} Error: {}\n".format(eDate, str(e)))
 
@@ -974,7 +974,7 @@ def EmailConfirmView(request, uidb64, token):
             
         except Exception as e:
             nUser = None
-            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email.log'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailConfirm--> {} Error: {}\n".format(eDate, str(e)))
 
@@ -1083,7 +1083,7 @@ class GiftHistoryView(LoginRequiredMixin, TemplateView):
         try:
             send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
         except Exception as e:
-            with open(os.path.join(settings.BASE_DIR, 'logs/email_err.txt'), 'a') as f:
+            with open(os.path.join(settings.BASE_DIR, 'logs/email.log'), 'a') as f:
                 eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                 f.write("EmailGift Notification--> {} Error: {}\n".format(eDate, str(e)))
 
