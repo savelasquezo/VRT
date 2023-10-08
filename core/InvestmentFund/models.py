@@ -277,7 +277,7 @@ class Settings(models.Model):
 
     IsActive = models.BooleanField(_("¿Finalizado?"),default=False)
 
-    usd_convert_value = models.PositiveIntegerField(_("$USD"),default=4200,
+    usd_convert_value = models.PositiveIntegerField(_("$USD"), default=4200, blank=True, null=True,
         help_text=_("USD --> COP Aceptable"),)
 
 
