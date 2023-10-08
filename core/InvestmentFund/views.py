@@ -508,7 +508,7 @@ class InfoView(TemplateView):
         try:
             response = requests.get(url)
             data = response.json()
-            usd_to_cop = data['result'] if 'result' in data else Settings.objects.get(Online=True).usd_convert_value
+            usd_to_cop = data['result'] if 'result' in data else Settings.objects.get(Online=True).exchange
             
         except requests.exceptions.RequestException as e:
             return JsonResponse({'Error': 'Conversion Fallida'}, status=500)
