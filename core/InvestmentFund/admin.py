@@ -373,7 +373,7 @@ class SettingsAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "usdConvert",
+        "usd_convert",
         "sName",
         "sFee",
         "sTickets",
@@ -387,7 +387,7 @@ class SettingsAdmin(admin.ModelAdmin):
         ("sFee","sFeeAmmount"),
         ("sTickets","sTicketsAmmount"),
         "sDriverPoints",
-        "usd_convert",
+        "exchange",
         )}
 
     fTravel = {"fields": (

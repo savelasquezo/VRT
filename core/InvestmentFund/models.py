@@ -237,7 +237,7 @@ class Settings(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
     Online = models.BooleanField(_("Status"),default=True,unique=True)
 
-    usd_convert = models.PositiveIntegerField(_("USD"),default=5000,
+    exchange = models.PositiveIntegerField(_("USD"),default=5000,
                 help_text=_("Tasa de Cambio ($COP)"),)
 
     sState = models.BooleanField(_("VRTs"),default=False)
