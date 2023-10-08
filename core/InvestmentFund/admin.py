@@ -373,7 +373,7 @@ class SettingsAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "usd_convert",
+        "exchange",
         "sName",
         "sFee",
         "sTickets",
