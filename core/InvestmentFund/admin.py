@@ -50,7 +50,7 @@ class UserBaseAdmin(UserAdmin):
         )
 
     fAutenticationSuperUser = {"fields": (
-        ("codigo","available_tickets","is_staff","is_operating"),
+        ("codigo","available_tickets","is_staff","is_operating","is_dirver"),
         ("password")
         )}
 
@@ -165,7 +165,7 @@ class TicketsAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
             return False
 
-    readonly_fields=["username","tAmmount","tAmmountFrom","date","CommentText",]
+    readonly_fields=["username","tAmmount","tBank","tBankAccount","tAmmountFrom","date","CommentText",]
 
 
 class InvestRequestsAdmin(admin.ModelAdmin):
@@ -235,7 +235,7 @@ class InvestRequestsAdmin(admin.ModelAdmin):
                 
         return qs
 
-
+    readonly_fields=["username","invoice","full_name","country","ammount","email","phone","bank","bank_account","CommentText","staff","staff_cod"]
 
 
 class MessagesAdmin(admin.ModelAdmin):
@@ -264,44 +264,8 @@ class MessagesAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
             return False
 
+    readonly_fields=["full_name","email","date","messages"]
 
-
-class SettingsAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "id",
-        "exchange",
-        "sName",
-        "sFee",
-        "sTickets",
-        "sTicketsAmmount",
-        "sState",
-        "Online"
-        )
-
-    fConfig = {"fields": (
-        ("sName","Online","sState"),
-        ("sFee","sFeeAmmount"),
-        ("sTickets","sTicketsAmmount"),
-        "sDriverPoints",
-        "exchange",
-        )}
-
-    fTravel = {"fields": (
-        ("gWinnerName"),
-        ("gTravelName","IsActive"),
-        "gTravelBanner",
-        "gTravelDate"
-        )}
-
-    list_filter = ["Online"]
-    search_fields = ['sName']
-
-
-    fieldsets = (
-        ("Configuracion", fConfig),
-        ("VRT-Travel", fTravel)
-        )
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -336,14 +300,13 @@ class AssociateAdmin(admin.ModelAdmin):
         "pName",
         "pTitle",
         "pDiscount",
-        "pPtsMin",
         "IsActive"
         )
 
     fConfig = {"fields": (
         ("pName","pTitle"),
-        ("pPtsMin","IsActive"),
-        ("pURL","pDiscount"),
+        ("pURL","IsActive"),
+        ("pDiscount"),
         ("pInfo","pInfoAdd")
         )}
 
@@ -360,6 +323,45 @@ class AssociateAdmin(admin.ModelAdmin):
         ("Informacion", fConfig),
         ("Multimedia", fTravel)
         )
+
+
+
+class SettingsAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "id",
+        "exchange",
+        "sName",
+        "sFee",
+        "sTickets",
+        "sTicketsAmmount",
+        "Online"
+        )
+
+    fConfig = {"fields": (
+        ("sName","Online","exchange"),
+        ("sFee","sFeeAmmount"),
+        ("sTickets","sTicketsAmmount"),
+        )}
+
+    fTravel = {"fields": (
+        ("gWinnerName","gTravelName"),
+        ("gTravelDate","IsActive"),
+        "gTravelBanner",
+        )}
+
+    list_filter = ["Online"]
+    search_fields = ['sName']
+
+
+    fieldsets = (
+        ("Configuracion", fConfig),
+        ("VRT-Travel", fTravel)
+        )
+
+    def has_add_permission(self, request):
+         return False if model.Settings.objects.exists() else True
+
 
 
 admin.site.register(Group)

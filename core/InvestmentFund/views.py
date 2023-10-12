@@ -326,52 +326,6 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
                     f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
 
 
-
-        if 'points' in request.POST:
-            iCode = request.POST['iCode']
-            CUser = Usuario.objects.get(codigo=iCode)
-            iValue = int(request.POST['iValue'])
-
-            ifrom = request.POST['ifrom']
-            ito = request.POST['ito']
-            idistance = int(request.POST['idistance'])
-
-            
-
-            try:
-                TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=CUser)).order_by('-id').first()
-                vPoints = Settings.objects.get(Online=True).sDriverPoints
-
-                nPoints = int(iValue/vPoints)
-
-                if CUser.rank_points >= nPoints:
-                    CUser.rank_points -= nPoints
-                    CUser.save()
-                    messages.success(request, '¡Servicio Completado!', extra_tags="title")
-                    messages.success(request, f'El pago se ha completado satisfactoriamente', extra_tags="info")
-                    iUser = Usuario.objects.filter(id=request.user.id)
-                    iUser.update(is_driving=False)
-
-                    TSchedule.status = "Completado"
-                    TSchedule.paid = vPoints
-                    TSchedule.addres_from = ifrom
-                    TSchedule.addres_to = ito
-                    TSchedule.distance = idistance
-                    TSchedule.save()
-
-                    return redirect(reverse('svAdminUser'))
-
-                else:
-                    messages.error(request, '¡Puntos Insuficientes!', extra_tags="title")
-                    messages.error(request, f'Seleccione otro metodo de pago', extra_tags="info")
-                    return redirect(reverse('svAdminUser'))
-
-            except Exception as e:
-                with open(os.path.join(settings.BASE_DIR, 'logs/logdriver.txt'), 'a') as f:
-                    f.write("{} QueryError Interest: {}\n".format(str(CUser.username), str(e)))
-
-
-
         if 'cash' in request.POST:
 
             iCode = request.POST['iCode']
@@ -717,21 +671,6 @@ class ServicesView(TemplateView):
 
 class InterfaceView(LoginRequiredMixin, TemplateView):
     template_name='interface/interface.html'
-    
-
-    def get(self, request, *args, **kwargs):
-
-        try:
-            sState = Settings.objects.get(Online=True).sState
-        except:
-            sState = False
-            
-        context = self.get_context_data(**kwargs)
-        context={
-            'sState':sState
-        }
-
-        return self.render_to_response(context)
 
 class LegalView(TemplateView):
     template_name='home/legal.html'

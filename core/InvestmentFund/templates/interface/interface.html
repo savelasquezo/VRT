@@ -73,9 +73,7 @@
     <button class="adm-boton" onclick=window.location.href="{% url 'Home' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
     <button class="adm-boton" onclick=window.location.href="{% url 'Tickets' %}"><i class="fa-solid fa-money-bill-transfer"></i></button>
     <button class="adm-boton" onclick=window.location.href="{% url 'History' %}"><i class="fa-solid fa-receipt"></i></button>
-    {% if sState %}
-      <button class="adm-boton" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
-    {% endif %}
+    <button class="adm-boton" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-gift"></i></button>
   </div>
 {% endblock %}
 

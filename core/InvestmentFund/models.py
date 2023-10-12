@@ -56,7 +56,7 @@ class Usuario(AbstractUser):
                 help_text=_("Volumen de Capital Invertido ($COP)"),)
     
     bank = models.CharField(_("Banco"), max_length=32,blank=True,null=True,
-                help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
+                help_text=_("Metodo al cual se realizaran los pagos."),)
     
     bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
 
@@ -155,7 +155,7 @@ class InvestRequests(models.Model):
                 help_text=_("Volumen de Retorno Mensual (%)"),)
     
     bank = models.CharField(_("Banco"), max_length=32, blank=True, null=True,
-                help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
+                help_text=_("Metodo al cual se realizaran los pagos."),)
     
     bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
 
@@ -176,88 +176,9 @@ class InvestRequests(models.Model):
 
     def __str__(self):
         return "Solicitud: %s" % (self.pk)   
-    
-    
-    
-class Services(models.Model):
-        
-    id = models.AutoField(primary_key=True, verbose_name="ID")
-    username = models.ForeignKey(Usuario, on_delete=models.CASCADE,verbose_name="Usuario")
-    sPts = models.PositiveBigIntegerField(_("PTS"),blank=False,null=False,default=0,
-        help_text=_("Cantidad de VRTs Usados"),)
-
-    sType = models.CharField(_("Origen"), max_length=32,blank=False,null=False,
-        help_text=_("Servicio Solicitado"),)
-    
-    sCode = models.CharField(_("Codigo"), max_length=32,blank=True,
-        help_text=_("Referencia/Codigo Promocional"))
-
-    date_join = models.DateTimeField(_("Solicitado"), default=timezone.now)
-    date_approved = models.DateTimeField(_("Modificado"), default=timezone.now)
-
-    CommentText = models.TextField(_("Comentarios"),max_length=256,blank=True,null=True)
-
-    sState = models.CharField(_("Estado"), choices=lst_sts, default="Pendiente", max_length=16)
-    
-    class Meta:
-        verbose_name = _("Servicio")
-        verbose_name_plural = _("Servicios")
-
-    def __str__(self):
-        return "Servicio: %s" % (self.pk)
 
 
-class Settings(models.Model):
-        
-    id = models.AutoField(primary_key=True, verbose_name="ID")
-    Online = models.BooleanField(_("Status"),default=True,unique=True)
 
-    exchange = models.PositiveIntegerField(_("USD"),default=5000,
-                help_text=_("Tasa de Cambio ($COP)"),)
-
-    sState = models.BooleanField(_("VRTs"),default=False)
-
-    sName = models.CharField(_("Configuracion"), max_length=64,blank=False,null=False)
-
-    sFee = models.PositiveIntegerField(_("TAX"),default=5000,
-                help_text=_("Impuesto Tickets ($COP)"),)
-
-    sFeeAmmount = models.PositiveIntegerField(_("$Impuestos"),blank=True,default=0,
-                help_text=_("Capital Acumulado en Fee ($COP)"),)
-
-    sDriverPoints = models.PositiveIntegerField(_("Trasporte MinPoints"),default=100,
-                help_text=_("$Valor/Punto"),)
-
-    sTickets = models.PositiveIntegerField(_("Tickets"),default=3,
-                help_text=_("Tickets/Mensuales"),)
-
-    sTicketsAmmount = models.PositiveIntegerField(_("$TicketsMin"),default=100000,
-                help_text=_("Min Volumen x Tickets ($COP)"),)
-
-    gTravelPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,
-        help_text=_("% VRT-PTS Minimos"),)
-
-    gTravelName = models.CharField(_("Nombre"), max_length=64,blank=False,null=False,
-        help_text=_("Nombre/Referencia del Destino"),)
-        
-    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/uploads/images/banner/", blank=True, null=True, height_field=None, width_field=None, max_length=128,
-        help_text=_("Width 520px x Height 140px"),)
-    
-    gTravelDate = models.DateTimeField(_("Fecha"), default=datetime(2050, 1, 1),
-        help_text=_("Fecha del Sorteo"),)
-    
-    gWinnerName = models.CharField(_("Ganador"), max_length=32,blank=True)
-
-    IsActive = models.BooleanField(_("Activo"),default=False)
-
-
-    class Meta:
-        verbose_name = _("Configuracion")
-        verbose_name_plural = _("Configuraciones")
-
-    def __str__(self):
-        return "Configuracion: %s" % (self.pk)
-    
 class News(models.Model):
         
     id = models.AutoField(primary_key=True, verbose_name="ID")
@@ -282,9 +203,6 @@ class Associate(models.Model):
     
     pName = models.CharField(_("Empresa"), max_length=32,blank=True)
     pTitle = models.CharField(_("Servicio"), max_length=32,blank=True)
-    
-    pPtsMin = models.PositiveIntegerField(_("Inversion"),blank=True,null=False,default=0,
-        help_text=_("Inversion Minima para Acceder al Beneficio ($COP)"),)
     
     pURL = models.URLField(_("URL"), max_length=128,blank=True,default="https://vrtfund.com/@")
     
@@ -350,3 +268,52 @@ class Messages(models.Model):
 
     def __str__(self):
         return "%s" % (self.full_name)
+
+
+
+class Settings(models.Model):
+        
+    id = models.AutoField(primary_key=True, verbose_name="ID")
+    Online = models.BooleanField(_("Status"),default=True,unique=True)
+
+    exchange = models.PositiveIntegerField(_("USD"),default=5000,
+                help_text=_("Tasa de Cambio ($COP)"),)
+
+    sName = models.CharField(_("Configuracion"), max_length=64,blank=False,null=False)
+
+    sFee = models.PositiveIntegerField(_("TAX"),default=5000,
+                help_text=_("Impuesto Tickets ($COP)"),)
+
+    sFeeAmmount = models.PositiveIntegerField(_("$Impuestos"),blank=True,default=0,
+                help_text=_("Capital Acumulado en Fee ($COP)"),)
+
+    sTickets = models.PositiveIntegerField(_("Tickets"),default=3,
+                help_text=_("Tickets/Mensuales"),)
+
+    sTicketsAmmount = models.PositiveIntegerField(_("$TicketsMin"),default=100000,
+                help_text=_("Min Volumen x Tickets ($COP)"),)
+
+    gTravelPtsMin = models.PositiveIntegerField(_("VRTs"),blank=False,null=False,default=0,
+        help_text=_("% VRT-PTS Minimos"),)
+
+    gTravelName = models.CharField(_("Nombre"), max_length=64,blank=False,null=False,
+        help_text=_("Nombre/Referencia del Destino"),)
+        
+    gTravelBanner = models.ImageField(_("IMG"), upload_to="InvestmentFund/uploads/images/banner/", blank=True, null=True, height_field=None, width_field=None, max_length=128,
+        help_text=_("Width 520px x Height 140px"),)
+    
+    gTravelDate = models.DateTimeField(_("Fecha"), default=datetime(2050, 1, 1),
+        help_text=_("Fecha del Sorteo"),)
+    
+    gWinnerName = models.CharField(_("Ganador"), max_length=32,blank=True)
+
+    IsActive = models.BooleanField(_("Activo"),default=False)
+
+
+    class Meta:
+        verbose_name = _("Configuracion")
+        verbose_name_plural = _("Configuraciones")
+
+    def __str__(self):
+        return "Configuracion: %s" % (self.pk)
+    
