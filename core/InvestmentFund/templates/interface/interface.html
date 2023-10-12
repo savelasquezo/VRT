@@ -42,29 +42,29 @@
       <!--<p>{{ InteretTotal }}% E.A</p>-->
   </div>
   <!-- Knobbar section end-->
-  <div class="contect-container">
+  <div class="infocontainer">
     <div class="contect">
       {% if user.is_staff %}
-        <div class="name n3">COMISIONES
-          <p class="help_text">$Ingresos x Asociados</p>
+        <div class="name">
+          <span>COMISIONES</span>
           <p class="valor">{{user.ref_available|intcomma}}</p>
         </div>
       {% else %}
-      <div class="name n3">INTERESES
-        <p class="help_text">$Interes Diario</p>
+      <div class="name">
+        <span>INTERESES</span>
         <p class="valor">{{TotalDayli|intcomma}}</p>
       </div>
       {% endif %}
-      <div class="name n2">ACUMULADO
-        <p class="help_text">$Intereses Acumulado</p>
+      <div class="name">
+        <span>ACUMULADO</span>
         <p class="valor">{{user.available|intcomma}}</p>
       </div>
-      <div class="name n1">ABONADO
-        <p class="help_text">$Pagado o en proceso</p>
+      <div class="name">
+        <span>ABONADO</span>
         <p class="valor">{{TotalPaid|intcomma}}</p>
       </div>
-      <div class="name n4">TOTAL
-        <p class="help_text">$Total Historico</p>
+      <div class="name">
+        <span>TOTAL</span>
         <p class="valor">{{TotalCash|intcomma}}</p>
       </div>
     </div>

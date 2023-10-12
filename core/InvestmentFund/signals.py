@@ -4,60 +4,8 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
 
-from .models import Usuario, InvestRequests, Tickets, Settings, Services, Schedule
+from .models import Usuario, InvestRequests, Tickets, Settings
 
-"""@receiver(post_save, sender=Schedule)
-def tickets_add_record(sender, instance, **kwargs):
-
-    iSchedule = Schedule.objects.filter(Q(status="Pendiente")).order_by('-id').first()
-    subject = "Solicitud - Servicios VRTFund"
-    
-    email_template_name = "driver/email/email_notify.txt"
-
-    c = {
-    'username': iSchedule.username,
-    'date': iSchedule.date,
-    'site_name': 'VRT-Fund',
-    'protocol': 'https',# http
-    'domain':'vrtfund.com',# 127.0.0.1:8000
-    }
-    email = render_to_string(email_template_name, c)
-    try:
-        send_mail(subject, email, 'noreply@vrtfund.com' , ['driver@vrtfund.com'], fail_silently=False)
-    except Exception as e:
-        with open("/home/savelasquezo/apps/vrt/core/logs/email.log", "a") as f:
-            f.write("SignalError Services: {}\n".format(str(e)))"""
-
-
-@receiver(post_save, sender=Services)
-def tickets_add_record(sender, instance, **kwargs):
-    if instance.sState == "Aprobado" or instance.sState == "Denegado":
-        
-        InfoUser = Usuario.objects.get(username=instance.username)
-        subject = "Solicitud - Servicios VRTFund"
-        
-        if instance.sState == "Aprobado":
-            email_template_name = "gift/email/gift_email_success.txt"
-        
-        if instance.sState == "Denegado":
-            email_template_name = "gift/email/gift_email_deny.txt"
-
-        c = {
-        'username': InfoUser.username,
-        'sPts':instance.sPts,
-        'sType':instance.sType,
-        'sCode':instance.sCode,
-        'site_name': 'VRT-Fund',
-        'protocol': 'https',# http
-        'domain':'vrtfund.com',# 127.0.0.1:8000
-        }
-        email = render_to_string(email_template_name, c)
-        
-        try:
-            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
-        except Exception as e:
-            with open("/home/savelasquezo/apps/vrt/core/logs/email.log", "a") as f:
-                f.write("SignalError Services: {}\n".format(str(e)))
         
 @receiver(post_save, sender=Tickets)
 def tickets_add_record(sender, instance, **kwargs):

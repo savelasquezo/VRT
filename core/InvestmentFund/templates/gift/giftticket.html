@@ -30,8 +30,7 @@
                                 </p>
                             </div>
                         </div>
-                        <button class="action"><a class="a-blank" href="{{Gift.pURL}}">VISITAR</a></button>
-                        <!--<button class="action" onclick="openform({{ Gift.pName }},{{Gift.pPtsMin}})">SOLICITAR</button>-->
+                        <!--<button class="action"><a class="a-blank" href="{{Gift.pURL}}">VISITAR</a></button>-->
                     </div>
                 </div>
                 {% endfor %}
@@ -60,8 +59,6 @@
                                 </p>
                             </div>
                         </div>
-                        <button class="action"><a class="a-blank" href="{% url 'ComingSoon' %}">VISITAR</a></button>
-                        <!--<button class="action" onclick="openform('ComingSoon',0)">SOLICITAR</button>-->
                     </div>
                 </div>
                 {% endif %}
@@ -70,35 +67,7 @@
     </div>
     <div class="admin-panel-gift">
         <button class="admin-button-big" onclick=window.location.href="{% url 'Gift' %}"><i class="fa-solid fa-circle-arrow-left"></i></button>
-        <!--<button class="admin-button" onclick=window.location.href="{% url 'Legal' %}"><i class="fa-solid fa-circle-info"></i></button>-->
-        <!--<button class="admin-button" onclick=window.location.href="{% url 'GiftHistory' %}"><i class="fa-solid fa-file-invoice"></i></button>-->
     </div>
-    <dialog id="dlog" class="dlog">
-        <div class="dlog-absolute">
-            <div class="container-dlog">
-                <form action="{% url 'GiftHistory' %}" target="_self" method="POST" name="giftticket" id="giftticket">
-                    {% csrf_token %}
-                    <div class="label">
-                        <div class="label label-name">
-                            <p>{{user.full_name}}</p>
-                            <span>{{ user.rank_points|intcomma }} VRTs</span>
-                        </div>
-                        <img src="{% static '/images/logo/vrt-logo2.png' %}" name="logo" width="52">
-                    </div>
-                    <div class="label label-Gift">
-                        <p id="tGift" name="tGift">SERVICIO</p><p id="vGift" name="vGift">VALOR</p>
-                    </div>
-                    <textarea class="textarea" name="message" for="message" id="message" maxlength="256" ></textarea><p></p>
-                    <input id="ivGift" name="ivGift" type="hidden" value="N/A">
-                    <input id="itGift" name="itGift" type="hidden" value="N/A">
-                    <button type="submit" class="boton_ticket" name="succces"><i class="fa-solid fa-money-check-dollar"></i></button>
-                    <script src="{% static 'js/forms.js' %}"></script>
-                </form>
-                <button class="boton_ticket" name="comeback" id="back"><i class="fa-solid fa-delete-left"></i></button>
-            </div>
-        </div>
-    </dialog>
-    <script src="{% static 'js/popup.js' %}"></script>
 </div>
 <script src="{% static 'js/owl.carousel.js' %}"></script>
 {% endblock %}

@@ -8,7 +8,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 
 lst_ranks = (('Silver','Silver'),('Gold','Gold'),('Platinum','Platinum'))
 lst_sts = (('Pendiente','Pendiente'),('Aprobado','Aprobado'),('Denegado','Denegado'),('Error','Error'))
-lst_banks = (('Binance','Binance'),('Metamask','Metamask'),('Fiat','Fiat'))
 
 list_status = (('Completado','Completado'),('Pendiente','Pendiente'),('Cancelado','Cancelado'))
 
@@ -36,14 +35,13 @@ class Usuario(AbstractUser):
 
     avatar = models.ImageField(_("Avatar/Foto"), upload_to="InvestmentFund/uploads/avatars/", height_field=None, width_field=None, max_length=128, blank=True, null=True)
 
-    is_active = models.BooleanField(_("¿Activo?"),default=True)
+    is_active = models.BooleanField(default=True, verbose_name="")
     is_staff = models.BooleanField(_("¿Staff?"),default=False)
 
     is_dirver = models.BooleanField(_("¿Conductor?"),default=False)
     is_driving = models.BooleanField(_("¿Ocupado?"),default=False)
 
-    is_operating = models.BooleanField(_("¿Estado?"),default=False,
-                help_text=_("El Usuario actualmente genera Intereses ¡Posterior a la Fecha de Expiracion sera desactivado!"),)
+    is_operating = models.BooleanField(_("¿Activo?"),default=False,)
 
     available_tickets = models.IntegerField(_("Tickets"),blank=True,default=3,
                 help_text=_("Tickets Disponibles"),)
@@ -57,17 +55,11 @@ class Usuario(AbstractUser):
     ammount = models.PositiveBigIntegerField(_("Inversion"),blank=True,default=0,
                 help_text=_("Volumen de Capital Invertido ($COP)"),)
     
-    bank = models.CharField(_("Banco"), max_length=32, choices=lst_banks,blank=True,
+    bank = models.CharField(_("Banco"), max_length=32,blank=True,null=True,
                 help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
     
     bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
 
-    user_rank = models.CharField(_("Categoria"), choices=lst_ranks, default="Silver", max_length=16,
-                help_text=_("Categoria del Inversionista en VRT"),)
-
-    rank_points = models.IntegerField(_("Acumulado"),blank=True,default=0,help_text=_("VRTs Acumulados"),)
-    rank_used = models.IntegerField(_("Usados"),blank=True,default=0,help_text=_("VRTs Usados"),)
-    rank_total = models.IntegerField(_("Total"),blank=True,default=0,help_text=_("VRTs Totales"),)
 
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)
@@ -96,8 +88,8 @@ class Usuario(AbstractUser):
     total = models.PositiveBigIntegerField(_("Total"),blank=True,default=0,
                 help_text=_("$Total Generado ($COP)"),)
 
-    ref_id = models.CharField(_("Codigo Asociado"), max_length=32, blank=True)
-    ref_name = models.CharField(_("Nombre/Apellido"), max_length=64, blank=True)
+    ref_id = models.CharField(_("Codigo"), max_length=32, blank=True)
+    ref_name = models.CharField(_("Nombre"), max_length=64, blank=True)
     ref_interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
         help_text=_("Comisiones Mensuales x Asociado (%)"),)
 
@@ -162,7 +154,7 @@ class InvestRequests(models.Model):
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)
     
-    bank = models.CharField(_("Banco"), max_length=32, choices=lst_banks,blank=True,
+    bank = models.CharField(_("Banco"), max_length=32, blank=True, null=True,
                 help_text=_("Banco/Fundacion o Metodo al cual se realizaran los pagos."),)
     
     bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
@@ -214,23 +206,6 @@ class Services(models.Model):
     def __str__(self):
         return "Servicio: %s" % (self.pk)
 
-class UserRank(models.Model):
-        
-    rName = models.CharField(_("Status"), choices=lst_ranks, max_length=16, unique=True, default="r1",
-                                help_text=_("Status del Inversionista en VaorTrading"),)
-    
-    rTravelGift = models.BooleanField(_("Viajes"),)
-    rVacations = models.BooleanField(_("Vacaciones"),)
-    rGiftCard = models.BooleanField(_("Tarjetas"),)
-    rSimCard = models.BooleanField(_("Simcard"),)
-    rAdvisory = models.BooleanField(_("Asesorias"),)
-    
-    class Meta:
-            verbose_name = _("Status")
-            verbose_name_plural = _("Status")
-
-    def __str__(self):
-        return "Status: %s" % (self.rName)
 
 class Settings(models.Model):
         

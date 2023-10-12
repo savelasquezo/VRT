@@ -8,7 +8,7 @@
       <script> var ref_available = '{{ user.ref_available }}';</script>
       <script> var cash_total = '{{ TotalCash }}';</script>
       <script> var fee = '{{ TAX }}';</script>
-      <script> var min_ammount = '{{ MinTicket }}';</script>
+      <script> var min_ammount = '{{ Setting.sTicketsAmmount }}';</script>
       <form action="{% url 'History' %}" target="_self" method="POST" name="ticket" id="ticket">
         {% csrf_token %}
         <div class="label">
@@ -16,29 +16,27 @@
           <img src="{% static '/images/logo/vrt-logo2.png' %}" name="logo" width="52">
         </div>
         <div class="label">
-          <span id="title">$Disponible Total:</span><span id="aviable_value">${{ TotalCash|intcomma }}</span>
+          <span id="title">$Disponible Total:</span><span id="aviable_value">${{ user.available|intcomma }}</span>
         </div>
         <div class="choices">
-          <input class="radio-choices" name="ammount_from" type="radio" id="choice1" value="f1" required>
-          <label for="choice1">Intereses</label>
           {% if user.is_staff %}
+            <input class="radio-choices" name="ammount_from" type="radio" id="choice1" value="f1" required>
+            <label for="choice1">Intereses</label>
             <input class="radio-choices" name="ammount_from" type="radio" id="choice2" value="f2" required>
             <label for="choice2">Comisiones</label>
+          {% else %}
+            <input class="radio-choices" name="ammount_from" type="radio" id="choice1" value="f1" required checked style="display: none;">
           {% endif %}
-          <input class="radio-choices" name="ammount_from" type="radio" id="choice3" value="f3" required>
-          <label for="choice3">Total</label>
         </div>
         <div class="label">
           <label for="name">Valor:</label>
           <input type="number" class="label_input" name="ammount" id="ammount" min="0" required/>
         </div>
         <div class="choices">
-          <input class="radio-choices" name="bank" type="radio" id="choice1" value="Binance" required>
-          <label for="choice1">Binance</label>
-          <input class="radio-choices" name="bank" type="radio" id="choice2" value="Metamask" required>
-          <label for="choice2">Metamask</label>
-          <input class="radio-choices" name="bank" type="radio" id="choice3" value="Fiat" required>
-          <label for="choice3">Fiat</label>
+          <input class="radio-choices" name="bank" type="radio" id="choice1" value="Cryptos" required>
+          <label for="choice1">Transferencia</label>
+          <input class="radio-choices" name="bank" type="radio" id="choice2" value="Transferencia" required>
+          <label for="choice2">Efectivo</label>
         </div>
         <div class="label">
           <label for="name">#Cuenta:</label>

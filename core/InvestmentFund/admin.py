@@ -29,39 +29,13 @@ class MyAdminSite(admin.AdminSite):
 
         return app_list
 
-
-
-
 admin_site = MyAdminSite()
 admin.site = admin_site
-
 admin_site.site_header = "VRTFUND"
 
-class ScheduleInline(admin.StackedInline):
-
-    model = model.Schedule
-    extra = 0
-
-    fInfo = {"fields": (
-            ("driver","date"),
-            ("addres_from","addres_to"),
-            ("status","paid")
-        )}
-
-    fieldsets = (
-        (" ", fInfo),
-        )
-    
-    search_fields = ['username']
-    
-    list_filter = []
-    filter_horizontal = []
-    es_formats.DATETIME_FORMAT = "d M Y H:i"
 
 
 class UserBaseAdmin(UserAdmin):
-
-    inlines = [ScheduleInline]
 
     list_display = (
         "username",
@@ -76,15 +50,13 @@ class UserBaseAdmin(UserAdmin):
         )
 
     fAutenticationSuperUser = {"fields": (
-        ("codigo","available_tickets","is_staff","is_dirver","is_driving"),
-        ("is_active","is_operating"),
+        ("codigo","available_tickets","is_staff","is_operating"),
         ("password")
         )}
 
     fAutenticationUser = {"fields": (
-        ("codigo","is_active","available_tickets","is_driving"),
-        "password",
-        ("is_operating","is_dirver")
+        ("codigo","available_tickets","is_operating"),
+        ("password")
         )}
 
     fInformation = {"fields": (
@@ -110,11 +82,6 @@ class UserBaseAdmin(UserAdmin):
         "total_ref"
         )}
 
-    frank = {"fields": (
-        "user_rank",
-        ("rank_points","rank_used"),
-        "rank_total"
-        )}
 
     fRefInformation = {"fields": (
             ("ref_id","ref_name"),
@@ -126,12 +93,11 @@ class UserBaseAdmin(UserAdmin):
         )}
     
     fieldsets = (
-        ("Autenticacion", fAutenticationUser),
+        ("Autenticacion", fAutenticationSuperUser),
         ("Informacion", fInformation),
         ("Inversion", fInvestment),
         ("Intereses", fInterest),
         ("Comiciones", fReferees),
-        ("VRT-Beneficios", frank),
         ("Informacion del Asociado", fRefInformation),
         ("Autorizaciones", fGroups)
         )
@@ -146,81 +112,26 @@ class UserBaseAdmin(UserAdmin):
     )
 
     list_filter = ["date_joined","date_expire","is_operating"]
-    search_fields = ['rName']
+    search_fields = ['codigo','username','full_name']
 
-    radio_fields = {'user_rank': admin.HORIZONTAL}
     
     es_formats.DATETIME_FORMAT = "d M Y"
 
-
     def get_fieldsets(self, request, obj=None):
-        if obj and obj.is_superuser:
+        if not request.user.is_superuser:
             return (
-                ("Autenticacion", self.fAutenticationSuperUser),
+                ("Autenticacion", self.fAutenticationUser),
                 ("Informacion", self.fInformation),
                 ("Inversion", self.fInvestment),
                 ("Intereses", self.fInterest),
                 ("Comiciones", self.fReferees),
-                ("VRT-Beneficios", self.frank),
                 ("Informacion del Asociado", self.fRefInformation)
             )
         return super().get_fieldsets(request, obj)
 
-    
-class UserRankAdmin(admin.ModelAdmin):
+    readonly_fields=["ref_id","ref_name","ref_total","ref_interest",]
 
-    list_display = (
-        "rName",
-        "rTravelGift",
-        "rVacations",
-        "rGiftCard",
-        "rSimCard",
-        "rAdvisory"
-        )
 
-    list_filter = ["rTravelGift","rVacations","rGiftCard","rSimCard","rAdvisory"]
-    search_fields = ['rName']
-  
-    fCategory = {"fields": (
-        "rName",
-        ("rTravelGift","rVacations","rGiftCard","rSimCard","rAdvisory"),
-        )}
-
-    fInformation = {"fields": (
-        
-        )}
-    
-    fieldsets = (
-        ("Caracteristicas", fCategory),
-        )
-    
-    radio_fields = {'rName': admin.HORIZONTAL}
-
-class MessagesAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "id",
-        "full_name",
-        "email",
-        "date",
-        "is_view",
-        )
-
-    list_filter = ["date","is_view"]
-    search_fields = ['full_name']
-  
-    fInfo = {"fields": (
-        ("full_name","is_view"),
-        ("email","date"),
-        "messages",
-        )}
-    
-    fieldsets = (
-        ("Informacion", fInfo),
-        )
-
-    def has_add_permission(self, request, obj=None):
-            return False
 
 class TicketsAdmin(admin.ModelAdmin):
     list_display = (
@@ -253,6 +164,8 @@ class TicketsAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request, obj=None):
             return False
+
+    readonly_fields=["username","tAmmount","tAmmountFrom","date","CommentText",]
 
 
 class InvestRequestsAdmin(admin.ModelAdmin):
@@ -299,13 +212,6 @@ class InvestRequestsAdmin(admin.ModelAdmin):
         ("Autorizacion",fInvestRequestsSuperUser),
         )
 
-    """def get_fieldsets(self, request, obj=None):
-        if request.user.is_superuser:
-            return (
-                ("Informacion", self.fInvestRequestsStaff),
-                ("Autorizacion", self.fInvestRequestsSuperUser),
-            )
-        return super().get_fieldsets(request, obj)"""
 
     def save_model(self, request, obj, form, change):
         if not request.user.is_superuser:
@@ -329,44 +235,35 @@ class InvestRequestsAdmin(admin.ModelAdmin):
                 
         return qs
 
-    """def get_list_filter(self, request):
-
-        if not request.user.is_superuser:
-            return self.list_filter
-        
-        return self.superlist_filter"""
 
 
-class ServicesAdmin(admin.ModelAdmin):
+
+class MessagesAdmin(admin.ModelAdmin):
+
     list_display = (
         "id",
-        "username",
-        "sType",
-        "sPts",
-        "date_join",
-        "date_approved",
-        "sState"
+        "full_name",
+        "email",
+        "date",
+        "is_view",
         )
 
-    fServices = {"fields": (
-        ("username","sState"),
-        ("sType","sPts"),
-        ("date_join","date_approved"),
-        ("sCode"),
-        "CommentText"
+    list_filter = ["date","is_view"]
+    search_fields = ['full_name']
+  
+    fInfo = {"fields": (
+        ("full_name","is_view"),
+        ("email","date"),
+        "messages",
         )}
-
-    list_filter = ["date_join","date_approved","sType"]
-    search_fields = ['username']
-
-    radio_fields = {'sState': admin.HORIZONTAL}
-
+    
     fieldsets = (
-        ("Caracteristicas", fServices),
+        ("Informacion", fInfo),
         )
 
     def has_add_permission(self, request, obj=None):
             return False
+
 
 
 class SettingsAdmin(admin.ModelAdmin):
@@ -468,9 +365,9 @@ class AssociateAdmin(admin.ModelAdmin):
 admin.site.register(Group)
 
 admin.site.register(model.Usuario, UserBaseAdmin)
-#admin.site.register(UserRank, UserRankAdmin)
+
 admin.site.register(model.Tickets, TicketsAdmin)
-#admin.site.register(Services, ServicesAdmin)
+
 admin.site.register(model.InvestRequests, InvestRequestsAdmin)
 admin.site.register(model.Associate, AssociateAdmin)
 admin.site.register(model.Messages, MessagesAdmin)

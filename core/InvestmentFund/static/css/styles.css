@@ -160,8 +160,6 @@ body{margin: 0;background: #ccc;}
 }
 
 .contect {
-  margin-top: 10px;
-  margin-bottom: 5px;
   text-align: center;
 }
 
@@ -177,12 +175,12 @@ body{margin: 0;background: #ccc;}
 
 .name {
   display: inline-block;
-  margin:0px 1%;
   text-align: center;
   height: 30px;
   width: 150px;
   font-size:14px;
-  line-height: 28px;
+  line-height: 68px;
+  margin-top: -20px;
 }
 .valor {
   background-color: white;
@@ -194,7 +192,7 @@ body{margin: 0;background: #ccc;}
   height: 30px;
   width: 150px;
   line-height: 30px;
-  font-size: medium;
+  font-size: large !important;
   font-style: normal;
 }
 
@@ -558,40 +556,52 @@ h2 small {
 
 /* Interface section start */
 .date {
-  height: 70px;
+  height: 40px;
+  width: 60px;
   line-height: 20px;
 	font-size: 10px;
-	font-weight: 200;
+	font-weight: 200px;
+
 }.date h1{width: 60px;}
 .cm {font-size: 8px;font-weight: 600;}
 
-.contect-container{
+.infocontainer{
   display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 .contect {
   display:grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 0px;
+  column-gap: 50px;
   row-gap: 30px;
   max-width: 300px;
   justify-items: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   text-align: center;
-}.contect p {display: none;}
+}
 .ammount .help_text_b{margin-bottom: 20px;}
 
+
 .name {
-  width: 110px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   font-size:12px;
-  margin:0px;
-  padding:0px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.valor{
+  width: 100%;
+  font-size: small !important;
+
 }
 
 .progress-bar-container{width: 265px;}
 .ammount_value {width: 265px;margin-bottom: 20px;}
-.valor {width: 90px;font-size: small;}
+
 .adm-boton {margin-top: 50px 0px 10px 0px;width: 50px;}
 /* Interface section end */
 

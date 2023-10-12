@@ -61,27 +61,10 @@
                 <label class="lf--label" for="phone"></label>
                 <input type="text" class='lf--input' placeholder='Whatsapp/Telefono' name="phone"  required id="phone">
             </div>
-            <div class="flex-row items-center">
-                <div class="payment__field">
-                    <i class="payment__icon fa-solid fa-clock"></i>
-                </div>
-                <select class="option-label h-10" name="rtimedelta" id="rtimedelta" aria-label="" required>
-                    <option class="placeholder-label" value="" disabled selected hidden>Temporalidad</option>
-                    <option value="m1">3 Meses/Interes E.A 12%</option>
-                    <option value="m2">6 Meses/Interes E.A 24%</option>
-                    <option value="m3">12 Meses/Interes E.A 36%</option>
-                </select>
-            </div>
-            <div class="flex-row items-center">
-                <div class="payment__field">
-                    <i class="payment__icon fa-solid fa-building-columns"></i>
-                </div>
-                <select class="option-label h-10" name="bank" id="bank" aria-label="" required>
-                    <option value="" disabled selected hidden>Metodo de Inversion</option>
-                    <option value="Binance">Binance</option>
-                    <option value="Metamask">Metamask</option>
-                    <option value="Fiat">Fiat</option>
-                </select>
+            <div class="flex-row">
+                <div class="payment__field"><i class="payment__icon fa-solid fa-building-columns"></i></div>
+                <label class="lf--label" for="bank"></label>
+                <input type="text" class='lf--input' placeholder='Metodo de Inversion' name="bank"  required id="bank">
             </div>
             <div class="flex-row">
                 <div class="payment__field"><i class="payment__icon fa-solid fa-address-card"></i></div>

@@ -14,7 +14,7 @@ from .models import Usuario
 
 
 class AddFundsToUser(CronJobBase):
-    RUN_EVERY_MINS = 1
+    RUN_EVERY_MINS = 60 * 24
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
     code = 'InvestmentFund.AddFundsToUser'
@@ -89,28 +89,14 @@ class AddFundsToUser(CronJobBase):
                     
                 except Exception as e:
                     with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("QueryError Asociados: {}\n".format(str(e)))
-                        
-                try:
-                    cRankPaid = nUser.rank_used
-                    cRankPoints = int(nUser.rank_total-cRankPaid + cValueRank)
-                    cValueRank = int(5+cAmmount/1000000)
-                    CUser.update(
-                        rank_points=cRankPoints,
-                        rank_total=F('rank_total') + cValueRank)
-                    
-                    cRankTotal = nUser.rank_total
-                    
-                except Exception as e:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-                        f.write("QueryError UserRank: {}\n".format(str(e)))    
+                        f.write("QueryError Asociados: {}\n".format(str(e)))   
                         
                 FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ nUser.username + '.xlsx'
                 try:
                     if not os.path.exists(FileName):
                         WB = Workbook()
                         WS = WB.active
-                        WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
+                        WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total"])
                     else:
                         WB = load_workbook(FileName)
                         WS = WB.active
@@ -118,7 +104,7 @@ class AddFundsToUser(CronJobBase):
                     cTotal = nUser.total
                     cAviableRef = nUser.ref_available
 
-                    FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal,cRankPoints,cRankPaid,cRankTotal]
+                    FileData = [1, NowToday, cValue, cTodayRef, cAvailable, cAviableRef, "", "", cTotal]
 
                     WS.append(FileData)
                     WB.save(FileName)

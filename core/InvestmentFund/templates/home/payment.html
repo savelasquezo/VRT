@@ -38,13 +38,13 @@
                     <div class="w-full flex flex-col items-center sm:items-start sm:justify-start leading-none">
                         <p class="flex flex-row w-full justify-center items-center text-center sm:text-left">
                             <span class="hidden sm:block"><i class="fa-solid fa-earth-americas text-gray-500 mr-2 mt-1"></i></span>
-                            Inversion: ${{InvRequest.ammount|intcomma}} (Interes: {{InvRequest.interest}}%)
+                            Inversión: ${{InvRequest.ammount|intcomma}} (Interés: {{InvRequest.interest}}%)
                         </p>
                         <p class="sm:ml-12">Finaliza: {{InvRequest.date_expire|date:"d M Y"}}</p>
                     </div>
                     <div class="hidden sm:flex sm:flex-col w-full">
-                        <p class="text-right">Interes Mensual: ${{Monthly|intcomma}} (Aprox)</p>
-                        <p class="text-right">Maximo Benficio: ${{MaxAmount|intcomma}}</p>
+                        <p class="text-right">Interés Mensual: ${{Monthly|intcomma}} (Aprox)</p>
+                        <p class="text-right">Máximo Beneficio: ${{MaxAmount|intcomma}}</p>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <a target="_self" href="{% url 'PaymentsBanks' %}"><img src="{% static '/images/payment/pymt-banktransfer.jpg' %}" alt="" class="h-16 rounded-lg"></a>
                 </div>        
             </div>
-            <p class="absolute px-6 hidden sm:block bottom-6 text-center text-xs font-thin text-gray-400">El tiempo de confirmacion de pago puede tardar hasta 36 horas despues de la confirmacion de pago, si desea conocer el estado actual de la activacion puede conmicarse con nuestro soprte tecnico</p>
+            <p class="absolute px-6 hidden sm:block bottom-6 text-center text-xs font-thin text-gray-400">El tiempo de confirmación de pago puede tardar hasta 36 horas después de la confirmación de pago, si desea conocer el estado actual de la activación puede comunicarse con nuestro soporte técnico</p>
         </div>
     </div>
 </body>

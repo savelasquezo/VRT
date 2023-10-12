@@ -1,8 +1,6 @@
-import os, re
-import requests
+import os, re, requests, secrets, string
 
-from django.http import JsonResponse, HttpResponseRedirect
-from django.views import View
+from django.http import JsonResponse
 
 from openpyxl import Workbook, load_workbook
 from datetime import datetime, timedelta
@@ -29,9 +27,16 @@ from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 from django.contrib.auth.views import LoginView
 
-from .tools import gToken, HashCode
+from .tools import gToken
 
-from .models import Usuario, Tickets, InvestRequests, Settings, Services, Associate, Schedule, Messages, News
+
+
+def MakeInvoiceGeneric(longitud):
+    strInvoice = string.ascii_letters + string.digits
+    altInvoice = ''.join(secrets.choice(strInvoice) for _ in range(longitud))
+    return altInvoice
+
+from .models import Usuario, Tickets, InvestRequests, Settings, Associate, Schedule, Messages, News
 
 def IsStaff(user):
     return user.is_authenticated and user.is_staff
@@ -539,19 +544,8 @@ class InfoView(TemplateView):
         iBank = str(request.POST['bank'])
         iBankAccount = request.POST['bank_account']
         
-        rtimedelta = request.POST['rtimedelta']
-    
-        if rtimedelta == "m1":
-            Interest = 1
-            iDateExpire = timezone.now() + timedelta(days=90)
-            
-        if rtimedelta == "m2":
-            Interest = 2
-            iDateExpire = timezone.now() + timedelta(days=180)
-            
-        if rtimedelta == "m3":
-            Interest = 3
-            iDateExpire = timezone.now() + timedelta(days=365)
+        Interest = 3
+        iDateExpire = timezone.now() + timedelta(days=365)
 
         iDateString = iDateExpire.isoformat()
         iDateObject = datetime.fromisoformat(iDateString)
@@ -630,22 +624,17 @@ class InfoView(TemplateView):
 
             try:
                 response = requests.post('https://confirmo.net/api/v3/invoices', json=body, headers=headers)
-                if response.status_code == 201:
-                    Invoice = response.json().get('id')
+                Invoice = response.json().get('id') if response.status_code == 201 else MakeInvoiceGeneric(12)
+                InvRequest = InvestRequests.objects.get(username=self.request.user)
+                InvRequest.invoice = Invoice
+                InvRequest.save()
 
-                    if Invoice:
-                        InvRequest = InvestRequests.objects.get(username=self.request.user)
-                        InvRequest.invoice = Invoice
-                        InvRequest.save()
-                        return redirect(reverse('Payments'))
-                    else:
-                        return JsonResponse({'Error': 'Facturacion Incorrecta'}, status=500)
-
-                else:
-                    return JsonResponse({'Error': 'Solicitud Denegada'}, status=500)
+                return redirect(reverse('Payments'))
                 
             except Exception as e:
-                return JsonResponse({'Error': str(e)}, status=500)
+                messages.error(request, 'ERROR', extra_tags="title")
+                messages.error(request, f'La solicitud no se ha podido procesar {data}', extra_tags="info")
+                return redirect(reverse('InfoForm')) 
             
         except Exception as e:
             with open(os.path.join(settings.BASE_DIR, 'logs/email.log'), 'a') as f:
@@ -833,25 +822,6 @@ class HistoryListView(LoginRequiredMixin, TemplateView):
                 ref_paid=F('ref_paid')+rAmmount
                 )
 
-        if rAmmountFrom == "f3":
-            rAmmountFrom = "Mixto"
-            rPaidAvailable= int(InfoUser.available)
-            rPaidRef = int(InfoUser.ref_available)
-            
-            Total = rPaidAvailable + rPaidRef
-            if rAmmount > Total:
-                messages.error(request, 'ERROR', extra_tags="title")
-                messages.error(request, 'La solicitud no se ha podido procesar', extra_tags="info")
-                return redirect(reverse('History'))
-
-    
-            Usuario.objects.filter(id=InfoUser.id).update(
-                available=0,
-                paid=F('paid')+rPaidAvailable,
-                ref_available=0,
-                ref_paid=F('ref_paid')+rPaidRef
-                )
-
         rAmmountFee = rAmmount - Fee
         
         Tickets.objects.create(
@@ -1013,107 +983,3 @@ class GiftTicketView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class GiftHistoryView(LoginRequiredMixin, TemplateView):
-    template_name='gift/gifthistory.html'
-
-    def get(self, request, *args, **kwargs):
-        
-        ITEMS = 5
-        MAXPAGES = 5
-        
-        OGifts = Services.objects.filter(username=request.user.id).order_by("-date_join")[:ITEMS*MAXPAGES]
-        ListGiftPages = Paginator(OGifts,ITEMS).get_page(request.GET.get('page'))
-        
-        GiftsFix = ITEMS - len(OGifts)%ITEMS
-        
-        if GiftsFix == ITEMS and len(OGifts) != 0:
-            GiftsFix = 0
-        
-        context = self.get_context_data(**kwargs)
-        context={
-            'ListGiftPages':ListGiftPages,
-            'FixGifts':range(0,GiftsFix)
-        }
-
-        return self.render_to_response(context)
-
-    def post(self, request, *args, **kwargs):
-
-        InfoUser = Usuario.objects.get(id=request.user.id)
-        UserVRTs = InfoUser.rank_points
-
-        rPts = int(request.POST['ivGift'])
-        rType = request.POST['itGift']
-        rComment = request.POST["message"]
-
-        if UserVRTs < rPts:
-            messages.error(request, 'ERROR', extra_tags="title")
-            messages.error(request, '¡VRTs Insuficientes!', extra_tags="info")
-            return redirect(reverse('GiftHistory'))
-
-        Usuario.objects.filter(id=InfoUser.id).update(
-            rank_used=F('rank_used')+rPts,
-            rank_points=F('rank_points') - rPts
-            )
-        
-        xCode = HashCode(5)
- 
-        Services.objects.create(
-            username = InfoUser,
-            sPts = rPts,
-            sType = rType,
-            sCode = xCode,
-            CommentText = rComment,
-            ) 
-
-
-        subject = "Notificación - Solicitud de Servicio"        
-        email_template_name = "gift/email/gift_email_notify.txt"
-
-        c = {
-        'username': InfoUser.username,
-        'sPts':rPts,
-        'sType':rType,
-        'site_name': 'VRT-Fund',
-        'protocol': 'https',# http
-        'domain':'vrtfund.com',# 127.0.0.1:8000
-        }
-        email = render_to_string(email_template_name, c)
-
-        try:
-            send_mail(subject, email, 'noreply@vrtfund.com' , [InfoUser.email], fail_silently=False)
-        except Exception as e:
-            with open(os.path.join(settings.BASE_DIR, 'logs/email.log'), 'a') as f:
-                eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
-                f.write("EmailGift Notification--> {} Error: {}\n".format(eDate, str(e)))
-
-        FileName = os.path.join(settings.BASE_DIR, 'logs/users/') + InfoUser.username + '.xlsx'
-
-        try:
-            if not os.path.exists(FileName):
-                WB = Workbook()
-                WS = WB.active
-                WS.append(["Tipo","Fecha","$Interes","$Comiciones","AcInteres","AcComisiones","$Ticket","Origen","Total","VRTs Acumulados","VRTs Usados","VRTs Totales"])
-            else:
-                WB = load_workbook(FileName)
-                WS = WB.active
-
-            NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
-            
-            cAviablePoints = int(InfoUser.rank_points)
-            cRankPoints = int(InfoUser.rank_total-rPts)
-
-            FileData = [0, NowToday, "", "", "", "", "", "","",cAviablePoints,rPts,cRankPoints]
-
-            WS.append(FileData)
-            WB.save(FileName)
-            
-        except Exception as e:
-            with open(os.path.join(settings.BASE_DIR, 'logs/workbook.txt'), 'a') as f:
-                f.write("HistoryList WorkbookError: {}\n".format(str(e)))
-
-
-        messages.success(request, 'Solicitud Registrada', extra_tags="title")
-        messages.success(request, f'¡EL tiempo de espera aproximado será de 3 días Hábiles!', extra_tags="info")
-        return redirect(reverse('GiftHistory'))
-    
