@@ -55,11 +55,11 @@ class Usuario(AbstractUser):
     ammount = models.PositiveBigIntegerField(_("Inversion"),blank=True,default=0,
                 help_text=_("Volumen de Capital Invertido ($COP)"),)
     
-    bank = models.CharField(_("Banco"), max_length=32,blank=True,null=True,
+    bank = models.CharField(_("Banco"), max_length=32,blank=True,null=True,default="N/A",
                 help_text=_("Metodo al cual se realizaran los pagos."),)
     
-    bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,)
-
+    bank_account = models.CharField(_("Wallet/Cuenta"), max_length=32,blank=True,default="N/A",
+                help_text=_("Numero al cual se realizaran los pagos."),)
 
     interest = models.DecimalField(_("Interes"), max_digits=5, decimal_places=2, blank=True,default=0,
                 help_text=_("Volumen de Retorno Mensual (%)"),)
