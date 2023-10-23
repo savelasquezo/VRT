@@ -286,6 +286,41 @@ class AdminServicesUser(LoginRequiredMixin, TemplateView):
             return self.render_to_response(context)
 
 
+        if 'pass-success' in request.POST:
+            iCode = request.POST['iCode']
+
+            try:
+                InfoUser = Usuario.objects.get(codigo=iCode)
+                UserShedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=InfoUser)).order_by('-id').first()
+                if UserShedule:
+                    TSchedule = UserShedule
+                else:
+                    TSchedule = Schedule.objects.create(
+                        username = InfoUser,
+                        driver = request.user.codigo,
+                        date = timezone.now(),
+                        status = "Pendiente",
+                        )
+
+                    TSchedule.save() 
+
+
+                iUser = Usuario.objects.get(id=request.user.id)
+                iUser.is_driving = True
+                iUser.save()
+
+                InfoUser = Usuario.objects.get(codigo=iCode)
+                TSchedule = Schedule.objects.filter(Q(status="Pendiente") & Q(username=InfoUser)).order_by('-id').first()
+
+                context = self.get_context_data(InfoUser=InfoUser,TSchedule=TSchedule,IsDriving=True)
+                return self.render_to_response(context)
+
+            except ObjectDoesNotExist:
+                messages.error(request, '¡Usuario Inexistente!', extra_tags="title")
+                messages.error(request, f'El Usuario ingresado no corresponde a un Afiliado', extra_tags="info")
+                return redirect(reverse('svAdminUser'))
+
+
         if 'fonds' in request.POST:
             iCode = request.POST['iCode']
             iValue = int(request.POST['iValue'])

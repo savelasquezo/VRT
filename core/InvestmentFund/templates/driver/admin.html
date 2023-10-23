@@ -10,7 +10,7 @@
                 <a href="{% url 'svAdmin' %}" class="hover:text-vrt1"><i class="fa-solid fa-house"></i></a>
                 <div class="block">
                     <a href="{% url 'svAdminUser' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-tag"></i></a>
-                    <a href="{% url 'svAdminAdd' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-clock"></i></a>
+                    <!--<a href="{% url 'svAdminAdd' %}" class="hover:text-vrt1"><i class="fa-solid fa-user-clock"></i></a>-->
                     <a href="{% url 'svAdminHistory' %}" class="hover:text-vrt1"><i class="fa-solid fa-clipboard-list"></i></a>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                             <div class="flex flex-row w-full">
                                 <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
                                     <p class="w-20">Origen</p>
-                                    <input type="text" name="ifrom" id="ifrom" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{ TSchedule.addres_from|default_if_none:'' }}" required/>
+                                    <input type="text" name="ifrom" id="ifrom" class="w-full px-4 text-gray-500 border-none p-0 m-0" value="{{ TSchedule.addres_from|default_if_none:'Chinchina' }}" required/>
                                 </div>
                                 <div class="flex flex-row w-1/3 border border-gray-300 py-1 px-2">
                                     <p class="w-20">Destino</p>
@@ -126,8 +126,9 @@
                 <form target="_self" method="POST">
                     {% csrf_token %}
                     <div class="flex flex-row gap-x-1 h-full">
-                        <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="231161921" value="231161921" required/>
-                        <button name="input" type="submit" class="flex h-full justify-center items-center bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-arrow-right"></i></button>
+                        <input type="text" name="iCode" id="iCode" class="w-full bg-gray-100 border-gray-300 rounded-sm" placeholder="2311619210100" value="2311619210100" required/>
+                        <button name="pass-success" type="submit" class="flex h-full justify-center items-center bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-check"></i></button>
+                        <!--<button name="input" type="submit" class="flex h-full justify-center items-center bg-vrt2 hover:bg-vrt1 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-arrow-right"></i></button>-->
                         <button name="clear" type="submit" class="flex h-full justify-center items-center bg-red-500 hover:bg-red-600 transition duration-300 text-white font-semibold text-center rounded-lg px-4 py-1 uppercase text-2xl"><i class="fa-solid fa-eraser"></i></button>
                     </div>
                 </form>
