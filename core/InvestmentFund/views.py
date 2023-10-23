@@ -515,8 +515,8 @@ class InfoView(TemplateView):
                 'ammount': iAmount_to_cop,
                 'bank': iBank,
                 'bank_account': iBankAccount,
-                'staff': "Anonimo",
-                'staff_cod': 0,
+                'staff': "vaor",
+                'staff_cod': 2311619210000,
                 'date_joined': timezone.now(),
                 'interest': Interest,
                 'date_expire': iDateObject,
@@ -546,9 +546,6 @@ class InfoView(TemplateView):
                     eDate = timezone.now().strftime("%Y-%m-%d %H:%M")
                     f.write("EmailError InfoEmail--> {} Error: {}\n".format(eDate, str(e)))
             
-            messages.success(request, 'Solicitud Registrada', extra_tags="title")
-            messages.success(request, f'Hemos enviado un correo con información del proceso de Inscripción', extra_tags="info")
-
             APIAmount = str("{:.2f}".format(iAmount)) if iCurrency == "USD" else str("{:.2f}".format(iAmount/usd_to_cop))
 
             body = {
