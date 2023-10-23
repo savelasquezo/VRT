@@ -145,7 +145,7 @@ class SingupView(UserPassesTestMixin, TemplateView):
 
 
             messages.success(request, '¡Registro Exitoso!', extra_tags="title")
-            messages.success(request, f'Hemos enviado un Email para verificar su cuenta', extra_tags="info")
+            messages.success(request, f'Activaremos tu cuenta en las siguientes 48 Horas', extra_tags="info")
             
         except Exception as e:
             messages.error(request, '¡Registro Incompleto!', extra_tags="title")

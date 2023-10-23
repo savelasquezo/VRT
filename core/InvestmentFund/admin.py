@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.conf.locale.es import formats as es_formats
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
+
 from django.utils.translation import gettext_lazy as _
 
 import InvestmentFund.models as model
@@ -19,7 +20,7 @@ class MyAdminSite(admin.AdminSite):
         Return a sorted list of all the installed apps that have been
         registered in this site. NewMetod for ordering Models
         """
-        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Mensajes": 5, "Noticias": 6, "Configuraciones": 7,"Groups": 0}
+        ordering = {"Usuarios": 1, "Tickets": 2, "Solicitudes": 3, "Asociaciones": 4, "Mensajes": 5, "Noticias": 6, "Configuraciones": 7,"Grupos": 0}
         app_dict = self._build_app_dict(request, app_label)
 
         app_list = sorted(app_dict.values(), key=lambda x: x["name"].lower())
