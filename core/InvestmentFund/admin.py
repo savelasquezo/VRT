@@ -130,7 +130,7 @@ class UserBaseAdmin(UserAdmin):
             )
         return super().get_fieldsets(request, obj)
 
-    readonly_fields=["ref_id","ref_name","ref_total","ref_interest",]
+
 
 
 
