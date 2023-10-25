@@ -4,7 +4,7 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 
 from datetime import date
-
+from django.conf import settings
 
 from django_cron import CronJobBase, Schedule
 from django.db.models import F
@@ -25,8 +25,8 @@ class AddFundsToUser(CronJobBase):
         
         NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
         
-        with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
-            f.write("ServiceCron Active-{}\n".format(NowToday))
+        with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
+            f.write("ServiceCron Active--FroceSystem-{}\n".format(NowToday))
 
         InfoUser = Usuario.objects.all()
         Usuario.objects.filter(date_expire__lte=timezone.now()).update(is_operating=False)
@@ -36,7 +36,7 @@ class AddFundsToUser(CronJobBase):
             if nUser.is_operating:
 
                 CUser = Usuario.objects.filter(id=nUser.id)
-    
+
                 if date.today().day == 1:
                     CUser.update(available_tickets=3)
 
@@ -61,7 +61,7 @@ class AddFundsToUser(CronJobBase):
                         total_interest=F('total_interest') + cValue)
                     
                 except Exception as e:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                    with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
                         f.write("{} QueryError Interest: {}\n".format(str(cUsername), str(e)))
 
 
@@ -71,7 +71,7 @@ class AddFundsToUser(CronJobBase):
                     CUser.update(ref_total=F('ref_total') + cValueRef)
                     
                 except Exception as e:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                    with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
                         f.write("QueryError Referido: {}\n".format(str(e)))
                 
                 UserRef = Usuario.objects.filter(ref_id= nUser.codigo)
@@ -88,7 +88,7 @@ class AddFundsToUser(CronJobBase):
                     CUser.update(total=F('total_ref') + F('total_interest'))
                     
                 except Exception as e:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                    with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
                         f.write("QueryError Asociados: {}\n".format(str(e)))   
                         
                 FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ nUser.username + '.xlsx'
@@ -110,7 +110,7 @@ class AddFundsToUser(CronJobBase):
                     WB.save(FileName)
                     
                 except Exception as e:
-                    with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+                    with open(os.path.join(settings.BASE_DIR, 'logs/workbook.txt'), 'a') as f:
                         f.write("CronJob WorkbookError: {}\n".format(str(e)))
 
 cronjobs = [

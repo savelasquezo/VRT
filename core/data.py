@@ -17,11 +17,12 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 
 from InvestmentFund.models import Usuario
+from django.conf import settings
 
 def main():
     NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
     
-    with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+    with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
         f.write("ServiceCron Active--FroceSystem-{}\n".format(NowToday))
 
     InfoUser = Usuario.objects.all()
@@ -57,7 +58,7 @@ def main():
                     total_interest=F('total_interest') + cValue)
                 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
                     f.write("{} QueryError Interest: {}\n".format(str(cUsername), str(e)))
 
 
@@ -67,7 +68,7 @@ def main():
                 CUser.update(ref_total=F('ref_total') + cValueRef)
                 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
                     f.write("QueryError Referido: {}\n".format(str(e)))
             
             UserRef = Usuario.objects.filter(ref_id= nUser.codigo)
@@ -84,7 +85,7 @@ def main():
                 CUser.update(total=F('total_ref') + F('total_interest'))
                 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/logcron.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
                     f.write("QueryError Asociados: {}\n".format(str(e)))   
                     
             FileName = '/home/savelasquezo/apps/vrt/core/logs/users/'+ nUser.username + '.xlsx'
@@ -106,7 +107,7 @@ def main():
                 WB.save(FileName)
                 
             except Exception as e:
-                with open("/home/savelasquezo/apps/vrt/core/logs/workbook.txt", "a") as f:
+                with open(os.path.join(settings.BASE_DIR, 'logs/workbook.txt'), 'a') as f:
                     f.write("CronJob WorkbookError: {}\n".format(str(e)))
                 
 if __name__ == '__main__':
