@@ -184,7 +184,7 @@ class News(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
     name = models.CharField(_("Titulo"), max_length=128,blank=True)
 
-    image = models.ImageField(_("Imagen"), upload_to=CustomUpload, height_field=None, width_field=None, max_length=64,
+    image = models.ImageField(_("Imagen"), upload_to=CustomUpload, height_field=None, width_field=None, max_length=256,
         help_text="Ancho[640px]-Alto[480px]")
     
     description = models.TextField(_("Informacion"),max_length=256,blank=True,null=True)
