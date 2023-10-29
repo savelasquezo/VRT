@@ -14,7 +14,7 @@ from .models import Usuario
 
 
 class AddFundsToUser(CronJobBase):
-    RUN_EVERY_MINS = 60 * 24
+    RUN_EVERY_MINS = 1
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
     code = 'InvestmentFund.AddFundsToUser'
@@ -26,7 +26,7 @@ class AddFundsToUser(CronJobBase):
         NowToday = timezone.now().strftime("%Y-%m-%d %H:%M")
         
         with open(os.path.join(settings.BASE_DIR, 'logs/logcron.txt'), 'a') as f:
-            f.write("ServiceCron Active--FroceSystem-{}\n".format(NowToday))
+            f.write("ServiceCron Active {}\n".format(NowToday))
 
         InfoUser = Usuario.objects.all()
         Usuario.objects.filter(date_expire__lte=timezone.now()).update(is_operating=False)
