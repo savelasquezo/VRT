@@ -40,10 +40,10 @@ urlpatterns = [
     path('accounts/admin/gift/', views.GiftView.as_view(), name='Gift'),
     path('accounts/admin/gift/ticket/', views.GiftTicketView.as_view(), name='GiftTicket'),
 
-    path('services/admin/', views.AdminServices.as_view(), name='svAdmin'),
+    path('services/admin/', views.AdminServicesHistory.as_view(), name='svAdmin'), #AdminServices
     path('services/admin/add', views.AdminServicesAdd.as_view(), name='svAdminAdd'),
     path('services/admin/user', views.AdminServicesUser.as_view(), name='svAdminUser'),
-    path('services/admin/history', views.AdminServicesHistory.as_view(), name='svAdminHistory'),
+    path('services/admin/history', views.AdminServicesHistory.as_view(), name='svAdminHistory'), ##
 
     path('test/', views.TestView.as_view(), name='test'),
 
