@@ -5,7 +5,7 @@ Es un placer informarle que su solicitud de retiro de fondos ha sido ACEPTADA
 El valor solicitado de ${{ tAmmount }} proveniente de {{ tAmmountFrom }}
 
 Los fondos serán transferidos a la cuenta {{ tBank }} - {{ tBankAccount }}
-El plazo máximo para que se realice el depósito es de {{ TimeDelta }} días hábiles.
+El plazo máximo para que se realice el depósito es de 7 días hábiles.
 
 Por favor, asegúrese de verificar la cuenta de destino para evitar errores.
 le recordamos que VRT-Fund no se hace responsable por errores por parte del Usuario al generar recibos de pago.

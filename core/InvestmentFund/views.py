@@ -1,42 +1,39 @@
 import os, re, requests, secrets, string
 
-from django.http import JsonResponse
-
 from openpyxl import Workbook, load_workbook
 from datetime import datetime, timedelta
 from django.conf import settings
-
+from django.contrib.sitemaps import Sitemap
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.forms import PasswordResetForm
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.db.models import F
+from django.db.models.query_utils import Q
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail, BadHeaderError
 from django.views.generic.base import TemplateView
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.db.models import F
-from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import user_passes_test
-from django.utils.decorators import method_decorator
-from django.contrib.auth.forms import PasswordResetForm
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes, force_str
-from django.db.models.query_utils import Q
-from django.http import HttpResponse
-from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
-from django.contrib.auth.views import LoginView
+
 
 from .tools import gToken
-
-
+from .models import Usuario, Tickets, InvestRequests, Settings, Associate, Schedule, Messages, News
 
 def MakeInvoiceGeneric(longitud):
     strInvoice = string.ascii_letters + string.digits
     altInvoice = ''.join(secrets.choice(strInvoice) for _ in range(longitud))
     return altInvoice
-
-from .models import Usuario, Tickets, InvestRequests, Settings, Associate, Schedule, Messages, News
 
 def IsStaff(user):
     return user.is_authenticated and user.is_staff
@@ -954,3 +951,13 @@ class GiftTicketView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
+##Django Sitemaps
+class NewsSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.9
+
+    def items(self):
+        return News.objects.all()
+
+    def lastmod(self, obj):
+        return obj.date

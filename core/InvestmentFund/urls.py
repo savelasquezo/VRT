@@ -1,12 +1,18 @@
 from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 
 import InvestmentFund.views as views
+
+sitemaps = {
+    'News': views.NewsSitemap,
+}
 
 urlpatterns = [
     #path("accounts/", include("django.contrib.auth.urls")),
 
     path('', views.HomeView.as_view(), name='Home'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
     path('accounts/singup/', views.SingupView.as_view(), name='Singup'),
     path('accounts/login/',views.UserLoginView.as_view(), name='login'),

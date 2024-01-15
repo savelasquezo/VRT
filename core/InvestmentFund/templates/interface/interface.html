@@ -6,7 +6,7 @@
   <!-- TimeTrial section start-->
   <script src="{% static 'js/jquery.js' %}"></script>
   <script src="{% static 'js/simplyCountdown.min.js' %}"></script>
-  <script> var date_string = '{{ TimeExpire }}';</script>
+  <script> var date_string = '{{ TimeJoined }}';</script>
   <!--<div id="loader"></div>
   <script type="text/javascript">     
     window.onload = function(){$("#loader").fadeOut(1200);}     
@@ -28,7 +28,7 @@
     <div class="ammount">
       <p class="ammount_value">{{user.ammount|intcomma}}</p>
       <p class="help_text_a">Actualmente genera intereses al {{user.interest|intcomma}}% Mensual</p>
-      <p class="help_text_b">Máximo beneficio al finalizar la suscripción ${{MaxAmmount|intcomma}}</p>
+      <p class="help_text_b">Inversion sin clausula de permanencia</p>
     </div>
   </div>
   <!-- TimeTrial section end-->

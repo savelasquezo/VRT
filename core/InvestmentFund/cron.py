@@ -29,7 +29,7 @@ class AddFundsToUser(CronJobBase):
             f.write("ServiceCron Active {}\n".format(NowToday))
 
         InfoUser = Usuario.objects.all()
-        Usuario.objects.filter(date_expire__lte=timezone.now()).update(is_operating=False)
+        #Usuario.objects.filter(date_expire__lte=timezone.now()).update(is_operating=False)
 
         for nUser in InfoUser:
 

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: vrtfund.com/sitemap.xml

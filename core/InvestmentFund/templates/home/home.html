@@ -50,9 +50,9 @@
                     </a>
                 </li>
             {% endif %}
-            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/logo-header.png' %}" alt=""></a></li>
+            <li class="nav-item"><a href="{% url 'Home' %}" class="nav-link"><img src="{% static '/icon/vrt.webp' %}" alt=""></a></li>
             {% if user.is_authenticated %}
-                {% if user.is_operating %}
+                {% if user.is_operating %}vrt.webp
                     <li class="nav-item">
                         <a href="{% url 'Interface' %}" class="nav-link">
                             <span class="nav-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
@@ -210,9 +210,9 @@
         {% endif %}
     </div> <!-- end of page container -->
     <div class="buttons-fixed">
-        <a class="chatgpt-button" href="https://wa.me/34613288116"><img src="{% static '/images/brands/chatgpt.png' %}" class="card-img-buttons" alt=""></a>
+        <!--<a class="chatgpt-button" href="https://wa.me/34613288116"><img src="{% static '/images/brands/chatgpt.png' %}" class="card-img-buttons" alt=""></a>-->
         <a class="whatsapp-button" href="https://wa.me/573214550712"><img src="{% static '/images/brands/whatsapp.webp' %}" class="card-img-buttons" alt=""></a>
-    </div>
+    </div> 
     <!--footer & pre footer -->
     <div class="contact-section">
         <div class="overlay"></div>

@@ -37,6 +37,7 @@ def GlobalContext(request):
 
         TimeDelta = (InfoUser.date_expire - InfoUser.date_joined).days
         TimeExpire = InfoUser.date_expire
+        TimeJoined = InfoUser.date_joined
             
         Ammount = InfoUser.ammount
         Interet = InfoUser.interest
@@ -84,7 +85,8 @@ def GlobalContext(request):
             'TravelState':TravelState,
             'WinnerName':WinnerName,
             'TravelExpire': StrTravelExpire,
-            'TimeKValue':TimeKValue, 
+            'TimeKValue':TimeKValue,
+            'TimeJoined': TimeJoined.strftime('%m/%d/%Y %I:%M %p'),
             'TimeExpire': TimeExpire.strftime('%m/%d/%Y %I:%M %p')        
             }
     return {}   

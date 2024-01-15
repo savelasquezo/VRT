@@ -46,7 +46,6 @@ class UserBaseAdmin(UserAdmin):
         "interest",
         "available",
         "date_joined",
-        "date_expire",
         "is_operating",
         )
 
@@ -70,7 +69,7 @@ class UserBaseAdmin(UserAdmin):
         ("ammount","interest"),
         ("bank",
         "bank_account"),
-        ("date_joined","date_expire")
+        ("date_joined")
         )}
 
     fInterest = {"fields": (
@@ -112,7 +111,7 @@ class UserBaseAdmin(UserAdmin):
         ),
     )
 
-    list_filter = ["date_joined","date_expire","is_operating"]
+    list_filter = ["date_joined","is_operating"]
     search_fields = ['codigo','username','full_name']
 
     
@@ -190,7 +189,7 @@ class InvestRequestsAdmin(admin.ModelAdmin):
         ("ammount","interest"),
         ("email","phone"),
         ("bank","bank_account"),
-        ("date_joined","date_expire"),
+        ("date_joined"),
         "CommentText"
         )}
 
