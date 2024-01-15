@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://www.vrtfund.com/blog/">
     <title>VRT Inversiónes</title>
     <meta name="description" content="Aumenta tus ingresos de forma pasiva y segura con nuestros planes de inversiones seguras y confiables. Ingresos reales sin prcentajes desproporcionados.">
     <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
@@ -49,8 +50,8 @@
                         <a href="javascript:void(0)" class="card">
                             <img src="{{i.image.url}}" class="card-img" alt="">
                             <div class="card-body">
-                                <h6 class="card-subtitle">{{i.date}}</h6>
-                                <h3 class="card-title">{{i.name}}</h3>
+                                <p class="font-thin">{{i.date}}</p>
+                                <p class="font-semibold">{{i.name}}</p>
                                 <p>{{i.description}}</p>
                             </div>                  
                         </a>
