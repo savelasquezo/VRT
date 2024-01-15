@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('', views.HomeView.as_view(), name='Home'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('blog/', views.BlogView.as_view(), name='blog'),
 
     path('accounts/singup/', views.SingupView.as_view(), name='Singup'),
     path('accounts/login/',views.UserLoginView.as_view(), name='login'),

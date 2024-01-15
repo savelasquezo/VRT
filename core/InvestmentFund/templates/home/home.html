@@ -2,12 +2,12 @@
 {% load humanize %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}VRT Inversiónes{% endblock %}</title>
+    <title>VRT Inversiónes</title>
     <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
     <!-- Bootstrap + Dorang main styles -->
     <link rel="stylesheet" href="{% static '/dorang/assets/vendors/themify-icons/css/themify-icons.css' %}">
@@ -138,7 +138,7 @@
     <!-- page container -->
     <div class="container page-container">
         <div class="col-md-10 col-lg-8 m-auto-p">
-            <p class="title mb-4">VRTFUND</p>
+            <h1 class="title mb-4">VRTFUND</h1>
             <p class="mb-5">Somos un fondo colectivo, privado por referencia; si has llegado hasta aquí es porque
                  alguien te a referenciado para que puedas hacer parte de nuestro portafolio, contamos con un equipo de 
                  comerciantes experimentados, con el fin de brindarte los retornos más ajustados al riesgo, por lo tanto, 
@@ -151,8 +151,8 @@
                     <img src="{% static '/dorang/assets/imgs/img-1.png' %}" alt="">  
                     <div class="overlay"></div> 
                     <div class="des">
-                        <h1 class="title">VAORTRADING</h1>
-                        <h6 class="subtitle">ACADEMIA</h6>
+                        <p class="title">VAORTRADING</p>
+                        <p class="subtitle">ACADEMIA</p>
                         <p>Descubre el mundo de las inversiones y domina el arte del trading. Amplía tus horizontes 
                             financieros con nuestro curso especializado. ¡Inscríbete ya!</p>
                     </div>          
@@ -163,8 +163,8 @@
                     <img src="{% static '/dorang/assets/imgs/img-2.png' %}" alt="">  
                     <div class="overlay"></div> 
                     <div class="des">
-                        <h1 class="title">VRTFUND</h1>
-                        <h6 class="subtitle">INVERSIONES</p>
+                        <p class="title">VRTFUND</p>
+                        <p class="subtitle">INVERSIONES</p>
                         <p>Invierte en tu futuro financiero con nuestro fondo de inversión. Obtén rendimientos 
                             sólidos y diversifica tu cartera. ¡Aprovecha esta oportunidad y haz crecer tu dinero!</p>
                     </div>          
@@ -175,8 +175,8 @@
                     <img src="{% static '/dorang/assets/imgs/img-3.png' %}" alt="">  
                     <div class="overlay"></div> 
                     <div class="des">
-                        <h1 class="title">ASESORIAS</h1>
-                        <h6 class="subtitle">TRADING</p>
+                        <p class="title">ASESORIAS</p>
+                        <p class="subtitle">TRADING</p>
                         <p>Potencia tus habilidades en inversiones y trading con nuestras asesorías personalizadas. 
                             Obtén guía experta, estrategias eficientes y maximiza tus ganancias. 
                             ¡Desarrolla tu potencial y alcanza el éxito financiero!</p>
@@ -186,12 +186,11 @@
         </div><!-- end of row -->
         <div class="col-md-10 col-lg-8 m-auto-p">
             <h6 class="title mb-4 mt-5 pt-5">¿Quienes Somos?</h6>
-            <p class="mb-5">somos un grupo de expertos comerciantes que manejan un amplio portafolio de inversión como lo son CFD 
+            <p class="mb-5">Expertos comerciantes que manejan un amplio portafolio de inversión como lo son CFD 
                 de divisas y metales, también acciones y commodities, nuestra estrategia de inversion a bajo riesgo nos permite
                 garantizar beneficios constantes con una minima variacion.</p>
         </div>
         <!-- row -->
-        {{ListNews}}
         {% if ListNews %}
         <div class="row mb-5">
             {% for i in ListNews %}

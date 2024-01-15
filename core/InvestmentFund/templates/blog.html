@@ -1,0 +1,71 @@
+{% load static %}
+{% load humanize %}
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRT Inversiónes</title>
+    <link rel="shortcut icon" href="{% static '/icon/vrt.ico' %}">
+    <!-- Bootstrap + Dorang main styles -->
+    {% tailwind_css %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tailwind/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/dorang/assets/vendors/themify-icons/css/themify-icons.css' %}">
+	<link rel="stylesheet" href="{% static '/dorang/assets/css/dorang.css' %}">
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home" class="dark-theme">
+    <!-- page header -->
+    <header class="header">
+        <div class="overlay"></div>
+        <div class="header-content flex flex-col justify-center items-center">
+            <p ><img src="{% static '/images/logo/vrt-logoX-01.png' %}" class="img-header"></p>
+            <h2 class="text-sm font-thin my-2">
+                Aumenta tus ingresos de forma pasiva y segura con nuestros planes de inversiones 
+                seguras y confiables. Ingresos reales sin promesas vacías de porcentajes de retorno desproporcionados.
+            </h2>
+            <div class="flex flex-col my-4">
+                <a href="{% url 'login' %}"><h3 class="font-semibold text-base bg-emerald-500 rounded-sm p-1 uppercase hover:bg-emerald-600 transition-colors duration-300">Ingresar</h3></a>
+                <a href="{% url 'Singup' %}"><h4 class="text-xs font-thin hover:text-emerald-400 transition-colors duration-300">¿Aún no eres miembro? ¡Inscríbete ahora!</h4></a>
+            </div>
+        </div>
+    </header>
+    <section class="flex flex-wrap px-8 justify-center">
+        <h2 class="font-semibold text-2xl">¿Quienes Somos?</h2>
+        <h4 class="text-base font-thin text-center px-12 my-4">Expertos comerciantes que manejan un amplio portafolio de inversión como lo son CFD 
+            de divisas y metales, también acciones y commodities, nuestra estrategia de inversion a bajo riesgo nos permite
+            garantizar beneficios constantes con una minima variacion.
+        </h4>
+        {% if ListNews %}
+            <div class="row mb-5">
+                {% for i in ListNews %}
+                    <div class="col-md-6">
+                        <a href="javascript:void(0)" class="card">
+                            <img src="{{i.image.url}}" class="card-img" alt="">
+                            <div class="card-body">
+                                <h6 class="card-subtitle">{{i.date}}</h6>
+                                <h3 class="card-title">{{i.name}}</h3>
+                                <p>{{i.description}}</p>
+                            </div>                  
+                        </a>
+                    </div>  
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+    <div class="mb-8 h-32 px-12">
+        <h4 class="text-center text-sm font-thin" >¿Sabías qué los Fondos de Inversión Colectiva, son una alternativa de inversión que te
+            permite diversificar tus recursos para alcanzar tus sueños a corto o largo plazo?</h4>
+        <h4 class="text-center text-sm font-thin">omos un fondo colectivo, privado por referencia; si has llegado hasta aquí es porque
+            alguien te a referenciado para que puedas hacer parte de nuestro portafolio, contamos con un equipo de 
+            comerciantes experimentados, con el fin de brindarte los retornos más ajustados al riesgo, por lo tanto, 
+            el beneficio es el más sostenible que existe en el momento.</h4>
+    </div>
+    <footer class="w-full h-20 flex flex-col justify-center items-center text-center">
+        <span class="text-gray-500">&copy;<script>document.write(new Date().getFullYear())</script><a href="{% url 'Legal' %}">VRTFUND</a></span>
+        <span class="text-xs"><a href="#">mail@vrtfund.com</a></span>
+    </footer>
+</body>
+</html>

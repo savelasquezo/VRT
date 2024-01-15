@@ -45,14 +45,27 @@ def IsDriver(user):
 class TestView(TemplateView):
     template_name='000.html'
 
+class BlogView(TemplateView):
+    template_name='blog.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            ListNews = News.objects.all().order_by("-id")
+        except:
+            ListNews = None
+
+        context = self.get_context_data(**kwargs)
+        context={
+            'ListNews':ListNews,
+
+        }
+
+        return self.render_to_response(context)
 
 class HomeView(TemplateView):
     template_name='home/home.html'
 
     def get(self, request, *args, **kwargs):
-
-
-
         try:
             ListNews = News.objects.all().order_by("-id")[:2]
         except:
