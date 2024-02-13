@@ -45,7 +45,7 @@ def IsDriver(user):
 class TestView(TemplateView):
     template_name='000.html'
 
-class BlogView(TemplateView):
+class BlogView(LoginRequiredMixin, TemplateView):
     template_name='blog.html'
 
     def get(self, request, *args, **kwargs):
@@ -62,7 +62,7 @@ class BlogView(TemplateView):
 
         return self.render_to_response(context)
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name='home/home.html'
 
     def get(self, request, *args, **kwargs):
