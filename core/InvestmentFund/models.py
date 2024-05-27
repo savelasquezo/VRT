@@ -14,6 +14,9 @@ list_status = (('Completado','Completado'),('Pendiente','Pendiente'),('Cancelado
 def CustomUpload(instance, filename):
     return f"media/news/{filename}"
 
+def FilesUploadTo(instance, id):
+    return f"uploads/files/{id}"
+
 class Usuario(AbstractUser):
     """
     Custom user model inherited from abstractly user.
@@ -317,3 +320,15 @@ class Settings(models.Model):
     def __str__(self):
         return "Configuracion: %s" % (self.pk)
     
+
+class Files(models.Model):
+
+    settings = models.ForeignKey(Settings, on_delete=models.CASCADE)
+    file = models.FileField(_("Archivos"), upload_to=FilesUploadTo, max_length=32, null=True, blank=True)
+
+    def __str__(self):
+        return self.file.name if self.file else 'Undefined'
+
+    class Meta:
+        verbose_name = _("Archivo")
+        verbose_name_plural = _("Archivos")

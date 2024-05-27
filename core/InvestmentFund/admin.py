@@ -35,6 +35,12 @@ admin.site = admin_site
 admin_site.site_header = "VRTFUND"
 
 
+class FilesInline(admin.StackedInline):
+    
+    model = model.Files
+    extra = 0
+    fieldsets = ((" ", {"fields": (("file",),)}),)
+
 
 class UserBaseAdmin(UserAdmin):
 
@@ -327,6 +333,8 @@ class AssociateAdmin(admin.ModelAdmin):
 
 
 class SettingsAdmin(admin.ModelAdmin):
+
+    inlines = [FilesInline]
 
     list_display = (
         "id",
