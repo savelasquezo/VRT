@@ -36,6 +36,30 @@ DEBUG = True if DEBUG == "True" else False
 
 ALLOWED_HOSTS = ["*"]
 
+
+if not os.path.exists(os.path.join(BASE_DIR, 'logs')):
+    os.makedirs(os.path.join(BASE_DIR, 'logs'))
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+
 # Application definition
 
 TAILWIND_APP_NAME = 'theme'
@@ -174,21 +198,3 @@ if not DEBUG:
     MEDIA_ROOT = '/var/www/media/'
     MEDIA_URL = '/media/'
 
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'file': {
-                'level': 'ERROR',
-                'class': 'logging.FileHandler',
-                'filename': '/home/savelasquezo/apps/vrt/core/logs/django.log',
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['file'],
-                'level': 'ERROR',
-                'propagate': True,
-            },
-        },
-    }
