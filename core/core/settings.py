@@ -31,7 +31,8 @@ CONFIRMO_KEY = os.getenv('CONFIRMO_KEY')
 APILAYER_KEY = os.getenv('APILAYER_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
+DEBUG = True if DEBUG == "True" else False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -166,3 +167,28 @@ RECAPTCHA_PROXY = {'http': 'http://127.0.0.1:8000', 'https': 'https://127.0.0.1:
 
 RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
+
+if not DEBUG:
+    ALLOWED_HOSTS = ["167.71.28.44","vrtfund.com","www.vrtfund.com"]
+    CSRF_TRUSTED_ORIGINS = ['https://vrtfund.com','https://www.vrtfund.com']
+    MEDIA_ROOT = '/var/www/media/'
+    MEDIA_URL = '/media/'
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'ERROR',
+                'class': 'logging.FileHandler',
+                'filename': '/home/savelasquezo/apps/vrt/core/logs/django.log',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+        },
+    }
